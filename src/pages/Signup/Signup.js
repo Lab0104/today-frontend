@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useDaumPostcodePopup } from "react-daum-postcode";
 import "./Signup.css";
 
 function SignUp() {
   const [inputs, setInputs] = useState({
-    name: "",
+    name: { val: "", stat: false },
     birth: "",
     phone: "",
     email: "",
@@ -12,14 +13,65 @@ function SignUp() {
     address: "",
     detailAddress: "",
   });
-  const onChange = (e) => {
-    const value = e.target.value;
-    const id = e.target.id;
+
+  const open = useDaumPostcodePopup();
+  const POPUPWIDTH = 500;
+  const POPUPHEIGHT = 400;
+  const handleComplete = (data) => {
+    // 향후 매칭에 활용 될 시군 데이터
+    console.log(data.sigungu);
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
     setInputs((inputs) => ({
       ...inputs,
-      [id]: value,
+      address: fullAddress,
     }));
   };
+
+  const onSignupFormChangeHandler = (e) => {
+    const value = e.target.value;
+    const id = e.target.id;
+    if (id === "name") {
+      setInputs((inputs) => ({
+        ...inputs,
+        name: {
+          ...inputs.name,
+          val: value,
+          stat: value.length > 2 ? true : false,
+        },
+      }));
+    } else {
+      setInputs((inputs) => ({
+        ...inputs,
+        [id]: value,
+      }));
+    }
+  };
+
+  const onAddressClickHandler = () => {
+    open({
+      onComplete: handleComplete,
+      width: POPUPWIDTH,
+      height: POPUPHEIGHT,
+      left: document.body.offsetWidth / 2 - POPUPWIDTH / 2,
+      top: window.screen.height / 2 - POPUPHEIGHT / 2,
+    });
+  };
+  const onSignupClickHandler = () => {
+    console.log(inputs);
+  };
+
   return (
     <div className="signUp">
       <h3 style={{ marginTop: "0" }}>오늘 하루</h3>
@@ -29,23 +81,23 @@ function SignUp() {
         <input
           type="text"
           id="name"
-          value={inputs.name}
-          onChange={onChange}
+          value={inputs.name.val}
+          onChange={onSignupFormChangeHandler}
           placeholder="이름"
         ></input>
         <input
           type="text"
           id="birth"
           value={inputs.birth}
-          onChange={onChange}
-          placeholder="생년월일"
+          onChange={onSignupFormChangeHandler}
+          placeholder="생년월일(yyyymmdd)"
         ></input>
         <input
           type="text"
           id="phone"
           value={inputs.phone}
-          onChange={onChange}
-          placeholder="전화번호"
+          onChange={onSignupFormChangeHandler}
+          placeholder="전화번호( - 없이)"
         ></input>
       </div>
       <hr />
@@ -54,21 +106,21 @@ function SignUp() {
           type="email"
           id="email"
           value={inputs.email}
-          onChange={onChange}
+          onChange={onSignupFormChangeHandler}
           placeholder="이메일"
         ></input>
         <input
           type="password"
           id="password"
           value={inputs.password}
-          onChange={onChange}
+          onChange={onSignupFormChangeHandler}
           placeholder="비밀번호"
         ></input>
         <input
           type="password"
           id="confirmPassword"
           value={inputs.confirmPassword}
-          onChange={onChange}
+          onChange={onSignupFormChangeHandler}
           placeholder="비밀번호 확인"
         ></input>
         <div className="search-address">
@@ -76,19 +128,20 @@ function SignUp() {
             type="text"
             id="address"
             value={inputs.address}
-            onChange={onChange}
+            onChange={onAddressClickHandler}
             placeholder="주소"
+            readOnly
           ></input>
-          <button>주소찾기</button>
+          <button onClick={onAddressClickHandler}>주소찾기</button>
         </div>
         <input
           type="text"
           id="detailAddress"
           value={inputs.detailAddress}
-          onChange={onChange}
+          onChange={onSignupFormChangeHandler}
           placeholder="상세주소"
         ></input>
-        <button>회원가입</button>
+        <button onClick={onSignupClickHandler}>회원가입</button>
       </div>
     </div>
   );
