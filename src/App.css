@@ -11,6 +11,12 @@ body {
   box-sizing: border-box;
 }
 /* 태그 공통 스타일 전역 설정 */
+input {
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  padding-left: 10px;
+}
 button {
   display: block;
   background-color: #6667ab;
