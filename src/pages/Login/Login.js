@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+import { REDIRECT_URI, REST_API_KEY } from "./dataKakaoLogin";
 import "./Login.css";
 
 function Login() {
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
   const [email, setEmail] = useState("");
   const [idStatus, setIdStatus] = useState(false);
   const [password, setPassword] = useState("");
@@ -42,6 +46,10 @@ function Login() {
     console.log("Password: ", password);
     console.log("checked: ", loginSaved);
     console.log("isIdEmail?: ", idStatus);
+  };
+
+  const kakaoLoginHandler = () => {
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   /*
@@ -120,6 +128,7 @@ function Login() {
         <img
           src="images/kakao_login_buttons/kakao_login_large_wide.png"
           alt="카카오 로그인"
+          onClick={kakaoLoginHandler}
         />
         <div className="naver-btn">
           <img

@@ -8,6 +8,7 @@ body {
   display: relative;
   text-align: center;
   min-width: 375px;
+  box-sizing: border-box;
 }
 /* 태그 공통 스타일 전역 설정 */
 button {
@@ -20,16 +21,10 @@ button {
   cursor: pointer;
   font-weight: 700;
 }
-/* 컴포넌트 전역 설정 */
-.header {
-  height: 20px;
-  padding: 20px 40px;
-  background-color: rgba(14, 17, 27, 0.9);
-  position: sticky;
-  top: 0;
-  z-index: 9;
-  display: flex;
+a {
+  text-decoration: none;
 }
+/* 컴포넌트 전역 설정 */
 .container {
   max-width: 1120px;
   margin: 0 auto;
