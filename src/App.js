@@ -6,6 +6,7 @@ import Login from "./pages/Login/Login";
 import SignUp from "./pages/Signup/Signup";
 import IdSearch from "./pages/IdSearch/IdSearch";
 import PasswordSearch from "./pages/PasswordSearch/PasswordSearch";
+import MainMap from "./pages/MainMap/MainMap";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/search/id" element={<IdSearch />} />
           <Route path="/search/password" element={<PasswordSearch />} />
+          <Route path="/main/map" element={<MainMap />} />
         </Routes>
       </div>
       <div className="footer">푸터영역</div>
