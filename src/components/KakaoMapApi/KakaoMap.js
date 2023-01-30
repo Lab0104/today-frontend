@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./kakaoMap.css";
 
+let markers = [];
+
 export default function KakaoMap(props) {
   const { kakao } = window;
   const [infowindow, setInfowindow] = useState();
-  const [map, setMap] = useState();
-  const [markers, setMarkers] = useState([]);
+  const [kakaoMap, setKakaoMap] = useState();
 
   useEffect(() => {
-    console.log(props);
     // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
     setInfowindow(new kakao.maps.InfoWindow({ zIndex: 1 }));
 
@@ -19,16 +19,20 @@ export default function KakaoMap(props) {
       };
 
     // 지도를 생성합니다
-    setMap(new kakao.maps.Map(mapContainer, mapOption));
+    setKakaoMap(new kakao.maps.Map(mapContainer, mapOption));
+    // eslint-disable-next-line
   }, []);
 
+  //eslint-disable-next-line
   useEffect(() => {
     // 장소 검색 객체를 생성합니다
     const ps = new kakao.maps.services.Places();
-    console.log(props.keyword);
 
-    // 키워드로 장소를 검색합니다
-    ps.keywordSearch(props.keyword, placesSearchCB);
+    console.log(props.keyword);
+    if (props.keyword !== "") {
+      // 키워드로 장소를 검색합니다
+      ps.keywordSearch(props.keyword, placesSearchCB);
+    }
 
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
     function placesSearchCB(data, status, pagination) {
@@ -44,13 +48,14 @@ export default function KakaoMap(props) {
         // LatLngBounds 객체에 좌표를 추가합니다
         const bounds = new kakao.maps.LatLngBounds();
 
-        for (let i = 0; i < data.length; i++) {
-          displayMarker(data[i]);
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-        }
+        data.map((place) => {
+          displayMarker(place);
+          bounds.extend(new kakao.maps.LatLng(place.y, place.x));
+          return 0;
+        });
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        map.setBounds(bounds);
+        kakaoMap.setBounds(bounds);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert("검색 결과가 존재하지 않습니다.");
         return;
@@ -112,7 +117,7 @@ export default function KakaoMap(props) {
       menuEl.scrollTop = 0;
 
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-      map.setBounds(bounds);
+      kakaoMap.setBounds(bounds);
     }
 
     // 검색결과 항목을 Element로 반환하는 함수입니다
@@ -139,7 +144,7 @@ export default function KakaoMap(props) {
         itemStr += "    <span>" + places.address_name + "</span>";
       }
 
-      itemStr += '  <span class="tel">' + places.phone + "</span>" + "</div>";
+      itemStr += '  <span class="tel">' + places.phone + "</span> </div>";
 
       el.innerHTML = itemStr;
       el.className = "item";
@@ -167,19 +172,19 @@ export default function KakaoMap(props) {
           image: markerImage,
         });
 
-      marker.setMap(map); // 지도 위에 마커를 표출합니다
-      setMarkers([...markers, marker]); // 배열에 생성된 마커를 추가합니다
+      marker.setMap(kakaoMap); // 지도 위에 마커를 표출합니다
+      markers.push(marker); // 배열에 생성된 마커를 추가합니다
 
       return marker;
     }
 
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
     function removeMarker() {
-      console.log(markers.length);
       markers.map((marker) => {
         marker.setMap(null);
+        return 0;
       });
-      setMarkers([]);
+      markers = [];
     }
 
     // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
@@ -219,7 +224,7 @@ export default function KakaoMap(props) {
       const content = '<div style="padding:5px;z-index:1;">' + title + "</div>";
 
       infowindow.setContent(content);
-      infowindow.open(map, marker);
+      infowindow.open(kakaoMap, marker);
     }
 
     // 검색결과 목록의 자식 Element를 제거하는 함수입니다
@@ -233,7 +238,7 @@ export default function KakaoMap(props) {
     function displayMarker(place) {
       // 마커를 생성하고 지도에 표시합니다
       const marker = new kakao.maps.Marker({
-        map: map,
+        kakaoMap: kakaoMap,
         position: new kakao.maps.LatLng(place.y, place.x),
       });
 
@@ -245,16 +250,17 @@ export default function KakaoMap(props) {
             place.place_name +
             "</div>"
         );
-        infowindow.open(map, marker);
+        infowindow.open(kakaoMap, marker);
       });
     }
-    return () => {};
+    //return () => {};
+    // eslint-disable-next-line
   }, [props.keyword]);
 
   return (
-    <div class="map_wrap">
+    <div className="map_wrap">
       <div id="map"></div>
-      <div id="menu_wrap" class="bg_white">
+      <div id="menu_wrap" className="bg_white">
         <ul id="placesList"></ul>
         <div id="pagination"></div>
       </div>
