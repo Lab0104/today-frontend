@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { REDIRECT_URI, REST_API_KEY } from "./dataKakaoLogin";
-import "./Login.css";
+import InputBox from "../../components/InputBox/InputBox";
+import "./Login.scss";
+
+const INPUT_SIZE = ["300px", "45px"];
 
 function Login() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
@@ -74,24 +77,28 @@ function Login() {
   return (
     <div className="login">
       <div className="login-form">
-        <input
+        <InputBox
+          size={INPUT_SIZE}
           type="email"
           value={email}
-          placeholder="이메일"
           onChange={onEmailChangeHandler}
           style={{ border: `${idStatus ? "" : "2px solid red"}` }}
-        ></input>
+        >
+          이메일
+        </InputBox>
         {idStatus || (
           <label className="input-alert">올바른 이메일 형식이 아닙니다.</label>
         )}
 
-        <input
+        <InputBox
+          size={INPUT_SIZE}
           type="password"
-          placeholder="비밀번호"
           value={password}
           onChange={onPasswordChangeHandler}
           style={{ border: `${passwordStatus ? "" : "2px solid red"}` }}
-        ></input>
+        >
+          비밀번호
+        </InputBox>
         {passwordStatus || (
           <label className="input-alert" style={{}}>
             비밀번호는 최소 6자 이상입니다.
