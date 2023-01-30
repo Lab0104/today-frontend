@@ -9,7 +9,7 @@ import NaverLogin from "./pages/Login/NaverLogin";
 import SignUp from "./pages/Signup/Signup";
 import IdSearch from "./pages/IdSearch/IdSearch";
 import PasswordSearch from "./pages/PasswordSearch/PasswordSearch";
-import MainMap from "./pages/MainMap/MainMap";
+import MapPage from "./pages/MapPage/MapPage";
 import Main from "./pages/Main/Main";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/search/id" element={<IdSearch />} />
           <Route path="/search/password" element={<PasswordSearch />} />
-          <Route path="/main/map" element={<MainMap />} />
+          <Route path="/map" element={<MapPage />} />
         </Routes>
       </div>
       <div className="footer">푸터영역</div>
