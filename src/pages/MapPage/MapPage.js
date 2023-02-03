@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MapPage.css";
 import KakaoMap from "../../components/KakaoMapApi/KakaoMap";
 import { useDebounce } from "../../hooks/useDebounce";
+import Map from "../../components/KakaoMapApi/Map";
 
 function MapPage() {
   const [searchValue, setSearchValue] = useState("");
@@ -68,7 +69,8 @@ function MapPage() {
         </div>
       </div>
       <div className="mapComponent">
-        <KakaoMap keyword={debouncedSearchTerm}></KakaoMap>
+        <Map></Map>
+        {/* <KakaoMap keyword={debouncedSearchTerm}></KakaoMap> */}
       </div>
     </div>
   );
