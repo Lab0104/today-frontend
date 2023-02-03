@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./kakaoMap.css";
 
-let markers = [];
-
 export default function KakaoMap(props) {
   const { kakao } = window;
   const [infowindow, setInfowindow] = useState();
   const [kakaoMap, setKakaoMap] = useState();
+  const [markers, setMarkers] = useState([]);
 
   useEffect(() => {
     // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
@@ -122,6 +121,23 @@ export default function KakaoMap(props) {
 
     // 검색결과 항목을 Element로 반환하는 함수입니다
     function getListItem(index, places) {
+      // return (
+      //   <li className="item">
+      //     <span className={"markerbg marker_" + index + 1}></span>
+      //     <div className="info">
+      //       <h5>{places.place_name}</h5>
+      //       {places.road_address_name ? (
+      //         <>
+      //           <span>{places.road_address_name}</span>
+      //           <span className="jibun gray">{places.address_name}</span>
+      //         </>
+      //       ) : (
+      //         <span>{places.address_name}</span>
+      //       )}
+      //       <span className="tel">{places.phone}</span>
+      //     </div>
+      //   </li>
+      // );
       let el = document.createElement("li"),
         itemStr =
           '<span class="markerbg marker_' +
@@ -131,7 +147,6 @@ export default function KakaoMap(props) {
           "   <h5>" +
           places.place_name +
           "</h5>";
-
       if (places.road_address_name) {
         itemStr +=
           "    <span>" +
@@ -173,7 +188,8 @@ export default function KakaoMap(props) {
         });
 
       marker.setMap(kakaoMap); // 지도 위에 마커를 표출합니다
-      markers.push(marker); // 배열에 생성된 마커를 추가합니다
+      markers.push(marker);
+      setMarkers([...markers]); // 배열에 생성된 마커를 추가합니다
 
       return marker;
     }
@@ -184,7 +200,7 @@ export default function KakaoMap(props) {
         marker.setMap(null);
         return 0;
       });
-      markers = [];
+      setMarkers([]);
     }
 
     // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
