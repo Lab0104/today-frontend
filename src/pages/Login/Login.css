@@ -23,9 +23,6 @@
 }
 .login-form input {
   height: 45px;
-  border-radius: 5px;
-  border: 1px solid #e8e8e8;
-  padding-left: 10px;
 }
 .login-form input:focus {
   outline: none;
@@ -84,15 +81,14 @@
   background-color: #03c75a;
   border-radius: 6px;
   color: white;
-  font-size: 13.2px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
 }
 .login-options .naver-btn img {
   width: 45px;
   height: 45px;
-  padding-left: 1px;
 }
 .login-options .naver-btn span {
-  padding-left: 73px;
+  padding-left: 72.5px;
 }

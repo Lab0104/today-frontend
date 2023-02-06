@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+import { REDIRECT_URI, REST_API_KEY } from "./dataKakaoLogin";
 import "./Login.css";
 
 function Login() {
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
   const [email, setEmail] = useState("");
   const [idStatus, setIdStatus] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordStatus, setPasswordStatus] = useState(false);
   const [loginSaved, setLoginSaved] = useState(false);
 
-  const onEmailHandler = (e) => {
+  const onEmailChangeHandler = (e) => {
     const value = e.currentTarget.value;
     setEmail((email) => value);
     if (value.match(/\w{4,}@\w{2,}\.\w{2,}/g))
       return setIdStatus((status) => true);
     return setIdStatus((status) => false);
   };
-  const onPasswordHandler = (e) => {
+  const onPasswordChangeHandler = (e) => {
     const value = e.currentTarget.value;
     setPassword(value);
     if (value.length < 6) {
@@ -25,14 +29,14 @@ function Login() {
       setPasswordStatus(true);
     }
   };
-  const onLoginSavedCheckHandler = (e) => {
+  const onLoginSavedChangeHandler = (e) => {
     if (e.target.checked) {
       setLoginSaved(true);
     } else {
       setLoginSaved(false);
     }
   };
-  const onLoginBtnHandler = (e) => {
+  const onLoginClickHandler = (e) => {
     // api 로그인 요청이 들어갈 자리
     if (!(idStatus && passwordStatus)) {
       alert("잘못 된 아이디 또는 비밀번호입니다.");
@@ -42,6 +46,10 @@ function Login() {
     console.log("Password: ", password);
     console.log("checked: ", loginSaved);
     console.log("isIdEmail?: ", idStatus);
+  };
+
+  const kakaoLoginHandler = () => {
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   /*
@@ -66,24 +74,22 @@ function Login() {
   return (
     <div className="login">
       <div className="login-form">
-        <label>ID</label>
         <input
           type="email"
           value={email}
           placeholder="이메일"
-          onChange={onEmailHandler}
+          onChange={onEmailChangeHandler}
           style={{ border: `${idStatus ? "" : "2px solid red"}` }}
         ></input>
         {idStatus || (
           <label className="input-alert">올바른 이메일 형식이 아닙니다.</label>
         )}
 
-        <label>PW</label>
         <input
           type="password"
           placeholder="비밀번호"
           value={password}
-          onChange={onPasswordHandler}
+          onChange={onPasswordChangeHandler}
           style={{ border: `${passwordStatus ? "" : "2px solid red"}` }}
         ></input>
         {passwordStatus || (
@@ -97,12 +103,12 @@ function Login() {
             type="checkbox"
             id="loginSaved"
             value={loginSaved}
-            onChange={onLoginSavedCheckHandler}
+            onChange={onLoginSavedChangeHandler}
           />
           <label id="loginSaved">아이디 저장하기</label>
         </div>
 
-        <button className="btn btn-login" onClick={onLoginBtnHandler}>
+        <button className="btn btn-login" onClick={onLoginClickHandler}>
           로그인
         </button>
       </div>
@@ -120,6 +126,7 @@ function Login() {
         <img
           src="images/kakao_login_buttons/kakao_login_large_wide.png"
           alt="카카오 로그인"
+          onClick={kakaoLoginHandler}
         />
         <div className="naver-btn">
           <img

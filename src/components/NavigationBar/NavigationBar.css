@@ -1,0 +1,146 @@
+.header {
+  width: 100%;
+  min-width: 375px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 30px;
+  padding: 15px 0;
+  background-color: #6667ab;
+  color: #eee;
+  z-index: 1;
+}
+
+.logo {
+  flex-grow: 1;
+  margin-left: 30px;
+  text-align: left;
+  color: #eee;
+  font-size: 16px;
+  font-weight: 700;
+}
+@media (max-width: 475px) {
+  .logo {
+    width: 40px;
+    text-align: center;
+  }
+}
+
+.search {
+  flex-grow: 8;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+@media (max-width: 475px) {
+  .header .search {
+    flex-grow: 7;
+    background-color: #6667ab;
+  }
+}
+.search input {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  padding-left: 10px;
+  background-color: none;
+  border: none;
+  outline: none;
+}
+@media (max-width: 475px) {
+  .header .search input {
+    visibility: hidden;
+  }
+}
+.search .search-icon {
+  width: 34px;
+  height: 100%;
+  color: black;
+  background-color: white;
+  padding: 5px;
+}
+@media (max-width: 475px) {
+  .header .search .search-icon {
+    border-radius: 50px;
+    padding: 0;
+    width: 24px;
+  }
+}
+
+.hidden {
+  width: 100%;
+  height: 60px;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hidden .hidden-search {
+  background-color: white;
+  width: 100%;
+  max-width: 375px;
+  margin: 0 30px;
+  border-radius: 10px;
+}
+
+.user {
+  width: 24px;
+  height: 24px;
+  padding: 5px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 30px;
+}
+@media (max-width: 475px) {
+  .user {
+    margin-right: 30px;
+  }
+}
+
+.user .user-icon {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+.dropdown {
+  width: 28.8px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.user .dropdown-contents {
+  width: 80px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 27px;
+  left: calc(-40px + 12px);
+  z-index: 9;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+.user .dropdown-contents a {
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 5px 0;
+}
+.user .dropdown-contents a:hover {
+  border-radius: 10px;
+  background-color: #ececec;
+  font-weight: 700;
+}
