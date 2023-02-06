@@ -15,7 +15,8 @@
 }
 .searchTab {
   width: 465px;
-  height: auto;
+  height: 100vh;
+  position: relative;
 }
 
 .searchBox {
@@ -67,8 +68,19 @@
 }
 
 .dashBoard {
+  position: absolute;
+  height: 100%;
   background-color: #fff;
+  overflow-y: scroll;
+
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
 }
+
+.dashBoard::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
 .dashBoard .searchResult {
   margin: auto 20px;
   text-align: left;
@@ -106,6 +118,7 @@ hr.line {
   text-align: left;
   margin: 0 25.5px;
 }
+
 .largeBox .content span {
   color: #227b3d;
 }
@@ -136,6 +149,21 @@ hr.line {
   margin-right: auto;
   color: #1f8cff;
 }
+.listBox {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+}
+.listBox h4 {
+  margin: auto;
+  padding: 10px;
+}
+.listBox:hover {
+  background-color: #eff7ff;
+  cursor: pointer;
+}
+
 .mapComponent {
   flex-grow: 1;
   height: 100vh;

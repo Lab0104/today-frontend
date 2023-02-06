@@ -4,15 +4,44 @@ import "./MapPage.css";
 import { useDebounce } from "../../hooks/useDebounce";
 import Map from "../../components/KakaoMapApi/Map";
 
+const { kakao } = window;
+
 function MapPage() {
+  const [kakaoMap, setKakaoMap] = useState(null);
+
   const [searchValue, setSearchValue] = useState("");
   const [searchData, setSearchData] = useState([]);
+  const [markersData, setMarkersData] = useState([]);
+
+  const [infowindow, setInfowindow] = useState(
+    new kakao.maps.InfoWindow({ zIndex: 1 })
+  );
 
   const debouncedSearchTerm = useDebounce(searchValue, 500);
 
   const handleChange = (e) => {
     setSearchValue(e.target.value);
   };
+
+  function move(id) {
+    let position;
+    markersData.map(({ latlng, place_id }) => {
+      if (place_id === id) position = latlng;
+    });
+    kakaoMap.setCenter(position);
+    kakaoMap.setLevel(5);
+  }
+  function mouseover(id) {
+    let place, markerData;
+    markersData.map(({ place_name, place_id, marker }) => {
+      if (place_id === id) {
+        place = place_name;
+        markerData = marker;
+      }
+    });
+    infowindow.setContent(`<div style="padding:5px;">${place}</div>`);
+    infowindow.open(kakaoMap, markerData);
+  }
 
   return (
     <div className="main">
@@ -66,9 +95,15 @@ function MapPage() {
           </div>
           {searchData.map((data, idx) => {
             return (
-              <div className="content" key={idx}>
-                <p>주소 : {data.address_name}</p>
-                <p className="time">
+              <div
+                className="listBox"
+                key={idx}
+                onClick={() => move(data.id, idx)}
+                onMouseOver={() => mouseover(data.id, idx)}
+              >
+                <h4>{data.place_name}</h4>
+                <p> {data.address_name}</p>
+                <p>
                   {data.category_name ? data.category_name : "카테고리 미분류"}
                 </p>
                 <hr></hr>
@@ -78,7 +113,15 @@ function MapPage() {
         </div>
       </div>
       <div className="mapComponent">
-        <Map keyword={debouncedSearchTerm} setSearchData={setSearchData}></Map>
+        <Map
+          keyword={debouncedSearchTerm}
+          setSearchData={setSearchData}
+          setMarkersData={setMarkersData}
+          markersData={markersData}
+          kakaoMap={kakaoMap}
+          setKakaoMap={setKakaoMap}
+          infowindow={infowindow}
+        ></Map>
         {/* <KakaoMap keyword={debouncedSearchTerm}></KakaoMap> */}
       </div>
     </div>
