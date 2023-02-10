@@ -1,72 +1,64 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 import FlexColumnContainer from "../../components/FlexColumnContainer/FlexColumnContainer";
 import FlexwrapContainer from "../../components/FlexwrapContainer/FlexwrapContainer";
-import MeetingCard from "../../components/MeetingCard/MeetingCard";
+import Meetings from "../../components/Meetings/Meetings";
+import Skeleton from "../../components/Skeleton/Skeleton";
 import "./Main.css";
 
+const Placeholder = () => {
+  return (
+    <FlexColumnContainer style={{ width: "100%" }}>
+      <Skeleton width={100} height={30} rounded />
+      <FlexwrapContainer>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <Skeleton
+            key={index}
+            style={{ width: "30%", height: "100px" }}
+            rounded
+          />
+        ))}
+      </FlexwrapContainer>
+    </FlexColumnContainer>
+  );
+};
+
 function Main() {
-  const [editorMeetings, setEditorMeetings] = useState(null);
-  const [advertisementMeetings, setAdvertisementMeetings] = useState(null);
-
-  const req = (url, setState) => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => setState(json.meetingList))
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    req("/meetings/editor", setEditorMeetings);
-    req("/meetings/advertisement", setAdvertisementMeetings);
-  }, []);
+  const [meetings, setMeetings] = useState(null);
+  const { isLoading, error } = useQuery(
+    "meeting",
+    async () => {
+      await fetch("/meetings")
+        .then((res) => res.json())
+        .then((json) => {
+          setMeetings((prev) => json);
+        });
+    },
+    {
+      refetchOnWindowFocus: false, // 윈도우 포커스 시 재실행 여부
+      retry: 0, // 실패 시 재호출 횟수
+    }
+  );
+  if (isLoading)
+    return Array.from({ length: 3 }).map((_, index) => (
+      <Placeholder key={index} />
+    ));
+  if (error) return <div>404 Not Found</div>;
 
   return (
     <>
-      <FlexColumnContainer>
-        <span className="container-title">Editor's Pick</span>
-        <FlexwrapContainer className="editor-pick">
-          {editorMeetings &&
-            editorMeetings.map((meeting) => (
-              <MeetingCard
-                key={meeting.id}
-                id={meeting.id}
-                title={meeting.title}
-                participant={meeting.participant}
-                total={meeting.total}
-                subTitle={meeting.subTitle}
-                contents={meeting.contents}
-                like={meeting.like}
-              ></MeetingCard>
-            ))}
-        </FlexwrapContainer>
-        <hr />
-      </FlexColumnContainer>
-      <FlexColumnContainer>
-        <span className="container-title">광고 탭</span>
-        <FlexwrapContainer className="advertise">
-          {advertisementMeetings &&
-            advertisementMeetings.map((meeting, index) => (
-              <MeetingCard
-                key={index}
-                id={meeting.id}
-                title={meeting.title}
-                participant={meeting.participant}
-                total={meeting.total}
-                subTitle={meeting.subTitle}
-                contents={meeting.contents}
-                like={meeting.like}
-              ></MeetingCard>
-            ))}
-        </FlexwrapContainer>
-        <hr />
-      </FlexColumnContainer>
-      <FlexColumnContainer>
-        <span className="container-title">이런 모임은 어때요?</span>
-        <FlexwrapContainer className="recommend">
-          <MeetingCard id={1}></MeetingCard>
-          <MeetingCard id={2}></MeetingCard>
-        </FlexwrapContainer>
-      </FlexColumnContainer>
+      {isLoading
+        ? Array.from({ length: 3 }).map((_, index) => (
+            <Placeholder key={index} />
+          ))
+        : meetings &&
+          meetings.map((meeting) => (
+            <Meetings
+              key={meeting.title}
+              title={meeting.title}
+              meetingList={meeting.list}
+            />
+          ))}
     </>
   );
 }

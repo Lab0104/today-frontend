@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../../app/userSlice";
+
 import { Link } from "react-router-dom";
 
 import { REDIRECT_URI, REST_API_KEY } from "./dataKakaoLogin";
@@ -7,7 +10,10 @@ import "./Login.scss";
 
 const INPUT_SIZE = ["300px", "45px"];
 
-function Login() {
+export default function Login() {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const [email, setEmail] = useState("");
@@ -45,6 +51,8 @@ function Login() {
       alert("잘못 된 아이디 또는 비밀번호입니다.");
       return;
     }
+    dispatch(login({ email: email, password: password }));
+    console.log(user);
     console.log("Email: ", email);
     console.log("Password: ", password);
     console.log("checked: ", loginSaved);
@@ -150,5 +158,3 @@ function Login() {
     </div>
   );
 }
-
-export default Login;

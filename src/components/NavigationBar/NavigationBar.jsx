@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../app/userSlice";
+
 import _ from "lodash";
 
 import "./NavigationBar.css";
 
-function NavigationBar() {
-  const { state } = useLocation();
+export default function NavigationBar() {
+  const isLogged = useSelector((state) => state.user.isLogged);
+  const dispatch = useDispatch();
 
   const [dropdownStyle, setDropdownStyle] = useState({ visibility: "hidden" });
   const [search, setSearch] = useState("");
@@ -38,7 +43,8 @@ function NavigationBar() {
 
   const routeOnClickHandler = (e) => {
     if (e.target.innerHTML === "로그아웃") {
-      state.loginStatus = false;
+      alert("로그아웃");
+      dispatch(logout());
     }
   };
 
@@ -100,7 +106,7 @@ function NavigationBar() {
           >
             <span className="material-icons user-icon">account_circle</span>
             <div className="dropdown-contents" style={dropdownStyle}>
-              {state?.loginStatus ? mapping(isLogin) : mapping(isNotLogin)}
+              {isLogged ? mapping(isLogin) : mapping(isNotLogin)}
             </div>
           </div>
         </div>
@@ -128,5 +134,3 @@ function NavigationBar() {
     </>
   );
 }
-
-export default NavigationBar;
