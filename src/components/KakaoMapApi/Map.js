@@ -1,6 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+import { changeData } from "../../store/Store";
 
 const { kakao } = window;
 
@@ -9,13 +12,19 @@ function Map(props) {
 
   const mapContainer = useRef(null);
 
+  const dispatch = useDispatch();
+  let store = useSelector((state) => {
+    return state;
+  });
+
   useEffect(() => {
     initMap();
+    // dispatch(createMap(mapContainer));
   }, []);
 
   useEffect(() => {
     searchDB();
-  }, [props.keyword]);
+  }, [store.searchKeyword]);
 
   const initMap = () => {
     //좌표값
@@ -29,7 +38,7 @@ function Map(props) {
 
   const searchDB = () => {
     if (!props.kakaoMap) return;
-    if (props.keyword === "") return;
+    if (store.searchKeyword === "") return;
 
     props.infowindow.close();
 
@@ -39,16 +48,17 @@ function Map(props) {
     markers = [];
     setMarkers(...markers);
 
-    props.setMarkersData([]);
+    // props.setMarkersData([]);
 
     // 장소 검색 객체를 생성합니다
     const ps = new kakao.maps.services.Places();
 
-    ps.keywordSearch(props.keyword, placesSearchDB);
+    ps.keywordSearch(store.searchKeyword, placesSearchDB);
 
-    function placesSearchDB(data, status, pagination) {
+    function placesSearchDB(data, status) {
       if (status === kakao.maps.services.Status.OK) {
-        props.setSearchData([...data]);
+        dispatch(changeData([...data]));
+        console.log(data);
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
@@ -73,6 +83,7 @@ function Map(props) {
             place_name: place_name,
             marker: marker,
           };
+
           props.markersData.push(newObject);
           props.setMarkersData([...props.markersData]);
 

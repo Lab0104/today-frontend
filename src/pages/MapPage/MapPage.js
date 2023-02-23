@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./MapPage.css";
 // import KakaoMap from "../../components/KakaoMapApi/KakaoMap";
-import { useDebounce } from "../../hooks/useDebounce";
 import Map from "../../components/KakaoMapApi/Map";
+import { useDispatch, useSelector } from "react-redux";
+import { changeKeyword } from "../../store/Store";
 
 const { kakao } = window;
 
 function MapPage() {
+  const [text, setText] = useState("");
   const [kakaoMap, setKakaoMap] = useState(null);
-
-  const [searchValue, setSearchValue] = useState("");
-  const [searchData, setSearchData] = useState([]);
   const [markersData, setMarkersData] = useState([]);
-
   const [infowindow, setInfowindow] = useState(
     new kakao.maps.InfoWindow({ zIndex: 1 })
   );
 
-  const debouncedSearchTerm = useDebounce(searchValue, 500);
+  const dispatch = useDispatch();
+  let store = useSelector((state) => {
+    return state;
+  });
 
   const handleChange = (e) => {
-    setSearchValue(e.target.value);
+    setText(e.target.value);
   };
 
   function move(id) {
@@ -31,6 +32,7 @@ function MapPage() {
     kakaoMap.setCenter(position);
     kakaoMap.setLevel(5);
   }
+
   function mouseover(id) {
     let place, markerData;
     markersData.map(({ place_name, place_id, marker }) => {
@@ -52,7 +54,14 @@ function MapPage() {
             <p>오늘하루</p>
           </div>
           <div className="inputBox">
-            <input onChange={handleChange} value={searchValue}></input>
+            <input onChange={handleChange} value={text}></input>
+            <button
+              onClick={(e) => {
+                dispatch(changeKeyword(text));
+              }}
+            >
+              검색
+            </button>
           </div>
           <div className="fliter">
             <button className="selected">모두</button>
@@ -88,12 +97,12 @@ function MapPage() {
           </div>
           <hr />
           <div className="smallBox">
-            <p className="count">{"모임" + searchData.length + "개"}</p>
+            <p className="count">{"모임" + store.searchData.length + "개"}</p>
             <p> 정확도순 </p>
             <p> 인기도순 </p>
             <p> 마감날짜순 </p>
           </div>
-          {searchData.map((data, idx) => {
+          {store.searchData.map((data, idx) => {
             return (
               <div
                 className="listBox"
@@ -102,7 +111,7 @@ function MapPage() {
                 onMouseOver={() => mouseover(data.id, idx)}
               >
                 <h4>{data.place_name}</h4>
-                <p> {data.address_name}</p>
+                <p>{data.address_name}</p>
                 <p>
                   {data.category_name ? data.category_name : "카테고리 미분류"}
                 </p>
@@ -114,15 +123,12 @@ function MapPage() {
       </div>
       <div className="mapComponent">
         <Map
-          keyword={debouncedSearchTerm}
-          setSearchData={setSearchData}
           setMarkersData={setMarkersData}
           markersData={markersData}
           kakaoMap={kakaoMap}
           setKakaoMap={setKakaoMap}
           infowindow={infowindow}
         ></Map>
-        {/* <KakaoMap keyword={debouncedSearchTerm}></KakaoMap> */}
       </div>
     </div>
   );
