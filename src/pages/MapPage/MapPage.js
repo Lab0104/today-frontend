@@ -16,7 +16,7 @@ function MapPage() {
   );
 
   const dispatch = useDispatch();
-  let store = useSelector((state) => {
+  const store = useSelector((state) => {
     return state;
   });
 
@@ -50,8 +50,8 @@ function MapPage() {
       <div className="searchTab">
         <div className="searchBox">
           <div className="title">
-            <img src="" alt="nav"></img>
-            <p>오늘하루</p>
+            <i className="bi bi-list"></i>
+            <p>오늘 하루</p>
           </div>
           <div className="inputBox">
             <input onChange={handleChange} value={text}></input>
@@ -60,7 +60,7 @@ function MapPage() {
                 dispatch(changeKeyword(text));
               }}
             >
-              검색
+              <i className="bi bi-search"></i>
             </button>
           </div>
           <div className="fliter">
@@ -69,6 +69,8 @@ function MapPage() {
             <button>참여중인 모임방</button>
             <button>학술</button>
             <button>취미</button>
+            <button>대외활동</button>
+            <button>기타</button>
           </div>
         </div>
         <div className="dashBoard">
@@ -78,16 +80,18 @@ function MapPage() {
           <hr />
           <div className="largeBox">
             <div className="title">
-              <img src="" alt="Icon"></img>
+              <i className="bi bi-badge-ad"></i>
               <div className="text">
                 <p>스터디 모임 (2/4)</p>
                 <p>코딩테스트 자바 스터디</p>
               </div>
-              <img className="liked" src="" alt="Liked"></img>
+              <i className="bi bi-heart like"></i>
+              {/* <i className="bi bi-heart-fill"></i> */}
             </div>
             <hr className="line"></hr>
             <div className="content">
-              <p>경기 용인시 기흥구 강남서로 9 2022-12-29 13:00 ~ 18:00</p>
+              <p>경기 용인시 기흥구 강남서로 9</p>
+              <p>2022-12-29 13:00 ~ 18:00</p>
               <p>
                 <span>모집중</span> | 2022-12-29 12:00 - 모집 마감
               </p>
@@ -102,23 +106,29 @@ function MapPage() {
             <p> 인기도순 </p>
             <p> 마감날짜순 </p>
           </div>
-          {store.searchData.map((data, idx) => {
-            return (
-              <div
-                className="listBox"
-                key={idx}
-                onClick={() => move(data.id, idx)}
-                onMouseOver={() => mouseover(data.id, idx)}
-              >
-                <h4>{data.place_name}</h4>
-                <p>{data.address_name}</p>
-                <p>
-                  {data.category_name ? data.category_name : "카테고리 미분류"}
-                </p>
-                <hr></hr>
-              </div>
-            );
-          })}
+          {store.searchData.length !== 0 ? (
+            store.searchData.map((data, idx) => {
+              return (
+                <div
+                  className="listBox"
+                  key={idx}
+                  onClick={() => move(data.id, idx)}
+                  onMouseOver={() => mouseover(data.id, idx)}
+                >
+                  <h4>{data.place_name}</h4>
+                  <p>{data.address_name}</p>
+                  <p>
+                    {data.category_name
+                      ? data.category_name
+                      : "카테고리 미분류"}
+                  </p>
+                  <hr></hr>
+                </div>
+              );
+            })
+          ) : (
+            <h4>로그인 후 좋아하는 모임을 찾아보세요!</h4>
+          )}
         </div>
       </div>
       <div className="mapComponent">
@@ -129,6 +139,23 @@ function MapPage() {
           setKakaoMap={setKakaoMap}
           infowindow={infowindow}
         ></Map>
+      </div>
+      <div className="icons">
+        <button>
+          <i className="bi bi-person-fill"></i>
+        </button>
+        <button>
+          <i className="bi bi-chat-dots-fill"></i>
+        </button>
+        <button>
+          <i className="bi bi-plus-circle-fill"></i>
+        </button>
+        <button>
+          <i className="bi bi-layers-fill"></i>
+        </button>
+        <button>
+          <i className="bi bi-record-circle"></i>
+        </button>
       </div>
     </div>
   );

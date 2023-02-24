@@ -13,13 +13,12 @@ function Map(props) {
   const mapContainer = useRef(null);
 
   const dispatch = useDispatch();
-  let store = useSelector((state) => {
+  const store = useSelector((state) => {
     return state;
   });
 
   useEffect(() => {
     initMap();
-    // dispatch(createMap(mapContainer));
   }, []);
 
   useEffect(() => {

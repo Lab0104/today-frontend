@@ -1,9 +1,22 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-const kakaoMap = createSlice({
-  name: "kakaoMap",
-  initialState: null,
-});
+// const { kakao } = window;
+
+// const kakaoMap = createSlice({
+//   name: "kakaoMap",
+//   initialState: null,
+//   reducers: {
+//     initMap(state, action) {
+//       //좌표값
+//       const center = new kakao.maps.LatLng(37.566826, 126.9786567);
+//       const options = {
+//         center,
+//         level: 5,
+//       };
+//       return new kakao.maps.Map(action.payload, options);
+//     },
+//   },
+// });
 
 const searchKeyword = createSlice({
   name: "searchKeyword",
@@ -51,7 +64,7 @@ const infowindow = createSlice({
 
 export default configureStore({
   reducer: {
-    kakaoMap: kakaoMap.reducer,
+    // kakaoMap: kakaoMap.reducer,
     searchKeyword: searchKeyword.reducer,
     searchData: searchData.reducer,
     markersData: markersData.reducer,
