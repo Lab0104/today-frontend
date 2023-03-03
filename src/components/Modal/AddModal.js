@@ -1,21 +1,21 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
-import React from "react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../store/ModalSlice";
+import { Container, ExitButton } from "./CommonStyles";
 
 const AddModal = () => {
   const dispatch = useDispatch();
   return (
-    <div css={container}>
+    <Container>
       <div className="modalTitle">
         <h4>모임 추가하기</h4>
-        <button css={exitButton} onClick={() => dispatch(closeModal())}>
+        <ExitButton onClick={() => dispatch(closeModal())}>
           <i className="bi bi-x-lg"></i>
-        </button>
+        </ExitButton>
       </div>
-      <div className="content" css={content}>
+      <Content>
         <input className="title" placeholder="모임 제목"></input>
         <input
           className="titleAlt"
@@ -29,57 +29,31 @@ const AddModal = () => {
         <input className="deadLine" placeholder="모임 신청 마감 기한"></input>
         <input className="description" placeholder="모임 내용"></input>
         <button>개설 하기</button>
-      </div>
-    </div>
+      </Content>
+    </Container>
   );
 };
 
-const container = css`
-  position: absolute;
-  width: 25vw;
-  height: 75vh;
-  right: 102px;
-  top: 20px;
-  z-index: 10;
-  border-radius: 10px;
+const Content = styled.div`
   display: flex;
-  flex-direction: column;
-
-  background: #fff;
-`;
-
-const exitButton = css`
-  position: absolute;
-  height: 22.4px;
-  width: 22.4px;
-  right: 0;
-  top: 0;
-  margin: 21.28px;
-  background: #fff;
-  color: black;
-  padding: 0;
-  font-size: 16px;
-`;
-
-const content = css`
-  display: flex;
-  height: inherit;
+  height: 100%;
   flex-direction: column;
   justify-content: space-between;
   background: #eeeeee;
   padding: 10px;
 
   & input {
+    height: 50px;
     border-radius: 15px;
   }
 
   & .description {
-    height: 150px;
+    height: 300px;
   }
 
   & button {
-    height: 35px;
-    border-radius: 15px;
+    height: 50px;
+    border-radius: 10px;
   }
 `;
 

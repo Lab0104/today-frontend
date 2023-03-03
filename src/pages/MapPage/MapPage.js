@@ -25,6 +25,15 @@ function MapPage() {
     setText(e.target.value);
   };
 
+  const handleOpenModal = (type) => {
+    dispatch(
+      openModal({
+        modalType: type,
+        isOpen: true,
+      })
+    );
+  };
+
   function move(id) {
     let position;
     markersData.map(({ latlng, place_id }) => {
@@ -143,38 +152,23 @@ function MapPage() {
       </div>
       <div className="icons">
         <button
-          onClick={() =>
-            dispatch(
-              openModal({
-                modalType: "ProfileModal",
-                isOpen: true,
-              })
-            )
-          }
+          onClick={() => {
+            handleOpenModal("ProfileModal");
+          }}
         >
           <i className="bi bi-person-fill"></i>
         </button>
         <button
-          onClick={() =>
-            dispatch(
-              openModal({
-                modalType: "ChatModal",
-                isOpen: true,
-              })
-            )
-          }
+          onClick={() => {
+            handleOpenModal("ChatModal");
+          }}
         >
           <i className="bi bi-chat-dots-fill"></i>
         </button>
         <button
-          onClick={() =>
-            dispatch(
-              openModal({
-                modalType: "AddModal",
-                isOpen: true,
-              })
-            )
-          }
+          onClick={() => {
+            handleOpenModal("AddModal");
+          }}
         >
           <i className="bi bi-plus-circle-fill"></i>
         </button>
