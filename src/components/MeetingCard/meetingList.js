@@ -1,0 +1,38 @@
+export const meetingList = [
+  {
+    id: 1,
+    title: "스터디 모임",
+    participant: 2,
+    total: 4,
+    subTitle: "코딩 테스트 자바 스터디",
+    contents: ["경기 용인시 기흥구 강남서로 9", "기타 등등 내용..."],
+    like: false,
+  },
+  {
+    id: 2,
+    title: "제목",
+    participant: 0,
+    total: 0,
+    subTitle: "소제목",
+    contents: ["모임 내용"],
+    like: false,
+  },
+  {
+    id: 3,
+    title: "제목",
+    participant: 0,
+    total: 0,
+    subTitle: "소제목",
+    contents: ["모임 내용"],
+    like: false,
+  },
+  {
+    id: 4,
+    title: "제목",
+    participant: 0,
+    total: 0,
+    subTitle: "소제목",
+    contents: ["모임 내용"],
+    like: false,
+  },
+];
