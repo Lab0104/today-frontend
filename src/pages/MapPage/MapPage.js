@@ -4,6 +4,7 @@ import "./MapPage.css";
 import Map from "../../components/KakaoMapApi/Map";
 import { useDispatch, useSelector } from "react-redux";
 import { changeKeyword } from "../../store/Store";
+import { openModal } from "../../store/ModalSlice";
 
 const { kakao } = window;
 
@@ -141,13 +142,40 @@ function MapPage() {
         ></Map>
       </div>
       <div className="icons">
-        <button>
+        <button
+          onClick={() =>
+            dispatch(
+              openModal({
+                modalType: "ProfileModal",
+                isOpen: true,
+              })
+            )
+          }
+        >
           <i className="bi bi-person-fill"></i>
         </button>
-        <button>
+        <button
+          onClick={() =>
+            dispatch(
+              openModal({
+                modalType: "ChatModal",
+                isOpen: true,
+              })
+            )
+          }
+        >
           <i className="bi bi-chat-dots-fill"></i>
         </button>
-        <button>
+        <button
+          onClick={() =>
+            dispatch(
+              openModal({
+                modalType: "AddModal",
+                isOpen: true,
+              })
+            )
+          }
+        >
           <i className="bi bi-plus-circle-fill"></i>
         </button>
         <button>

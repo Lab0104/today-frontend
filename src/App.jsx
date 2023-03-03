@@ -11,12 +11,14 @@ import IdSearch from "./pages/IdSearch/IdSearch";
 import PasswordSearch from "./pages/PasswordSearch/PasswordSearch";
 import MapPage from "./pages/MapPage/MapPage";
 import Main from "./pages/Main/Main";
+import GlobalModal from "./components/Modal/GlobalModal";
 
 function App() {
   return (
     <div className="App">
       <NavigationBar style={{ display: "none" }} />
       <div className="container">
+        <GlobalModal />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />

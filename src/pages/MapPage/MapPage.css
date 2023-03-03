@@ -196,7 +196,7 @@ hr.line {
   display: flex;
   flex-direction: column;
   position: fixed;
-  bottom: 30px;
+  top: 20px;
   right: 30px;
   z-index: 9;
   background: none;
