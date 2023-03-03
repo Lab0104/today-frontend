@@ -3,10 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import NavigationBar from "./components/NavigationBar/NavigationBar";
-import NavigationBar from "./components/NavigationBar/NavigationBar";
 import Login from "./pages/Login/Login";
-import KakaoLogin from "./pages/Login/KakaoLogin";
-import NaverLogin from "./pages/Login/NaverLogin";
 import KakaoLogin from "./pages/Login/KakaoLogin";
 import NaverLogin from "./pages/Login/NaverLogin";
 import SignUp from "./pages/Signup/Signup";
