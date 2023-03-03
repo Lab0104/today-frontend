@@ -17,7 +17,6 @@ function App() {
   return (
     <div className="App">
       <NavigationBar style={{ display: "none" }} />
-      <NavigationBar style={{ display: "none" }} />
       <div className="container">
         <GlobalModal />
         <Routes>
@@ -25,14 +24,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/kakaoLogin" element={<KakaoLogin />} />
           <Route path="/naverLogin" element={<NaverLogin />} />
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/kakaoLogin" element={<KakaoLogin />} />
-          <Route path="/naverLogin" element={<NaverLogin />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/search/id" element={<IdSearch />} />
           <Route path="/search/password" element={<PasswordSearch />} />
-          <Route path="/map" element={<MapPage />} />
           <Route path="/map" element={<MapPage />} />
         </Routes>
       </div>
