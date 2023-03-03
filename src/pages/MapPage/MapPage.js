@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./MapPage.css";
-// import KakaoMap from "../../components/KakaoMapApi/KakaoMap";
 import Map from "../../components/KakaoMapApi/Map";
 import { useDispatch, useSelector } from "react-redux";
 import { changeKeyword } from "../../store/Store";
