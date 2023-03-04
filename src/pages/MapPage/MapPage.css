@@ -23,6 +23,9 @@
   height: 150px;
   background-color: #6667ab;
 }
+.searchBox .nav:hover {
+  cursor: pointer;
+}
 .searchBox .title {
   margin: 0 20px;
   display: flex;
@@ -95,6 +98,10 @@
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
 }
+.dashBoard .meetingCard:hover {
+  cursor: pointer;
+  background: #eff7ff;
+}
 
 .dashBoard::-webkit-scrollbar {
   display: none; /* 크롬, 사파리, 오페라, 엣지 */
@@ -111,48 +118,6 @@
 }
 .dashBoard .searchResult span {
   color: #1f8cff;
-}
-.largeBox {
-  margin: 10px 20px;
-}
-.largeBox .title {
-  display: flex;
-  text-align: left;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.largeBox .title i.like {
-  position: absolute;
-  right: 20px;
-}
-.largeBox div.text p {
-  margin: 0 18px;
-  font-weight: bold;
-}
-hr.line {
-  color: #999999;
-  width: 425px;
-}
-.largeBox .content {
-  position: relative;
-  text-align: left;
-  margin: 0 25.5px;
-}
-
-.largeBox .content span {
-  color: #227b3d;
-}
-.largeBox .content p {
-  margin: 8px 0;
-}
-.largeBox .content p.time {
-  position: absolute;
-  width: auto;
-  left: 90%;
-  top: 90%;
-  margin: 0;
-  font-size: 12.8px;
-  white-space: nowrap;
 }
 .smallBox {
   margin: 0 20px;

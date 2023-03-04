@@ -45,6 +45,7 @@ function GlobalModal() {
     });
     return findModal.component;
   };
+
   return <div>{renderModal()}</div>;
 }
 

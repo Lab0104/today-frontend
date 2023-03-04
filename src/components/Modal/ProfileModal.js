@@ -121,7 +121,7 @@ const container = css`
 
 const exitButton = css`
   color: #fff;
-  transform: translate(-50%, 50%);
+  top: -30px;
 `;
 
 const content = css`
@@ -135,6 +135,7 @@ const content = css`
   }
 `;
 const backGround = css`
+  position: relative;
   margin-bottom: 10px;
   height: 90px;
   background: #ff9896;

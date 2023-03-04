@@ -1,33 +1,14 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+import KakaoMapSlice from "./KakaoMapSlice";
+import MeetingCardSlice from "./MeetingCardSlice";
 import ModalSlice from "./ModalSlice";
-
-const searchKeyword = createSlice({
-  name: "searchKeyword",
-  initialState: "",
-  reducers: {
-    changeKeyword(state, a) {
-      return a.payload;
-    },
-  },
-});
-export let { changeKeyword } = searchKeyword.actions;
-
-const searchData = createSlice({
-  name: "searchData",
-  initialState: [],
-  reducers: {
-    changeData(state, a) {
-      return a.payload;
-    },
-  },
-});
-
-export let { changeData } = searchData.actions;
+import SearchDataSlice from "./SearchDataSlice";
 
 export default configureStore({
   reducer: {
-    searchKeyword: searchKeyword.reducer,
-    searchData: searchData.reducer,
     modal: ModalSlice,
+    meetingCard: MeetingCardSlice,
+    map: KakaoMapSlice,
+    search: SearchDataSlice,
   },
 });

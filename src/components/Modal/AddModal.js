@@ -28,7 +28,7 @@ const AddModal = () => {
         ></input>
         <input className="deadLine" placeholder="모임 신청 마감 기한"></input>
         <input className="description" placeholder="모임 내용"></input>
-        <button>개설 하기</button>
+        <button onClick={() => dispatch(closeModal())}>개설 하기</button>
       </Content>
     </Container>
   );
