@@ -1,6 +1,8 @@
 import ChatModal from "./ChatModal";
 import ChatInModal from "./ChatInModal";
 import ProfileModal from "./ProfileModal";
+import InfoModal from "./InfoModal";
+import NavModal from "./NavModal";
 import AddModal from "./AddModal";
 import { selectModal } from "../../store/ModalSlice";
 import { useSelector } from "react-redux";
@@ -22,6 +24,14 @@ const modals = [
     type: "AddModal",
     component: <AddModal />,
   },
+  {
+    type: "NavModal",
+    component: <NavModal />,
+  },
+  {
+    type: "InfoModal",
+    component: <InfoModal />,
+  },
 ];
 
 function GlobalModal() {
@@ -35,6 +45,7 @@ function GlobalModal() {
     });
     return findModal.component;
   };
+
   return <div>{renderModal()}</div>;
 }
 
