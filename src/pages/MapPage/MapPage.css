@@ -193,15 +193,19 @@ hr.line {
   position: absolute;
 }
 .icons {
-  display: flex;
-  flex-direction: column;
   position: fixed;
+  height: 95%;
   top: 20px;
   right: 30px;
   z-index: 9;
   background: none;
   justify-content: center;
-  align-items: center;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+  white-space: nowrap;
 }
 .icons button {
   margin: 3px 0;

@@ -142,48 +142,58 @@ function MapPage() {
         ></Map>
       </div>
       <div className="icons">
-        <button
-          onClick={() =>
-            dispatch(
-              openModal({
-                modalType: "ProfileModal",
-                isOpen: true,
-              })
-            )
-          }
-        >
-          <i className="bi bi-person-fill"></i>
-        </button>
-        <button
-          onClick={() =>
-            dispatch(
-              openModal({
-                modalType: "ChatModal",
-                isOpen: true,
-              })
-            )
-          }
-        >
-          <i className="bi bi-chat-dots-fill"></i>
-        </button>
-        <button
-          onClick={() =>
-            dispatch(
-              openModal({
-                modalType: "AddModal",
-                isOpen: true,
-              })
-            )
-          }
-        >
-          <i className="bi bi-plus-circle-fill"></i>
-        </button>
-        <button>
-          <i className="bi bi-layers-fill"></i>
-        </button>
-        <button>
-          <i className="bi bi-record-circle"></i>
-        </button>
+        <div>
+          <button
+            onClick={() =>
+              dispatch(
+                openModal({
+                  modalType: "ProfileModal",
+                  isOpen: true,
+                })
+              )
+            }
+          >
+            <i className="bi bi-person-fill"></i>
+          </button>
+          <button
+            onClick={() =>
+              dispatch(
+                openModal({
+                  modalType: "ChatModal",
+                  isOpen: true,
+                })
+              )
+            }
+          >
+            <i className="bi bi-chat-dots-fill"></i>
+          </button>
+          <button
+            onClick={() =>
+              dispatch(
+                openModal({
+                  modalType: "AddModal",
+                  isOpen: true,
+                })
+              )
+            }
+          >
+            <i className="bi bi-plus-circle-fill"></i>
+          </button>
+          <button>
+            <i className="bi bi-layers-fill"></i>
+          </button>
+          <button>
+            <i className="bi bi-record-circle"></i>
+          </button>
+        </div>
+        <div>
+          <button>
+            <i class="bi bi-zoom-in"></i>
+          </button>
+          <button>
+            <i class="bi bi-zoom-out"></i>
+          </button>
+        </div>
       </div>
     </div>
   );
