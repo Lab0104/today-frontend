@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../app/userSlice";
 
-import _ from "lodash";
+import useWidthThrottle from "../../hooks/useWidthThrottle";
 
 import "./NavigationBar.css";
 
 export default function NavigationBar() {
+  const width = useWidthThrottle();
+
   const isLogged = useSelector((state) => state.user.isLogged);
   const dispatch = useDispatch();
 
@@ -16,19 +18,11 @@ export default function NavigationBar() {
   const [search, setSearch] = useState("");
   const [hiddenSearch, setHiddenSearch] = useState(false);
 
-  // 이벤트 처리 성능 최적화
-  const handleResize = _.throttle(() => {
-    if (window.innerWidth > 475) {
+  useEffect(() => {
+    if (width > 475) {
       setHiddenSearch((val) => false);
     }
-  }, 300);
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [handleResize]);
+  }, [width]);
 
   const mouseOverHandler = () => {
     setDropdownStyle((cur) => ({ ...cur, visibility: "visible" }));
@@ -54,8 +48,9 @@ export default function NavigationBar() {
     }
     console.log(search);
   };
+
   const searchOnClickHandler = (e) => {
-    if (window.innerWidth < 475) {
+    if (width < 475) {
       setHiddenSearch((val) => !val);
     } else {
       hiddenButton();

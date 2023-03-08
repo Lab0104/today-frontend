@@ -15,18 +15,15 @@ function App() {
   return (
     <div className="App">
       <NavigationBar />
-      <div className="container">
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/kakaoLogin" element={<KakaoLogin />} />
-          <Route path="/naverLogin" element={<NaverLogin />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/search/id" element={<IdSearch />} />
-          <Route path="/search/password" element={<PasswordSearch />} />
-        </Routes>
-      </div>
-      <div className="footer">푸터영역</div>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/kakaoLogin" element={<KakaoLogin />} />
+        <Route path="/naverLogin" element={<NaverLogin />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/search/id" element={<IdSearch />} />
+        <Route path="/search/password" element={<PasswordSearch />} />
+      </Routes>
     </div>
   );
 }

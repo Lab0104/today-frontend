@@ -1,20 +1,31 @@
 import React from "react";
+import styled from "@emotion/styled";
 import "./MeetingCard.css";
+
+const GreenSpan = styled.span`
+  color: #227b3d;
+`;
+const RedSpan = styled.span`
+  color: red;
+`;
 
 export default function MeetingCard({
   id,
+  onClick,
+  status,
   title = "제목",
   participant = 0,
   total = 0,
   subTitle = "소제목",
-  contents = ["모임 내용"],
+  address = "주소",
+  deadline = "마감일",
   like = false,
 }) {
   return (
     <div className="meeting">
       <div className="meeting-header">
         <div className="meeting-title">
-          <span className="main-title">
+          <span className="main-title" onClick={onClick}>
             {title} ({participant}/{total})
           </span>
           <span className="sub-title">{subTitle}</span>
@@ -25,15 +36,21 @@ export default function MeetingCard({
               ? "material-symbols-outlined like"
               : "material-symbols-outlined"
           }
+          onClick={() => {
+            like = !like;
+          }}
         >
           favorite
         </span>
       </div>
       <hr />
       <div className="meeting-contents">
-        {contents.map((content, index) => (
-          <span key={index}>{content}</span>
-        ))}
+        <span>{address}</span>
+        <span>
+          {status ? <GreenSpan>모집중</GreenSpan> : <RedSpan>모집마감</RedSpan>}
+          &nbsp; | &nbsp;
+          {deadline} - 모집마감
+        </span>
       </div>
     </div>
   );

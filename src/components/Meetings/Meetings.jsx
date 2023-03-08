@@ -1,36 +1,44 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import FlexwrapContainer from "../FlexwrapContainer/FlexwrapContainer";
-import FlexColumnContainer from "../FlexColumnContainer/FlexColumnContainer";
+import styled from "@emotion/styled";
 import MeetingCard from "../MeetingCard/MeetingCard";
 
-export default function Meetings({ title, meetingList }) {
+const CarouselContainer = styled.div`
+  display: flex;
+  width: 270px;
+  margin: 40px 0;
+  justify-content: left;
+  gap: 20px;
+  transform: translateX(
+    -${({ activeIndex, itemCount }) => (activeIndex === 0 ? activeIndex : activeIndex * itemCount * 100)}%
+  );
+  transition: 200ms ease;
+`;
+
+export default function Meetings({
+  count,
+  meetingList,
+  onClickModal,
+  itemCount = 1,
+  activeIndex = 0,
+}) {
   return (
-    <FlexColumnContainer>
-      <span
-        css={css`
-          text-align: left;
-          font-size: 20px;
-          font-weight: 700;
-        `}
-      >
-        {title}
-      </span>
-      <FlexwrapContainer>
-        {meetingList &&
-          meetingList.map((meeting, index) => (
-            <MeetingCard
-              key={index}
-              id={meeting.id}
-              title={meeting.title}
-              participant={meeting.participant}
-              total={meeting.total}
-              subTitle={meeting.subTitle}
-              contents={meeting.contents}
-              like={meeting.like}
-            ></MeetingCard>
-          ))}
-      </FlexwrapContainer>
-    </FlexColumnContainer>
+    <CarouselContainer activeIndex={activeIndex} itemCount={itemCount}>
+      {meetingList &&
+        meetingList.map((meeting, index) => (
+          <MeetingCard
+            key={index}
+            id={meeting.id}
+            onClick={() => onClickModal(count, meeting.id - 1)}
+            status={meeting.status}
+            title={meeting.title}
+            participant={meeting.participant}
+            total={meeting.total}
+            subTitle={meeting.subTitle}
+            address={meeting.address}
+            deadline={meeting.deadline}
+            like={meeting.like}
+          ></MeetingCard>
+        ))}
+    </CarouselContainer>
   );
 }

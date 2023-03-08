@@ -36,14 +36,10 @@ button {
 a {
   text-decoration: none;
 }
-hr {
-  width: 100%;
-}
 /* 컴포넌트 전역 설정 */
 .container {
   max-width: $app-max-width;
   margin: 0 auto;
-  padding: 30px;
 }
 .footer {
   display: flex;
