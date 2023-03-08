@@ -16,7 +16,14 @@ function KakaoMapApi() {
     new kakao.maps.InfoWindow({ zIndex: 1 })
   );
 
-  const { mapActions, markerId, searchKeyword } = useSelector(selectMap);
+  const {
+    mapActions,
+    markerId,
+    searchKeyword,
+    checkOrder,
+    zoomActions,
+    trackLocation,
+  } = useSelector(selectMap);
 
   const mapContainer = useRef(null);
   const dispatch = useDispatch();
@@ -32,10 +39,29 @@ function KakaoMapApi() {
         mouseOver();
         break;
 
+      case "zoom":
+        const level = kakaoMap.getLevel();
+        zoomActions === "zoomIn"
+          ? kakaoMap.setLevel(level - 1)
+          : kakaoMap.setLevel(level + 1);
+        break;
+
       default:
         break;
     }
-  }, [mapActions, markerId, searchKeyword]);
+  }, [checkOrder]);
+
+  useEffect(() => {
+    if (!trackLocation) return;
+    if (navigator.geolocation)
+      navigator.geolocation.getCurrentPosition((position) => {
+        const lat = position.coords.latitude, // 위도
+          lon = position.coords.longitude; // 경도
+        const latlon = new kakao.maps.LatLng(lat, lon);
+        kakaoMap.setCenter(latlon);
+        kakaoMap.setLevel(5);
+      });
+  }, [trackLocation]);
 
   useEffect(() => {
     if (kakaoMap) return;
@@ -43,13 +69,36 @@ function KakaoMapApi() {
   }, []);
 
   const initMap = () => {
+    if (navigator.geolocation) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude, // 위도
+            lon = position.coords.longitude; // 경도
+
+          const center = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+
+          const options = {
+            center,
+            level: 5,
+          };
+          setKakaoMap(new kakao.maps.Map(mapContainer.current, options));
+        },
+        (error) => {
+          alert(error + "Geolocation Error");
+        }
+      );
+    } else {
+      const center = new kakao.maps.LatLng(37.566826, 126.9786567);
+
+      const options = {
+        center,
+        level: 5,
+      };
+      setKakaoMap(new kakao.maps.Map(mapContainer.current, options));
+    }
+
     //좌표값
-    const center = new kakao.maps.LatLng(37.566826, 126.9786567);
-    const options = {
-      center,
-      level: 5,
-    };
-    setKakaoMap(new kakao.maps.Map(mapContainer.current, options));
   };
 
   const searchDB = () => {
@@ -71,7 +120,6 @@ function KakaoMapApi() {
 
     function placesSearchDB(data, status) {
       if (status === kakao.maps.services.Status.OK) {
-        console.log(data);
         dispatch(changeData({ searchData: [...data] }));
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
@@ -141,6 +189,7 @@ function KakaoMapApi() {
     infowindow.setContent(content(place));
     infowindow.open(kakaoMap, markerData);
   };
+
   return <div css={mapStyle} ref={mapContainer}></div>;
 }
 const content = (place) => {

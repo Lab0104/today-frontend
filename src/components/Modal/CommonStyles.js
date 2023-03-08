@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 export const Container = styled.div`
   position: absolute;
   width: ${({ width }) => width || "465px"};
-  height: 800px;
+  height: 750px;
   right: 102px;
   top: 20px;
   z-index: 10;

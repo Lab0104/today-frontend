@@ -4,7 +4,12 @@ import Map from "../../components/KakaoMapApi/KakaoMapApi";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../../store/ModalSlice";
 import AdMeetingCard from "../../components/MeetingCard/AdMeetingCard";
-import { moveMap, searchMap } from "../../store/KakaoMapSlice";
+import {
+  currentLocation,
+  moveMap,
+  searchMap,
+  zoomMap,
+} from "../../store/KakaoMapSlice";
 import { selectSearchData } from "../../store/SearchDataSlice";
 import { setMeetingCard } from "../../store/MeetingCardSlice";
 import { meetingData } from "../../components/MeetingCard/meetingList";
@@ -53,6 +58,17 @@ function MapPage() {
   const handleSearch = () => {
     dispatch(searchMap({ searchKeyword: text }));
   };
+  const handleZoom = (action) => {
+    dispatch(zoomMap({ zoomActions: action }));
+  };
+
+  const handleCurrentLocation = () => {
+    dispatch(currentLocation());
+  };
+
+  const handleOnKeyDown = (e) => {
+    if (e.key === "Enter") dispatch(searchMap({ searchKeyword: text }));
+  };
 
   return (
     <div className="main">
@@ -68,7 +84,11 @@ function MapPage() {
             <p>오늘 하루</p>
           </div>
           <div className="inputBox">
-            <input onChange={handleChange} value={text}></input>
+            <input
+              onChange={handleChange}
+              value={text}
+              onKeyDown={handleOnKeyDown}
+            ></input>
             <button onClick={handleSearch}>
               <i className="bi bi-search"></i>
             </button>
@@ -140,39 +160,49 @@ function MapPage() {
         <Map />
       </div>
       <div className="icons">
-        <button
-          onClick={() => {
-            handleOpenModal("ProfileModal");
-          }}
-        >
-          <i className="bi bi-person-fill"></i>
-        </button>
-        <button
-          onClick={() => {
-            handleOpenModal("ChatModal");
-          }}
-        >
-          <i className="bi bi-chat-dots-fill"></i>
-        </button>
-        <button
-          onClick={() => {
-            handleOpenModal("AddModal");
-          }}
-        >
-          <i className="bi bi-plus-circle-fill"></i>
-        </button>
-        <button>
-          <i className="bi bi-layers-fill"></i>
-        </button>
-        <button>
-          <i className="bi bi-record-circle"></i>
-        </button>
         <div>
-          <button>
-            <i class="bi bi-zoom-in"></i>
+          <button
+            onClick={() => {
+              handleOpenModal("ProfileModal");
+            }}
+          >
+            <i className="bi bi-person-fill"></i>
+          </button>
+          <button
+            onClick={() => {
+              handleOpenModal("ChatModal");
+            }}
+          >
+            <i className="bi bi-chat-dots-fill"></i>
+          </button>
+          <button
+            onClick={() => {
+              handleOpenModal("AddModal");
+            }}
+          >
+            <i className="bi bi-plus-circle-fill"></i>
           </button>
           <button>
-            <i class="bi bi-zoom-out"></i>
+            <i className="bi bi-layers-fill"></i>
+          </button>
+          <button onClick={handleCurrentLocation}>
+            <i className="bi bi-record-circle"></i>
+          </button>
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              handleZoom("zoomIn");
+            }}
+          >
+            <i className="bi bi-zoom-in"></i>
+          </button>
+          <button
+            onClick={() => {
+              handleZoom("zoomOut");
+            }}
+          >
+            <i className="bi bi-zoom-out"></i>
           </button>
         </div>
       </div>
