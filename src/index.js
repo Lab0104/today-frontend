@@ -9,6 +9,7 @@ import store from "./store/Store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
+  // Store을 전역에서 사용하기 위해 Provider로 제공
   <Provider store={store}>
     <BrowserRouter>
       <App />

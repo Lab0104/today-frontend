@@ -6,6 +6,7 @@ import NavModal from "./NavModal";
 import AddModal from "./AddModal";
 import { selectModal } from "../../store/ModalSlice";
 import { useSelector } from "react-redux";
+import FilterModal from "./FilterModal";
 
 const modals = [
   {
@@ -31,6 +32,10 @@ const modals = [
   {
     type: "InfoModal",
     component: <InfoModal />,
+  },
+  {
+    type: "LayersModal",
+    component: <FilterModal />,
   },
 ];
 

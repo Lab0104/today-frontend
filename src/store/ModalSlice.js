@@ -11,8 +11,12 @@ export const modalSlice = createSlice({
   reducers: {
     openModal: (state, actions) => {
       const { modalType } = actions.payload;
+
+      state.modalType === modalType
+        ? (state.isOpen = !state.isOpen)
+        : (state.isOpen = true);
+
       state.modalType = modalType;
-      state.isOpen = true;
     },
     closeModal: (state) => {
       state.isOpen = false;
@@ -20,6 +24,6 @@ export const modalSlice = createSlice({
   },
 });
 export const { openModal, closeModal } = modalSlice.actions;
-export const selectModal = (state) => state.modal;
+export const selectModal = (state) => state.modal; // State 전달
 
 export default modalSlice.reducer;

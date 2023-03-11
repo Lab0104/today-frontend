@@ -30,7 +30,7 @@ export const KakaoMapSlice = createSlice({
       state.zoomActions = zoomActions;
       state.checkOrder = !state.checkOrder;
     },
-    currentLocation: (state, actions) => {
+    currentLocation: (state) => {
       state.trackLocation = !state.trackLocation;
     },
   },

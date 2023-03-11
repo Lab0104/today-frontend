@@ -2,6 +2,7 @@
 import { css } from "@emotion/react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../store/ModalSlice";
+import { toggleButtons } from "../../store/ToggleSlice";
 
 import { Container, ExitButton } from "./CommonStyles";
 import { interestData, reviewData, userData } from "./ModalData";
@@ -25,7 +26,13 @@ const ProfileModal = () => {
     <Container width="600px" css={container}>
       <div>
         <div className="backGround" css={backGround}>
-          <ExitButton css={exitButton} onClick={() => dispatch(closeModal())}>
+          <ExitButton
+            css={exitButton}
+            onClick={() => {
+              dispatch(closeModal());
+              dispatch(toggleButtons({ idx: 0 }));
+            }}
+          >
             <i className="bi bi-x-lg"></i>
           </ExitButton>
         </div>

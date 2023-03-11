@@ -85,6 +85,7 @@ const tab = css`
   }
   & p:hover {
     cursor: pointer;
+    text-decoration: underline;
   }
 
   & .row p {
@@ -102,6 +103,7 @@ const tab = css`
 
   & span:hover {
     cursor: pointer;
+    text-decoration: underline;
   }
 `;
 

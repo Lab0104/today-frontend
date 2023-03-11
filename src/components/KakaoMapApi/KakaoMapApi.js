@@ -11,6 +11,7 @@ const { kakao } = window;
 function KakaoMapApi() {
   const [kakaoMap, setKakaoMap] = useState();
   let [markers, setMarkers] = useState([]);
+  const [userMarker, setUserMarker] = useState(new kakao.maps.Marker());
   const [markersData, setMarkersData] = useState([]);
   const [infowindow, setInfowindow] = useState(
     new kakao.maps.InfoWindow({ zIndex: 1 })
@@ -52,14 +53,36 @@ function KakaoMapApi() {
   }, [checkOrder]);
 
   useEffect(() => {
-    if (!trackLocation) return;
+    if (!trackLocation) {
+      userMarker.setMap(null);
+      return;
+    }
+
     if (navigator.geolocation)
       navigator.geolocation.getCurrentPosition((position) => {
         const lat = position.coords.latitude, // 위도
           lon = position.coords.longitude; // 경도
-        const latlon = new kakao.maps.LatLng(lat, lon);
-        kakaoMap.setCenter(latlon);
-        kakaoMap.setLevel(5);
+        const locPosition = new kakao.maps.LatLng(lat, lon);
+        kakaoMap.setCenter(locPosition);
+
+        const imageSrc = "images/marker/userMarker.png";
+        const imageSize = new kakao.maps.Size(31, 31);
+        const imageOption = { offset: new kakao.maps.Point(15, 31) };
+
+        const image = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        );
+        setUserMarker(
+          new kakao.maps.Marker({
+            map: kakaoMap,
+            position: locPosition,
+            image: image,
+          })
+        );
+
+        kakaoMap.setLevel(7);
       });
   }, [trackLocation]);
 

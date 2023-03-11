@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../store/ModalSlice";
-import { Container, ExitButton } from "./CommonStyles";
+import { toggleButtons } from "../../store/ToggleSlice";
+import { Container, ExitButton, Content } from "./CommonStyles";
 
 const AddModal = () => {
   const dispatch = useDispatch();
@@ -11,11 +13,16 @@ const AddModal = () => {
     <Container>
       <div className="modalTitle">
         <h4>모임 추가하기</h4>
-        <ExitButton onClick={() => dispatch(closeModal())}>
+        <ExitButton
+          onClick={() => {
+            dispatch(closeModal());
+            dispatch(toggleButtons({ idx: 2 }));
+          }}
+        >
           <i className="bi bi-x-lg"></i>
         </ExitButton>
       </div>
-      <Content>
+      <Content css={ContentBox}>
         <input className="title" placeholder="모임 제목"></input>
         <input
           className="titleAlt"
@@ -28,19 +35,25 @@ const AddModal = () => {
         ></input>
         <input className="deadLine" placeholder="모임 신청 마감 기한"></input>
         <input className="description" placeholder="모임 내용"></input>
-        <button onClick={() => dispatch(closeModal())}>개설 하기</button>
+        <button
+          onClick={() => {
+            dispatch(closeModal());
+            dispatch(toggleButtons({ idx: 2 }));
+          }}
+        >
+          개설 하기
+        </button>
       </Content>
     </Container>
   );
 };
 
-const Content = styled.div`
-  display: flex;
+const ContentBox = css`
+  gap: 10px;
+  padding-bottom: 10px;
+  position: relative;
   height: 100%;
-  flex-direction: column;
   justify-content: space-between;
-  background: #eeeeee;
-  padding: 10px;
 
   & input {
     height: 50px;

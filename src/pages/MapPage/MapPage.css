@@ -10,12 +10,12 @@
 }
 
 .main {
-  overflow: hidden;
+  height: 100vh;
   display: flex;
 }
 .searchTab {
   width: 465px;
-  height: 100vh;
+  height: 100%;
   position: relative;
 }
 
@@ -90,8 +90,8 @@
 }
 
 .dashBoard {
-  position: absolute;
-  height: 100%;
+  position: relative;
+  height: calc(100% - 150px);
   background-color: #fff;
   overflow-y: scroll;
 
@@ -129,8 +129,18 @@
 }
 .smallBox p.count {
   margin-right: auto;
-  color: #1f8cff;
+  color: #005fb8;
 }
+
+.smallBox span.sort:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.smallBox span.selected {
+  font-weight: 600;
+  color: #005fb8;
+}
+
 .listBox {
   padding: 0;
   margin: 0;
@@ -173,7 +183,7 @@
   white-space: nowrap;
 }
 .icons button {
-  margin: 3px 0;
+  margin: 6px 0;
   width: 42px;
   height: 42px;
   color: #666;
@@ -181,4 +191,13 @@
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+}
+
+.icons .selected {
+  background: #1f8cff;
+  color: #fff;
+}
+
+.icons .bi:hover {
+  opacity: 40%;
 }

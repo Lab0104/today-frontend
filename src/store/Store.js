@@ -3,12 +3,14 @@ import KakaoMapSlice from "./KakaoMapSlice";
 import MeetingCardSlice from "./MeetingCardSlice";
 import ModalSlice from "./ModalSlice";
 import SearchDataSlice from "./SearchDataSlice";
+import ToggleSlice from "./ToggleSlice";
 
 export default configureStore({
   reducer: {
-    modal: ModalSlice,
-    meetingCard: MeetingCardSlice,
-    map: KakaoMapSlice,
-    search: SearchDataSlice,
+    modal: ModalSlice, // 모달 창
+    meetingCard: MeetingCardSlice, // 모임 카드
+    map: KakaoMapSlice, // 카카오 맵
+    search: SearchDataSlice, // 카카오맵의 검색 결과
+    toggle: ToggleSlice,
   },
 });

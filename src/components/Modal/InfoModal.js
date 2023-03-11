@@ -75,7 +75,9 @@ function InfoModal() {
         <button className="heart">
           <i className="bi bi-heart"></i>
         </button>
-        <button className="enter">참가하기</button>
+        <button className="enter" onClick={handleCloseModal}>
+          참가하기
+        </button>
         <button className="chat">
           <i className="bi bi-chat-dots"></i>
         </button>

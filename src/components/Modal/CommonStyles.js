@@ -5,7 +5,8 @@ import styled from "@emotion/styled";
 export const Container = styled.div`
   position: absolute;
   width: ${({ width }) => width || "465px"};
-  height: 750px;
+  height: 90vh;
+  max-height: 800px;
   right: 102px;
   top: 20px;
   z-index: 10;
@@ -38,7 +39,6 @@ export const ExitButton = styled.button`
 
 export const Content = styled.div`
   display: flex;
-  height: 100%;
   flex-direction: column;
   background: #eee;
   overflow-y: scroll;
