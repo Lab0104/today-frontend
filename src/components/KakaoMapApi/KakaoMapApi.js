@@ -144,6 +144,7 @@ function KakaoMapApi() {
     function placesSearchDB(data, status) {
       if (status === kakao.maps.services.Status.OK) {
         dispatch(changeData({ searchData: [...data] }));
+        console.log(data);
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다

@@ -14,6 +14,7 @@ import { selectSearchData } from "../../store/SearchDataSlice";
 import { setMeetingCard } from "../../store/MeetingCardSlice";
 import { meetingData } from "../../components/MeetingCard/meetingList";
 import { selectToggle, toggleButtons } from "../../store/ToggleSlice";
+import { meetingListDB } from "../../store/MeetingDB";
 
 const filters = [
   "모두",
@@ -59,19 +60,29 @@ function MapPage() {
     setText(e.target.value);
   };
 
-  const handleOpenModal = (type, address_name, category_name, place_name) => {
+  const handleOpenModal = (
+    type,
+    address,
+    subTitle,
+    title,
+    category,
+    content
+  ) => {
     dispatch(
       openModal({
         modalType: type,
         isOpen: true,
       })
     );
-    if (address_name) {
+
+    if (address) {
       dispatch(
         setMeetingCard({
-          title: place_name,
-          subTitle: category_name,
-          address: address_name,
+          title: title,
+          subTitle: subTitle,
+          address: address,
+          category: category,
+          content: content,
         })
       );
     }
@@ -169,7 +180,9 @@ function MapPage() {
                 "InfoModal",
                 meetingData.address,
                 meetingData.subTitle,
-                meetingData.title
+                meetingData.title,
+                meetingData.category,
+                "광고 예제"
               )
             }
           >
@@ -193,37 +206,64 @@ function MapPage() {
               );
             })}
           </div>
-          {searchData.length !== 0 ? (
-            searchData.map((data, idx) => {
-              return (
-                <div
-                  className="listBox"
-                  key={idx}
-                  onClick={() => {
-                    handleOpenModal(
-                      "InfoModal",
-                      data.address_name,
-                      data.category_name,
-                      data.place_name
-                    );
-                  }}
-                  onMouseOver={() => handleMouseOver(data.id)}
-                >
-                  {idx === 0 ? <hr /> : ""}
-                  <h4>{data.place_name}</h4>
-                  <p>{data.address_name}</p>
-                  <p>
-                    {data.category_name
-                      ? data.category_name
-                      : "카테고리 미분류"}
-                  </p>
-                  <hr />
-                </div>
-              );
-            })
-          ) : (
-            <h4>로그인 후 좋아하는 모임을 찾아보세요!</h4>
-          )}
+          {
+            searchData.length !== 0
+              ? searchData.map((data, idx) => {
+                  return (
+                    <div
+                      className="listBox"
+                      key={idx}
+                      onClick={() => {
+                        handleOpenModal(
+                          "InfoModal",
+                          data.address_name,
+                          data.category_name,
+                          data.place_name,
+                          data.category,
+                          "id: " + data.id
+                        );
+                      }}
+                      onMouseOver={() => handleMouseOver(data.id)}
+                    >
+                      {idx === 0 ? <hr /> : ""}
+                      <h4>{data.place_name}</h4>
+                      <p>{data.address_name}</p>
+                      <p>
+                        {data.category_name
+                          ? data.category_name
+                          : "카테고리 미분류"}
+                      </p>
+                      <hr />
+                    </div>
+                  );
+                })
+              : meetingListDB.map((data, idx) => {
+                  return (
+                    <div
+                      className="listBox"
+                      key={idx}
+                      onClick={() => {
+                        handleOpenModal(
+                          "InfoModal",
+                          data.address,
+                          data.subTitle,
+                          data.title,
+                          data.category,
+                          data.content
+                        );
+                      }}
+                    >
+                      {idx === 0 ? <hr /> : ""}
+                      <h4>{data.title}</h4>
+                      <p>{data.subTitle}</p>
+                      <p>{data.category}</p>
+                      <p>{data.address}</p>
+                      <hr />
+                    </div>
+                  );
+                })
+            // <h4>로그인 후 좋아하는 모임을 찾아보세요!</h4>
+          }
         </div>
       </div>
       <div className="mapComponent">

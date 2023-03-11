@@ -43,32 +43,7 @@ function InfoModal() {
         </div>
         <hr></hr>
         <div className="detail" css={detail}>
-          <p>
-            자바스터디 모집합니다. 같이 백준 문제풀이 진행하면서 기초 문법 및
-            실습 진행 할 예정입니다. 스터디룸에 PC가 있기에 따로 개인 노트북
-            없어도 참가 가능합니다. 따로 궁금하신 내용 있으면 언제든지
-            채팅주세요. 지각하시는 분들은 사절합니다 ! Est dolores neque eum
-            reiciendis non aut inventore eum. Cumque corporis velit. Sapiente
-            mollitia fugit ab laborum voluptatem quibusdam. Accusantium magni
-            dolores. Explicabo vitae corrupti doloribus voluptatibus voluptatum
-            fuga accusantium ipsum. Nostrum iure dolor modi modi quam ut autem
-            ex. Sint quo iure repudiandae recusandae aut. Quasi nam voluptatum
-            vel rem. Mollitia voluptas et iusto. Provident ut ut nisi inventore
-            accusamus et. Rerum veniam inventore placeat atque. Ad debitis aut.
-            Accusantium cumque natus. Aut sapiente consequatur. Voluptatem
-            consequatur accusamus sint corporis aut aperiam. Eos quas cupiditate
-            consequatur nostrum eos sequi aut. reiciendis non aut inventore eum.
-            Cumque corporis velit. Sapiente mollitia fugit ab laborum voluptatem
-            quibusdam. Accusantium magni dolores. Explicabo vitae corrupti
-            doloribus voluptatibus voluptatum fuga accusantium ipsum. Nostrum
-            iure dolor modi modi quam ut autem ex. Sint quo iure repudiandae
-            recusandae aut. Quasi nam voluptatum vel rem. Mollitia voluptas et
-            iusto. Provident ut ut nisi inventore accusamus et. Rerum veniam
-            inventore placeat atque. Ad debitis aut. Accusantium cumque natus.
-            Aut sapiente consequatur. Voluptatem consequatur accusamus sint
-            corporis aut aperiam. Eos quas cupiditate consequatur nostrum eos
-            sequi aut.
-          </p>
+          <p>{meetingData.content}</p>
         </div>
       </div>
       <div css={buttons}>
