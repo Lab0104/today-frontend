@@ -7,6 +7,7 @@ const initialState = {
   isOpen: false,
 };
 
+/** Modal 창 및 MapPage에서 토글 창 연동 필요 */
 export const toggleSlice = createSlice({
   name: "toggle",
   initialState,
@@ -17,7 +18,6 @@ export const toggleSlice = createSlice({
       list[idx] = !state.toggleButton[idx];
       state.toggleButton = [...list];
     },
-    initToggleMettings: (state, actions) => {},
   },
 });
 export const { toggleButtons } = toggleSlice.actions;

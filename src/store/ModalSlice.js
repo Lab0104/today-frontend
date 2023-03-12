@@ -5,6 +5,7 @@ const initialState = {
   isOpen: false,
 };
 
+/** 모달 Type에 해당하는 모달 isOpen ? Open : close 처리 */
 export const modalSlice = createSlice({
   name: "modal",
   initialState,

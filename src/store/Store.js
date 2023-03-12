@@ -8,9 +8,9 @@ import ToggleSlice from "./ToggleSlice";
 export default configureStore({
   reducer: {
     modal: ModalSlice, // 모달 창
-    meetingCard: MeetingCardSlice, // 모임 카드
+    meetingCard: MeetingCardSlice, // 모임 카드(수정 필요)
     map: KakaoMapSlice, // 카카오 맵
     display: DisplayMeetingSlice, // 카카오맵의 검색 결과
-    toggle: ToggleSlice,
+    toggle: ToggleSlice, // 토글
   },
 });

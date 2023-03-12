@@ -10,6 +10,7 @@
 // 모임 내용	content
 // 유저 id(작성자)	personal_info_id
 // 조회수 boardHits
+// 좌표 position
 
 export const meetingListDB = [
   {

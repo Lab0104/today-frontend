@@ -44,6 +44,7 @@ function GlobalModal() {
   const { modalType, isOpen } = useSelector(selectModal);
   if (!isOpen) return; //isOpen이 false일때 모달을 닫아줌
 
+  /** modal type에 해당하는 모달 component 반환 */
   const renderModal = () => {
     const findModal = modals.find((modal) => {
       return modal.type === modalType;

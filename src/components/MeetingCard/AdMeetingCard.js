@@ -2,6 +2,7 @@
 import { css } from "@emotion/react";
 import { meetingData } from "./meetingList";
 
+/** 임시로 제작 */
 function AdMeetingCard() {
   return (
     <div>

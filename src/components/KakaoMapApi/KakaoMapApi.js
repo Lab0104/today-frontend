@@ -10,11 +10,17 @@ import { meetingListDB } from "../../store/MeetingDB";
 const { kakao } = window;
 
 function KakaoMapApi() {
+  /** 지도 */
   const [kakaoMap, setKakaoMap] = useState();
+  /** 모임 */
   const [meetingList, setMeetingList] = useState([...meetingListDB]);
+  /** KakaoMap에서 제공하는 Marker 정보 */
   const [markers, setMarkers] = useState([]);
+  /** 임의로 지정한 Marker 정보 */
   const [markersData, setMarkersData] = useState([]);
+  /** 내 위치 마커 */
   const [userMarker, setUserMarker] = useState(new kakao.maps.Marker());
+  /** 마커 클릭시 출력되는 창 */
   const [infowindow, setInfowindow] = useState(
     new kakao.maps.InfoWindow({ zIndex: 1 })
   );
@@ -28,9 +34,11 @@ function KakaoMapApi() {
     trackLocation,
   } = useSelector(selectMap);
 
+  /** 지도 Element와 useRef을 이용해 연결 */
   const mapContainer = useRef(null);
   const dispatch = useDispatch();
 
+  /** CheckOrder의 변화에 따라 mapActions을 수행 */
   useEffect(() => {
     switch (mapActions) {
       case "search":
@@ -54,6 +62,7 @@ function KakaoMapApi() {
     }
   }, [checkOrder]);
 
+  /** TrackLocatoin의 변화에 따라 현재 위치 표시 */
   useEffect(() => {
     if (!trackLocation) {
       userMarker.setMap(null);
@@ -65,7 +74,7 @@ function KakaoMapApi() {
         const lat = position.coords.latitude, // 위도
           lon = position.coords.longitude; // 경도
         const locPosition = new kakao.maps.LatLng(lat, lon);
-        kakaoMap.setCenter(locPosition);
+        kakaoMap.setCenter(locPosition); //현재 위치 기반으로 맵 설정
 
         const imageSrc = "images/marker/userMarker.png";
         const imageSize = new kakao.maps.Size(31, 31);
@@ -76,6 +85,8 @@ function KakaoMapApi() {
           imageSize,
           imageOption
         );
+
+        //커스텀 마커 설정
         setUserMarker(
           new kakao.maps.Marker({
             map: kakaoMap,
@@ -88,11 +99,13 @@ function KakaoMapApi() {
       });
   }, [trackLocation]);
 
+  /** 처음 렌더링 시 지도 생성 및 저장 */
   useEffect(() => {
     if (kakaoMap) return;
     initMap();
   }, []);
 
+  /** 현재 위치 기반으로 지도 생성 */
   const initMap = () => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -122,10 +135,9 @@ function KakaoMapApi() {
       };
       setKakaoMap(new kakao.maps.Map(mapContainer.current, options));
     }
-
-    //좌표값
   };
 
+  /** 모임 검색 */
   const searchDB = async () => {
     if (!kakaoMap) return;
     if (searchKeyword === "") return;
@@ -147,6 +159,7 @@ function KakaoMapApi() {
         e.content.includes(searchKeyword) ||
         e.address.includes(searchKeyword)
       ) {
+        check = true;
         return true;
       }
       check = false;
@@ -173,9 +186,11 @@ function KakaoMapApi() {
                 position: coords,
               });
 
+              // 생성된 마커를 State에 저장
               markers.push(marker);
               setMarkers([...markers]);
 
+              // 개발자가 사용하기 쉽게 가공해 저장
               markersData.push({
                 position: coords,
                 title: data.title,
@@ -183,11 +198,12 @@ function KakaoMapApi() {
               });
               setMarkersData([...markersData]);
 
+              // 지도 바운더리 확장
               bounds.extend(coords);
 
-              kakao.maps.event.addListener(marker, "mouseover", function () {
+              //마커에 마우스 오버 이벤트 등록
+              kakao.maps.event.addListener(marker, "mouseover", () => {
                 infowindow.setContent(content(data.title));
-
                 infowindow.open(kakaoMap, marker);
               });
             }
@@ -196,10 +212,15 @@ function KakaoMapApi() {
         });
       })
     );
+
+    // MapPage에서 출력하는 State에 저장
     dispatch(changeData({ displayMeetings: [...meeting] }));
+
+    // 지도 바운더리 설정
     if (check) kakaoMap.setBounds(bounds);
   };
 
+  // 마커 타이틀과 일치하는 곳으로 이동
   const moveMap = () => {
     markersData.map(({ position, title }) => {
       if (title === markerTitle) {
@@ -209,6 +230,7 @@ function KakaoMapApi() {
     });
   };
 
+  // 마커 타이틀과 일치하는 infoWindow 열기
   const mouseOver = () => {
     markersData.map(({ marker, title }) => {
       if (title === markerTitle) {
@@ -217,7 +239,7 @@ function KakaoMapApi() {
       }
     });
   };
-
+  // 지도 반환
   return <div css={mapStyle} ref={mapContainer}></div>;
 }
 const content = (place) => {

@@ -4,6 +4,7 @@ const initialState = {
   displayMeetings: [],
 };
 
+/** MapPage에서 표시되는 검색 결과, KakaoMapAPI에서도 접근 */
 export const DisplayMeetingSlice = createSlice({
   name: "display",
   initialState,

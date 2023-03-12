@@ -1,3 +1,4 @@
+/** 임시로 제작 -> Store에 있는 meetingDB 위주로 수정필요 */
 export const meetingList = [
   {
     id: 1,

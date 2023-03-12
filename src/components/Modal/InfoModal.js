@@ -15,6 +15,7 @@ function InfoModal() {
   return (
     <div css={container}>
       <div css={content}>
+        {/* 제목 & 종료 버튼 시작 */}
         <div css={title}>
           <i className="bi bi-person-fill icon"></i>
           <div className="wrapper">
@@ -25,6 +26,9 @@ function InfoModal() {
             <i className="bi bi-x-lg"></i>
           </ExitButton>
         </div>
+        {/* 제목 & 종료 버튼 종료*/}
+
+        {/* 세부 내용 시작 */}
         <div css={subContent}>
           <div className="wrapper">
             <p>{meetingData.address}</p>
@@ -45,7 +49,9 @@ function InfoModal() {
         <div className="detail" css={detail}>
           <p>{meetingData.content}</p>
         </div>
+        {/* 세부 내용 종료 */}
       </div>
+
       <div css={buttons}>
         <button className="heart">
           <i className="bi bi-heart"></i>
