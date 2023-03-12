@@ -10,11 +10,13 @@ import {
   searchMap,
   zoomMap,
 } from "../../store/KakaoMapSlice";
-import { selectSearchData } from "../../store/SearchDataSlice";
+import {
+  changeData,
+  selectDisplayMeeting,
+} from "../../store/DisplayMeetingSlice";
 import { setMeetingCard } from "../../store/MeetingCardSlice";
 import { meetingData } from "../../components/MeetingCard/meetingList";
 import { selectToggle, toggleButtons } from "../../store/ToggleSlice";
-import { meetingListDB } from "../../store/MeetingDB";
 
 const filters = [
   "모두",
@@ -53,7 +55,7 @@ function MapPage() {
   const [toggleSort, setToggleSort] = useState([true, false, false, false]);
 
   const dispatch = useDispatch();
-  const { searchData } = useSelector(selectSearchData);
+  const { displayMeetings } = useSelector(selectDisplayMeeting);
   const { toggleButton } = useSelector(selectToggle);
 
   const handleChange = (e) => {
@@ -88,8 +90,8 @@ function MapPage() {
     }
   };
 
-  const handleMouseOver = (id) => {
-    dispatch(moveMap({ markerId: id }));
+  const handleMouseOver = (title) => {
+    dispatch(moveMap({ markerTitle: title }));
   };
 
   const handleSearch = () => {
@@ -104,7 +106,9 @@ function MapPage() {
   };
 
   const handleOnKeyDown = (e) => {
-    if (e.key === "Enter") dispatch(searchMap({ searchKeyword: text }));
+    if (e.key === "Enter") {
+      dispatch(searchMap({ searchKeyword: text }));
+    }
   };
 
   const handleToggleIcons = (idx) => {
@@ -127,6 +131,28 @@ function MapPage() {
     list[idx] = true;
 
     setToggleSort([...list]);
+  };
+
+  const handleClickSort = (idx) => {
+    const sortList = [...displayMeetings];
+    switch (idx) {
+      case 0:
+        break;
+
+      case 1:
+        sortList.sort((a, b) => (a.boardHits > b.boardHits ? -1 : 1));
+        dispatch(changeData({ displayMeetings: [...sortList] }));
+        break;
+
+      case 2:
+        break;
+
+      case 3:
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (
@@ -189,7 +215,7 @@ function MapPage() {
             <AdMeetingCard />
           </div>
           <div className="smallBox">
-            <p className="count">{"모임" + searchData.length + "개"}</p>
+            <p className="count">{"모임" + displayMeetings.length + "개"}</p>
             {sortItems.map((data, idx) => {
               return (
                 <p key={idx}>
@@ -197,6 +223,7 @@ function MapPage() {
                     className={"sort" + (toggleSort[idx] ? " selected" : "")}
                     onClick={() => {
                       handleToggleSort(idx);
+                      handleClickSort(idx);
                     }}
                   >
                     {data}
@@ -206,64 +233,39 @@ function MapPage() {
               );
             })}
           </div>
-          {
-            searchData.length !== 0
-              ? searchData.map((data, idx) => {
-                  return (
-                    <div
-                      className="listBox"
-                      key={idx}
-                      onClick={() => {
-                        handleOpenModal(
-                          "InfoModal",
-                          data.address_name,
-                          data.category_name,
-                          data.place_name,
-                          data.category,
-                          "id: " + data.id
-                        );
-                      }}
-                      onMouseOver={() => handleMouseOver(data.id)}
-                    >
-                      {idx === 0 ? <hr /> : ""}
-                      <h4>{data.place_name}</h4>
-                      <p>{data.address_name}</p>
-                      <p>
-                        {data.category_name
-                          ? data.category_name
-                          : "카테고리 미분류"}
-                      </p>
-                      <hr />
-                    </div>
-                  );
-                })
-              : meetingListDB.map((data, idx) => {
-                  return (
-                    <div
-                      className="listBox"
-                      key={idx}
-                      onClick={() => {
-                        handleOpenModal(
-                          "InfoModal",
-                          data.address,
-                          data.subTitle,
-                          data.title,
-                          data.category,
-                          data.content
-                        );
-                      }}
-                    >
-                      {idx === 0 ? <hr /> : ""}
-                      <h4>{data.title}</h4>
-                      <p>{data.subTitle}</p>
-                      <p>{data.category}</p>
-                      <p>{data.address}</p>
-                      <hr />
-                    </div>
-                  );
-                })
-            // <h4>로그인 후 좋아하는 모임을 찾아보세요!</h4>
-          }
+          {displayMeetings.length !== 0 ? (
+            displayMeetings.map((data, idx) => {
+              return (
+                <div
+                  className="listBox"
+                  key={idx}
+                  onClick={() => {
+                    handleOpenModal(
+                      "InfoModal",
+                      data.address,
+                      data.subTitle,
+                      data.title,
+                      data.category,
+                      data.content
+                    );
+                  }}
+                  onMouseOver={() => {
+                    handleMouseOver(data.title);
+                  }}
+                >
+                  {idx === 0 ? <hr /> : ""}
+                  <h4>{data.title}</h4>
+                  <p>{data.subTitle}</p>
+                  <p>{data.category}</p>
+                  <p>{data.address}</p>
+                  <p>조회수 : {data.boardHits}</p>
+                  <hr />
+                </div>
+              );
+            })
+          ) : (
+            <h3>검색 결과가 존재하지 않습니다.</h3>
+          )}
         </div>
       </div>
       <div className="mapComponent">

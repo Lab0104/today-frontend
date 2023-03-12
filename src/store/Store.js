@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
+import DisplayMeetingSlice from "./DisplayMeetingSlice";
 import KakaoMapSlice from "./KakaoMapSlice";
 import MeetingCardSlice from "./MeetingCardSlice";
 import ModalSlice from "./ModalSlice";
-import SearchDataSlice from "./SearchDataSlice";
 import ToggleSlice from "./ToggleSlice";
 
 export default configureStore({
@@ -10,7 +10,7 @@ export default configureStore({
     modal: ModalSlice, // 모달 창
     meetingCard: MeetingCardSlice, // 모임 카드
     map: KakaoMapSlice, // 카카오 맵
-    search: SearchDataSlice, // 카카오맵의 검색 결과
+    display: DisplayMeetingSlice, // 카카오맵의 검색 결과
     toggle: ToggleSlice,
   },
 });

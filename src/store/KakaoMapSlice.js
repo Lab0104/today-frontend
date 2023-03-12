@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   mapActions: "",
   zoomActions: "",
-  markerId: "",
+  markerTitle: "",
   checkOrder: true,
   trackLocation: false,
 };
@@ -19,8 +19,8 @@ export const KakaoMapSlice = createSlice({
       state.checkOrder = !state.checkOrder;
     },
     moveMap: (state, actions) => {
-      const { markerId } = actions.payload;
-      state.markerId = markerId;
+      const { markerTitle } = actions.payload;
+      state.markerTitle = markerTitle;
       state.mapActions = "move";
       state.checkOrder = !state.checkOrder;
     },

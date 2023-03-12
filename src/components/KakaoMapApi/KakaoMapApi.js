@@ -3,23 +3,25 @@ import { css } from "@emotion/react";
 
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { changeData } from "../../store/DisplayMeetingSlice";
 import { selectMap } from "../../store/KakaoMapSlice";
-import { changeData } from "../../store/SearchDataSlice";
+import { meetingListDB } from "../../store/MeetingDB";
 
 const { kakao } = window;
 
 function KakaoMapApi() {
   const [kakaoMap, setKakaoMap] = useState();
-  let [markers, setMarkers] = useState([]);
-  const [userMarker, setUserMarker] = useState(new kakao.maps.Marker());
+  const [meetingList, setMeetingList] = useState([...meetingListDB]);
+  const [markers, setMarkers] = useState([]);
   const [markersData, setMarkersData] = useState([]);
+  const [userMarker, setUserMarker] = useState(new kakao.maps.Marker());
   const [infowindow, setInfowindow] = useState(
     new kakao.maps.InfoWindow({ zIndex: 1 })
   );
 
   const {
     mapActions,
-    markerId,
+    markerTitle,
     searchKeyword,
     checkOrder,
     zoomActions,
@@ -124,94 +126,96 @@ function KakaoMapApi() {
     //좌표값
   };
 
-  const searchDB = () => {
+  const searchDB = async () => {
     if (!kakaoMap) return;
     if (searchKeyword === "") return;
 
-    infowindow.close();
+    setMeetingList([...meetingListDB]);
 
+    infowindow.close();
     markers.map((marker, idx) => {
       marker.setMap(null);
     });
-    markers = [];
-    setMarkers(...markers);
+    setMarkers([]);
 
-    // 장소 검색 객체를 생성합니다
-    const ps = new kakao.maps.services.Places();
+    let check = true;
+    //검색 한 키워드가 제목, 내용, 주소 등에 포함 시 Filter
+    const meeting = meetingList.filter((e) => {
+      if (
+        e.title.includes(searchKeyword) ||
+        e.subTitle.includes(searchKeyword) ||
+        e.content.includes(searchKeyword) ||
+        e.address.includes(searchKeyword)
+      ) {
+        return true;
+      }
+      check = false;
+      return false;
+    });
 
-    ps.keywordSearch(searchKeyword, placesSearchDB);
+    // 주소-좌표 변환 객체를 생성합니다
+    const geocoder = new kakao.maps.services.Geocoder();
 
-    function placesSearchDB(data, status) {
-      if (status === kakao.maps.services.Status.OK) {
-        dispatch(changeData({ searchData: [...data] }));
-        console.log(data);
+    // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해 LatLngBounds 객체에 좌표를 추가합니다
+    const bounds = new kakao.maps.LatLngBounds();
 
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        const bounds = new kakao.maps.LatLngBounds();
+    //주소를 이용해 좌표값 할당
+    await Promise.all(
+      meeting.map((data, idx) => {
+        return new Promise((resolve) => {
+          geocoder.addressSearch(data.address, (result, status) => {
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+              const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-        data.map((place, idx) => {
-          const position = new kakao.maps.LatLng(place.y, place.x);
-          const place_name = place.place_name;
-          const place_id = place.id;
+              const marker = new kakao.maps.Marker({
+                map: kakaoMap,
+                position: coords,
+              });
 
-          const marker = new kakao.maps.Marker({
-            map: kakaoMap,
-            position: position,
-          });
+              markers.push(marker);
+              setMarkers([...markers]);
 
-          markers.push(marker);
-          setMarkers([...markers]);
+              markersData.push({
+                position: coords,
+                title: data.title,
+                marker: marker,
+              });
+              setMarkersData([...markersData]);
 
-          const newObject = {
-            place_id: place_id,
-            latlng: position,
-            place_name: place_name,
-            marker: marker,
-          };
+              bounds.extend(coords);
 
-          markersData.push(newObject);
-          setMarkersData([...markersData]);
+              kakao.maps.event.addListener(marker, "mouseover", function () {
+                infowindow.setContent(content(data.title));
 
-          bounds.extend(new kakao.maps.LatLng(place.y, place.x));
-
-          kakao.maps.event.addListener(marker, "mouseover", function () {
-            infowindow.setContent(content(place_name));
-
-            infowindow.open(kakaoMap, marker);
+                infowindow.open(kakaoMap, marker);
+              });
+            }
+            resolve();
           });
         });
-
-        kakaoMap.setBounds(bounds);
-      } else {
-        alert("검색오류");
-      }
-    }
+      })
+    );
+    dispatch(changeData({ displayMeetings: [...meeting] }));
+    if (check) kakaoMap.setBounds(bounds);
   };
 
   const moveMap = () => {
-    let position;
-
-    markersData.map(({ latlng, place_id }) => {
-      if (place_id === markerId) position = latlng;
+    markersData.map(({ position, title }) => {
+      if (title === markerTitle) {
+        kakaoMap.setCenter(position);
+        kakaoMap.setLevel(5);
+      }
     });
-
-    kakaoMap.setCenter(position);
-    kakaoMap.setLevel(5);
   };
 
   const mouseOver = () => {
-    let place, markerData;
-
-    markersData.map(({ place_name, place_id, marker }) => {
-      if (place_id === markerId) {
-        place = place_name;
-        markerData = marker;
+    markersData.map(({ marker, title }) => {
+      if (title === markerTitle) {
+        infowindow.setContent(content(title));
+        infowindow.open(kakaoMap, marker);
       }
     });
-
-    infowindow.setContent(content(place));
-    infowindow.open(kakaoMap, markerData);
   };
 
   return <div css={mapStyle} ref={mapContainer}></div>;
