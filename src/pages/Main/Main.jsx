@@ -10,7 +10,6 @@ import Pagination from "../../components/Pagination/Pagination";
 import Skeleton from "../../components/Skeleton/Skeleton";
 import Modal from "../../components/Modal/Modal";
 import ModalMeeting from "../../components/ModalContents/ModalMeeting";
-import "./Main.css";
 import FooterDescription from "../../components/Footer/FooterDescription";
 import FooterMenus from "../../components/Footer/FooterMenus";
 
@@ -65,6 +64,7 @@ function Main() {
     else if (width < 1200) setItemCount(3);
     else setItemCount(4);
   }, [width]);
+
   /* Modal Start */
   const [isOpen, setIsOpen] = useState(false);
   const [meetingsCount, setMeetingsCount] = useState(null);
@@ -143,7 +143,7 @@ function Main() {
         {/* Modal End */}
 
         {/* Pagination Start */}
-        <div style={{ display: "" }}>
+        <div style={{ display: "none" }}>
           <ul>
             {items.map((item) => (
               <li key={item._id}>{item.name}</li>

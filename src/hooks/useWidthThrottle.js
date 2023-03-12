@@ -13,7 +13,7 @@ const useWidthThrottle = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [handleResize]);
+  }, []);
 
   return width;
 };
