@@ -36,7 +36,7 @@ function AdMeetingCard() {
 }
 
 const largeBox = css`
-  padding: 10px 20px;
+  padding: 10px 0;
 
   & .title {
     display: flex;

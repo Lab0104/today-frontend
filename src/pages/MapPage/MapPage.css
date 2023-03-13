@@ -84,6 +84,9 @@
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
 }
+.dashBoard .meetingCard {
+  padding: 0 20px;
+}
 .dashBoard .meetingCard:hover {
   cursor: pointer;
   background: #eff7ff;
@@ -128,10 +131,7 @@
 }
 
 .listBox {
-  padding: 0;
-  margin: 0;
-  width: auto;
-  height: auto;
+  padding: 0 20px;
 }
 .listBox h4 {
   margin: auto;
