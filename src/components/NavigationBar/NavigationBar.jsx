@@ -1,69 +1,77 @@
+/** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import _ from "lodash";
+import { Link, useNavigate } from "react-router-dom";
+import { css } from "@emotion/react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../store/userSlice";
+
+import useWidthThrottle from "../../hooks/useWidthThrottle";
 
 import "./NavigationBar.css";
 
-function NavigationBar() {
-  const { state } = useLocation();
+const visible = css`
+  display: none;
+`;
+
+export default function NavigationBar() {
+  const navigate = useNavigate();
+  const width = useWidthThrottle();
+
+  const isLogged = useSelector((state) => state.user.isLogged);
+  const dispatch = useDispatch();
 
   const [dropdownStyle, setDropdownStyle] = useState({ visibility: "hidden" });
-  const [search, setSearch] = useState("");
-  const [hiddenSearch, setHiddenSearch] = useState(false);
-
-  // 이벤트 처리 성능 최적화
-  const handleResize = _.throttle(() => {
-    if (window.innerWidth > 475) {
-      setHiddenSearch((val) => false);
-    }
-  }, 300);
+  const [searchContext, setSearchContext] = useState("");
+  const [searchHiddenStatus, setSearchHiddenStatus] = useState(false);
+  const [searchToggle, setSearchToggle] = useState(true);
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [handleResize]);
-
-  const mouseOverHandler = () => {
-    setDropdownStyle((cur) => ({ ...cur, visibility: "visible" }));
-  };
-  const mouseOutHandler = () => {
-    setDropdownStyle((cur) => ({ ...cur, visibility: "hidden" }));
-  };
-  const searchOnChangeHandler = (e) => {
-    const value = e.currentTarget.value;
-    setSearch(value);
-  };
-
-  const routeOnClickHandler = (e) => {
-    if (e.target.innerHTML === "로그아웃") {
-      state.loginStatus = false;
-    }
-  };
-
-  const hiddenButton = () => {
-    if (!search) {
-      return;
-    }
-    console.log(search);
-  };
-  const searchOnClickHandler = (e) => {
-    if (window.innerWidth < 475) {
-      setHiddenSearch((val) => !val);
+    if (width > 475) {
+      setSearchHiddenStatus(false);
+      setSearchToggle(false);
     } else {
-      hiddenButton();
+      setSearchHiddenStatus(true);
+      setSearchToggle(true);
+    }
+  }, [width]);
+
+  const dropdownMouseOver = () => {
+    setDropdownStyle((prev) => ({ ...prev, visibility: "visible" }));
+  };
+  const dropdownMouseOut = () => {
+    setDropdownStyle((prev) => ({ ...prev, visibility: "hidden" }));
+  };
+  const searchOnChange = (e) => {
+    const value = e.currentTarget.value;
+    setSearchContext(value);
+  };
+
+  const routeOnClick = (e) => {
+    if (e.target.innerHTML === "로그아웃") {
+      alert("로그아웃");
+      dispatch(logout());
     }
   };
-  const hiddenSearchOnClickHandler = (e) => {
-    hiddenButton();
+
+  const searchOnClick = () => {
+    if (searchHiddenStatus) {
+      setSearchToggle((prev) => !prev);
+    } else {
+      navigate("/map", { state: searchContext });
+    }
   };
-  const isNotLogin = [{ name: "로그인", href: "/login" }];
+  const hiddenSearchOnClick = () => {
+    navigate("/map", { state: searchContext });
+  };
+  const isNotLogin = [
+    { name: "로그인", href: "/login", onclick: routeOnClick },
+  ];
   const isLogin = [
-    { name: "내 정보", href: "/", onclick: routeOnClickHandler },
-    { name: "알림", href: "/", onclick: routeOnClickHandler },
-    { name: "채팅", href: "/", onclick: routeOnClickHandler },
-    { name: "로그아웃", href: "/", onclick: routeOnClickHandler },
+    { name: "내 정보", href: "/", onclick: routeOnClick },
+    { name: "알림", href: "/", onclick: routeOnClick },
+    { name: "채팅", href: "/", onclick: routeOnClick },
+    { name: "로그아웃", href: "/", onclick: routeOnClick },
   ];
   const mapping = (arr) => {
     return arr.map((item) => (
@@ -81,13 +89,13 @@ function NavigationBar() {
         <div className="search">
           <input
             type="text"
-            value={search}
+            value={searchContext}
             placeholder="새로운 모임을 검색해보세요!"
-            onChange={searchOnChangeHandler}
+            onChange={searchOnChange}
           />
           <button
             className="material-icons search-icon"
-            onClick={searchOnClickHandler}
+            onClick={searchOnClick}
           >
             search
           </button>
@@ -95,29 +103,29 @@ function NavigationBar() {
         <div className="user">
           <div
             className="dropdown"
-            onMouseOver={mouseOverHandler}
-            onMouseOut={mouseOutHandler}
+            onMouseOver={dropdownMouseOver}
+            onMouseOut={dropdownMouseOut}
           >
             <span className="material-icons user-icon">account_circle</span>
             <div className="dropdown-contents" style={dropdownStyle}>
-              {state?.loginStatus ? mapping(isLogin) : mapping(isNotLogin)}
+              {isLogged ? mapping(isLogin) : mapping(isNotLogin)}
             </div>
           </div>
         </div>
       </div>
-      {hiddenSearch && (
-        <div className="hidden">
+      {searchHiddenStatus && (
+        <div className="hidden" css={searchToggle ? {} : visible}>
           <div className="hidden-search">
             <div className="search">
               <input
                 type="text"
-                value={search}
+                value={searchContext}
                 placeholder="새로운 모임을 검색해보세요!"
-                onChange={searchOnChangeHandler}
+                onChange={searchOnChange}
               />
               <button
                 className="material-icons search-icon"
-                onClick={hiddenSearchOnClickHandler}
+                onClick={hiddenSearchOnClick}
               >
                 search
               </button>
@@ -128,5 +136,3 @@ function NavigationBar() {
     </>
   );
 }
-
-export default NavigationBar;

@@ -1,4 +1,8 @@
+/** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
+import { css } from "@emotion/react";
 import "./MapPage.css";
 import Map from "../../components/KakaoMapApi/KakaoMapApi";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,9 +42,17 @@ const buttonItems = [
 
 const sortItems = ["거리순", "조회순", "인기도순", "모임날짜순"];
 
+const title = css`
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+`;
+
 function MapPage() {
-  /** 검색 텍스트 */
-  const [text, setText] = useState("");
+  /** 검색 텍스트(검색 결과 반영) */
+  const location = useLocation();
+  const searchContext = location.state;
+  const [text, setText] = useState(searchContext ? searchContext : "");
 
   // 토글 배열
   const [toggleLocation, setToggleLocation] = useState(false);
@@ -181,14 +193,16 @@ function MapPage() {
       <div className="searchTab">
         {/* 검색 창 */}
         <div className="searchBox">
-          <div className="title">
+          <div className="title" css={title}>
             <i
               className="bi bi-list nav"
               onClick={() => {
                 handleOpenModal("NavModal");
               }}
             ></i>
-            <p>오늘 하루</p>
+            <Link to="/" css={title}>
+              오늘 하루
+            </Link>
           </div>
 
           <div className="inputBox">

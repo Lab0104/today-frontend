@@ -4,9 +4,11 @@ import KakaoMapSlice from "./KakaoMapSlice";
 import MeetingCardSlice from "./MeetingCardSlice";
 import ModalSlice from "./ModalSlice";
 import ToggleSlice from "./ToggleSlice";
+import userSlice from "./userSlice";
 
 export default configureStore({
   reducer: {
+    user: userSlice,
     modal: ModalSlice, // 모달 창
     meetingCard: MeetingCardSlice, // 모임 카드(수정 필요)
     map: KakaoMapSlice, // 카카오 맵

@@ -1,52 +1,41 @@
-.header {
-  display: none;
-}
-.footer {
-  display: none;
-}
-.container {
-  max-width: 100vw;
-  padding: 0;
-}
-
 .main {
-  height: 100vh;
   display: flex;
+  height: 100vh;
 }
 .searchTab {
+  position: relative;
   width: 465px;
   height: 100%;
-  position: relative;
 }
 
 .searchBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
   height: 150px;
+  padding: 0 20px;
   background-color: #6667ab;
 }
 .searchBox .nav:hover {
   cursor: pointer;
 }
 .searchBox .title {
-  margin: 0 20px;
   display: flex;
   align-items: center;
+  gap: 10px;
   color: #fff;
   font-size: 20px;
   font-weight: 700;
 }
-.searchBox .title p {
-  margin: 20px 0 15px 0;
-}
 
 .searchBox .inputBox {
   display: flex;
-  margin: 0 20px;
-  margin-bottom: 15px;
   height: 30px;
 }
 
 .searchBox .inputBox input {
-  width: 423px;
+  width: 100%;
   height: inherit;
   opacity: 70%;
   border-radius: 5px;
@@ -55,17 +44,14 @@
 .searchBox .inputBox button {
   position: absolute;
   background: none;
-  right: 30px;
+  right: 25px;
   color: black;
   height: inherit;
 }
 
-.searchBox .title p {
-  margin-left: 10px;
-}
 .searchBox .fliter {
   display: flex;
-  margin: 5px 20px;
+  gap: 6px;
   overflow: scroll;
   overflow-x: auto;
   white-space: nowrap;
@@ -76,10 +62,10 @@
   display: none;
 }
 .searchBox .fliter button {
-  padding: 4px 11px 6px;
   height: 30px;
-  border-radius: 999px;
-  margin: 0 3px;
+  line-height: 1;
+  padding: 10px;
+  border-radius: 15px;
   background-color: #f3f3f3;
   color: black;
   opacity: 76%;

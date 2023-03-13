@@ -1,13 +1,17 @@
-import React from "react";
-import "./FlexwrapContainer.css";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 
-export default function FlexwrapContainer({
-  children,
-  className = "",
-  style = {},
-}) {
+export default function FlexwrapContainer({ children, style = {} }) {
   return (
-    <div className={"flex-wrap-container " + className} style={style}>
+    <div
+      style={style}
+      css={css`
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      `}
+    >
       {children}
     </div>
   );
