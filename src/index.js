@@ -3,9 +3,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
-
 import { Provider } from "react-redux";
-import store from "./app/store";
+import store from "./store/Store";
 
 import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
 const queryClient = new QueryClient({
@@ -28,6 +27,7 @@ if (process.env.NODE_ENV === "development") {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
+  // <React.StrictMode>
   <Provider store={store}>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
@@ -35,4 +35,5 @@ root.render(
       </QueryClientProvider>
     </BrowserRouter>
   </Provider>
+  // </React.StrictMode>
 );

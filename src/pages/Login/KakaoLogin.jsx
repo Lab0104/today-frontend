@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 // import { REST_API_KEY, REDIRECT_URI, CLIENT_SECRET } from "./dataKakaoLogin";
 
 import { useDispatch } from "react-redux";
-import { kakaoLogin } from "../../app/userSlice";
+import { kakaoLogin } from "../../store/userSlice";
 
 // 인가 코드를 백엔드로 보내서 토큰 받아와야함
 export default function KakaoLogin() {

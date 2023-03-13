@@ -1,6 +1,8 @@
+/** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
+import { css } from "@emotion/react";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../../app/userSlice";
+import { login } from "../../store/userSlice";
 
 import { Link } from "react-router-dom";
 
@@ -9,6 +11,12 @@ import InputBox from "../../components/InputBox/InputBox";
 import "./Login.scss";
 
 const INPUT_SIZE = ["300px", "45px"];
+const title = css`
+  font-size: 30px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 10px;
+`;
 
 export default function Login() {
   const user = useSelector((state) => state.user);
@@ -84,6 +92,9 @@ export default function Login() {
 
   return (
     <div className="login">
+      <Link to="/" css={title}>
+        오늘 하루
+      </Link>
       <div className="login-form">
         <InputBox
           size={INPUT_SIZE}

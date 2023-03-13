@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useQuery } from "react-query";
+
+import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import Carousel from "../../components/Carousel/Carousel";
 import FlexColumnContainer from "../../components/FlexColumnContainer/FlexColumnContainer";
 import FlexwrapContainer from "../../components/FlexwrapContainer/FlexwrapContainer";
@@ -126,6 +128,7 @@ function Main() {
 
   return (
     <>
+      <NavigationBar />
       <MainContainer>
         {/* Modal Start */}
         <Modal isOpen={isOpen} onClose={handleClose} selector={"modal-root"}>

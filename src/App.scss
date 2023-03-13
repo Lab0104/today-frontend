@@ -9,7 +9,7 @@ body {
   line-height: 1.4;
 }
 .App {
-  display: relative;
+  position: relative;
   text-align: center;
   min-width: $app-min-width;
 }
@@ -35,17 +35,4 @@ button {
 }
 a {
   text-decoration: none;
-}
-/* 컴포넌트 전역 설정 */
-.container {
-  max-width: $app-max-width;
-  margin: 0 auto;
-}
-.footer {
-  display: flex;
-  align-items: center;
-  background-color: orange;
-  height: 20px;
-  padding: 40px 40px;
-  text-align: center;
 }

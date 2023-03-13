@@ -1,8 +1,24 @@
+/** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { css } from "@emotion/react";
+import { Link } from "react-router-dom";
+
 import { useDaumPostcodePopup } from "react-daum-postcode";
+
 import "./Signup.css";
 
-function SignUp() {
+const title = css`
+  font-size: 30px;
+  font-weight: 700;
+  color: #000;
+`;
+const backButton = css`
+  background-color: gray;
+`;
+
+export default function SignUp() {
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     name: { val: "", stat: false },
     birth: "",
@@ -39,7 +55,7 @@ function SignUp() {
     }));
   };
 
-  const onSignupFormChangeHandler = (e) => {
+  const onSignupFormChange = (e) => {
     const value = e.target.value;
     const id = e.target.id;
     if (id === "name") {
@@ -59,7 +75,7 @@ function SignUp() {
     }
   };
 
-  const onAddressClickHandler = () => {
+  const onAddressClick = () => {
     open({
       onComplete: handleComplete,
       width: POPUPWIDTH,
@@ -68,35 +84,41 @@ function SignUp() {
       top: window.screen.height / 2 - POPUPHEIGHT / 2,
     });
   };
-  const onSignupClickHandler = () => {
+  const onSignupClick = () => {
     console.log(inputs);
+    navigate("/login");
+  };
+  const onReturnClick = () => {
+    navigate("/login");
   };
 
   return (
     <div className="signUp">
-      <h3 style={{ marginTop: "0" }}>오늘 하루</h3>
-      <h1>회원가입</h1>
+      <Link to="/" css={title}>
+        오늘 하루
+      </Link>
+      <h2>회원가입</h2>
       <div className="user-info">
         <span>사용자 정보</span>
         <input
           type="text"
           id="name"
           value={inputs.name.val}
-          onChange={onSignupFormChangeHandler}
+          onChange={onSignupFormChange}
           placeholder="이름"
         ></input>
         <input
           type="text"
           id="birth"
           value={inputs.birth}
-          onChange={onSignupFormChangeHandler}
+          onChange={onSignupFormChange}
           placeholder="생년월일(yyyymmdd)"
         ></input>
         <input
           type="text"
           id="phone"
           value={inputs.phone}
-          onChange={onSignupFormChangeHandler}
+          onChange={onSignupFormChange}
           placeholder="전화번호( - 없이)"
         ></input>
       </div>
@@ -106,21 +128,21 @@ function SignUp() {
           type="email"
           id="email"
           value={inputs.email}
-          onChange={onSignupFormChangeHandler}
+          onChange={onSignupFormChange}
           placeholder="이메일"
         ></input>
         <input
           type="password"
           id="password"
           value={inputs.password}
-          onChange={onSignupFormChangeHandler}
+          onChange={onSignupFormChange}
           placeholder="비밀번호"
         ></input>
         <input
           type="password"
           id="confirmPassword"
           value={inputs.confirmPassword}
-          onChange={onSignupFormChangeHandler}
+          onChange={onSignupFormChange}
           placeholder="비밀번호 확인"
         ></input>
         <div className="search-address">
@@ -128,23 +150,24 @@ function SignUp() {
             type="text"
             id="address"
             value={inputs.address}
-            onChange={onAddressClickHandler}
+            onChange={onAddressClick}
             placeholder="주소"
             readOnly
           ></input>
-          <button onClick={onAddressClickHandler}>주소찾기</button>
+          <button onClick={onAddressClick}>주소찾기</button>
         </div>
         <input
           type="text"
           id="detailAddress"
           value={inputs.detailAddress}
-          onChange={onSignupFormChangeHandler}
+          onChange={onSignupFormChange}
           placeholder="상세주소"
         ></input>
-        <button onClick={onSignupClickHandler}>회원가입</button>
+        <button onClick={onSignupClick}>회원가입</button>
+        <button onClick={onReturnClick} css={backButton}>
+          뒤로가기
+        </button>
       </div>
     </div>
   );
 }
-
-export default SignUp;
