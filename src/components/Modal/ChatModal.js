@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { closeModal, openModal } from "../../store/ModalSlice";
+import { toggleButtons } from "../../store/ToggleSlice";
 import { Container, Content, ExitButton, Icon } from "./CommonStyles";
 import { chatsData } from "./ModalData";
 
@@ -24,7 +25,12 @@ const ChatModal = () => {
     <Container>
       <div className="modalTitle">
         <h4>채팅</h4>
-        <ExitButton onClick={() => dispatch(closeModal())}>
+        <ExitButton
+          onClick={() => {
+            dispatch(closeModal());
+            dispatch(toggleButtons({ idx: 1 }));
+          }}
+        >
           <i className="bi bi-x-lg"></i>
         </ExitButton>
       </div>

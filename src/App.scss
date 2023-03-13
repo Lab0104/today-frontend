@@ -1,24 +1,29 @@
 /* 전체 영역 스타일 설정 */
+
+$app-min-width: 375px;
+$app-max-width: 1120px;
+$form-items-height: 45px;
+
 body {
   font-family: "Roboto", sans-serif;
   line-height: 1.4;
-  box-sizing: border-box;
 }
 .App {
-  display: relative;
+  position: relative;
   text-align: center;
-  min-width: 375px;
-  box-sizing: border-box;
+  min-width: $app-min-width;
 }
 /* 태그 공통 스타일 전역 설정 */
 input {
-  height: 40px;
+  height: $form-items-height;
   border-radius: 5px;
   border: 1px solid #e8e8e8;
   padding-left: 10px;
+  box-sizing: border-box;
 }
 button {
   display: block;
+  height: $form-items-height;
   background-color: #6667ab;
   color: #fff;
   border: none;
@@ -26,21 +31,8 @@ button {
   outline: none;
   cursor: pointer;
   font-weight: 700;
+  box-sizing: border-box;
 }
 a {
   text-decoration: none;
-}
-/* 컴포넌트 전역 설정 */
-.container {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 30px;
-}
-.footer {
-  display: flex;
-  align-items: center;
-  background-color: orange;
-  height: 20px;
-  padding: 40px 40px;
-  text-align: center;
 }

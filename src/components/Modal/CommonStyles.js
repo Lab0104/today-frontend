@@ -5,7 +5,8 @@ import styled from "@emotion/styled";
 export const Container = styled.div`
   position: absolute;
   width: ${({ width }) => width || "465px"};
-  height: 800px;
+  height: 90vh;
+  max-height: 800px;
   right: 102px;
   top: 20px;
   z-index: 10;
@@ -14,24 +15,30 @@ export const Container = styled.div`
   flex-direction: column;
   background: #fff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+
+  & .modalTitle {
+    position: relative;
+  }
 `;
 
 export const ExitButton = styled.button`
   position: absolute;
   height: 24px;
-  width: 24px;
+  font-size: 24px;
+
   right: 0;
   top: 0;
-  margin: 21.28px;
+  bottom: 0;
+  margin: auto;
+  padding: 0;
+  margin-right: 20px;
+
   background: none;
   color: black;
-  padding: 0;
-  font-size: 24px;
 `;
 
 export const Content = styled.div`
   display: flex;
-  height: 100%;
   flex-direction: column;
   background: #eee;
   overflow-y: scroll;

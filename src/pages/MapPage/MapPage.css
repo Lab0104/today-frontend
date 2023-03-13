@@ -1,49 +1,41 @@
-.header {
-  display: none;
-}
-.footer {
-  display: none;
-}
-.container {
-  max-width: 100vw;
-  padding: 0;
-}
-
 .main {
-  overflow: hidden;
   display: flex;
+  height: 100vh;
 }
 .searchTab {
-  width: 465px;
-  height: 100vh;
   position: relative;
+  width: 465px;
+  height: 100%;
 }
 
 .searchBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
   height: 150px;
+  padding: 0 20px;
   background-color: #6667ab;
 }
+.searchBox .nav:hover {
+  cursor: pointer;
+}
 .searchBox .title {
-  margin: 0 20px;
   display: flex;
   align-items: center;
+  gap: 10px;
   color: #fff;
   font-size: 20px;
   font-weight: 700;
 }
-.searchBox .title p {
-  margin: 20px 0 15px 0;
-}
 
 .searchBox .inputBox {
   display: flex;
-  margin: 0 20px;
-  margin-bottom: 15px;
   height: 30px;
 }
 
 .searchBox .inputBox input {
-  width: 423px;
+  width: 100%;
   height: inherit;
   opacity: 70%;
   border-radius: 5px;
@@ -52,17 +44,14 @@
 .searchBox .inputBox button {
   position: absolute;
   background: none;
-  right: 30px;
+  right: 25px;
   color: black;
   height: inherit;
 }
 
-.searchBox .title p {
-  margin-left: 10px;
-}
 .searchBox .fliter {
   display: flex;
-  margin: 5px 20px;
+  gap: 6px;
   overflow: scroll;
   overflow-x: auto;
   white-space: nowrap;
@@ -73,10 +62,10 @@
   display: none;
 }
 .searchBox .fliter button {
-  padding: 4px 11px 6px;
   height: 30px;
-  border-radius: 999px;
-  margin: 0 3px;
+  line-height: 1;
+  padding: 10px;
+  border-radius: 15px;
   background-color: #f3f3f3;
   color: black;
   opacity: 76%;
@@ -87,13 +76,17 @@
 }
 
 .dashBoard {
-  position: absolute;
-  height: 100%;
+  position: relative;
+  height: calc(100% - 150px);
   background-color: #fff;
   overflow-y: scroll;
 
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
+}
+.dashBoard .meetingCard:hover {
+  cursor: pointer;
+  background: #eff7ff;
 }
 
 .dashBoard::-webkit-scrollbar {
@@ -112,48 +105,6 @@
 .dashBoard .searchResult span {
   color: #1f8cff;
 }
-.largeBox {
-  margin: 10px 20px;
-}
-.largeBox .title {
-  display: flex;
-  text-align: left;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.largeBox .title i.like {
-  position: absolute;
-  right: 20px;
-}
-.largeBox div.text p {
-  margin: 0 18px;
-  font-weight: bold;
-}
-hr.line {
-  color: #999999;
-  width: 425px;
-}
-.largeBox .content {
-  position: relative;
-  text-align: left;
-  margin: 0 25.5px;
-}
-
-.largeBox .content span {
-  color: #227b3d;
-}
-.largeBox .content p {
-  margin: 8px 0;
-}
-.largeBox .content p.time {
-  position: absolute;
-  width: auto;
-  left: 90%;
-  top: 90%;
-  margin: 0;
-  font-size: 12.8px;
-  white-space: nowrap;
-}
 .smallBox {
   margin: 0 20px;
   display: flex;
@@ -164,8 +115,18 @@ hr.line {
 }
 .smallBox p.count {
   margin-right: auto;
-  color: #1f8cff;
+  color: #005fb8;
 }
+
+.smallBox span.sort:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.smallBox span.selected {
+  font-weight: 600;
+  color: #005fb8;
+}
+
 .listBox {
   padding: 0;
   margin: 0;
@@ -193,18 +154,22 @@ hr.line {
   position: absolute;
 }
 .icons {
-  display: flex;
-  flex-direction: column;
   position: fixed;
+  height: 95%;
   top: 20px;
   right: 30px;
   z-index: 9;
   background: none;
   justify-content: center;
-  align-items: center;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+  white-space: nowrap;
 }
 .icons button {
-  margin: 3px 0;
+  margin: 6px 0;
   width: 42px;
   height: 42px;
   color: #666;
@@ -212,4 +177,13 @@ hr.line {
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+}
+
+.icons .selected {
+  background: #1f8cff;
+  color: #fff;
+}
+
+.icons .bi:hover {
+  opacity: 40%;
 }

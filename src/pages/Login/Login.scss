@@ -1,0 +1,97 @@
+$login-font-size: 8px;
+$flex-gap: 15px;
+$form-size: 45px;
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: $flex-gap;
+  align-items: center;
+  height: 100vh;
+
+  hr {
+    display: inline-block;
+    width: 40%;
+    border-top: 1px solid #000;
+    outline: none;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: $flex-gap;
+    text-align: left;
+    width: 300px;
+
+    input:focus {
+      outline: none;
+    }
+
+    .input-alert {
+      font-size: $login-font-size;
+      color: red;
+      font-weight: 700;
+    }
+
+    .login-checkbox {
+      display: flex;
+      align-items: center;
+      height: 14px;
+      font-size: $login-font-size;
+    }
+  }
+
+  .login-options {
+    display: flex;
+    flex-direction: column;
+    gap: $flex-gap;
+    width: 300px;
+    font-size: $login-font-size;
+
+    .search-info {
+      height: 14px;
+
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .line {
+      display: flex;
+      height: 20px;
+      align-items: center;
+      gap: $flex-gap;
+
+      span {
+        width: calc(20% - 30px);
+      }
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .naver-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      background-color: #03c75a;
+      border-radius: 6px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+
+      img {
+        width: 45px;
+        height: 45px;
+      }
+      span {
+        padding-left: 72.5px;
+      }
+    }
+  }
+}

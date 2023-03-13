@@ -6,6 +6,7 @@ import NavModal from "./NavModal";
 import AddModal from "./AddModal";
 import { selectModal } from "../../store/ModalSlice";
 import { useSelector } from "react-redux";
+import FilterModal from "./FilterModal";
 
 const modals = [
   {
@@ -32,6 +33,10 @@ const modals = [
     type: "InfoModal",
     component: <InfoModal />,
   },
+  {
+    type: "LayersModal",
+    component: <FilterModal />,
+  },
 ];
 
 function GlobalModal() {
@@ -39,12 +44,14 @@ function GlobalModal() {
   const { modalType, isOpen } = useSelector(selectModal);
   if (!isOpen) return; //isOpen이 false일때 모달을 닫아줌
 
+  /** modal type에 해당하는 모달 component 반환 */
   const renderModal = () => {
     const findModal = modals.find((modal) => {
       return modal.type === modalType;
     });
     return findModal.component;
   };
+
   return <div>{renderModal()}</div>;
 }
 
