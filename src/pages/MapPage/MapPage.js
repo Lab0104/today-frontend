@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
@@ -21,7 +21,11 @@ import {
 } from "../../store/DisplayMeetingSlice";
 import { setMeetingCard } from "../../store/MeetingCardSlice";
 import { meetingData } from "../../components/MeetingCard/meetingList";
-import { selectToggle, toggleButtons } from "../../store/ToggleSlice";
+import {
+  selectToggle,
+  toggleButtons,
+  toggleSorts,
+} from "../../store/ToggleSlice";
 
 const filters = [
   "모두",
@@ -54,6 +58,10 @@ function MapPage() {
   const searchContext = location.state;
   const [text, setText] = useState(searchContext ? searchContext : "");
 
+  useEffect(() => {
+    dispatch(searchMap({ searchKeyword: text }));
+  }, [searchContext]);
+
   // 토글 배열
   const [toggleLocation, setToggleLocation] = useState(false);
   const [toggleFilter, setToggleFilter] = useState([
@@ -66,7 +74,6 @@ function MapPage() {
     false,
     false,
   ]);
-  const [toggleSort, setToggleSort] = useState([true, false, false, false]);
 
   const dispatch = useDispatch();
 
@@ -77,7 +84,7 @@ function MapPage() {
   const { displayMeetings } = useSelector(selectDisplayMeeting);
 
   /** 버튼 아이콘 Toggle 설정 -> Modal 창에서 접근 필요 -> RTK */
-  const { toggleButton } = useSelector(selectToggle);
+  const { toggleButton, toggleSort } = useSelector(selectToggle);
 
   /** 입력 값 State로 전달 */
   const handleChange = (e) => {
@@ -159,10 +166,7 @@ function MapPage() {
 
   /** 토글 정렬  */
   const handleToggleSort = (idx) => {
-    const list = [false, false, false, false];
-    list[idx] = true;
-
-    setToggleSort([...list]);
+    dispatch(toggleSorts({ idx: idx }));
   };
 
   /** 정렬  */

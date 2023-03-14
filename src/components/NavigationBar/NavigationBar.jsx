@@ -64,6 +64,11 @@ export default function NavigationBar() {
   const hiddenSearchOnClick = () => {
     navigate("/map", { state: searchContext });
   };
+  const handleOnKeyDown = (e) => {
+    if (e.key === "Enter") {
+      navigate("/map", { state: searchContext });
+    }
+  };
   const isNotLogin = [
     { name: "로그인", href: "/login", onclick: routeOnClick },
   ];
@@ -92,6 +97,7 @@ export default function NavigationBar() {
             value={searchContext}
             placeholder="새로운 모임을 검색해보세요!"
             onChange={searchOnChange}
+            onKeyDown={handleOnKeyDown}
           />
           <button
             className="material-icons search-icon"
