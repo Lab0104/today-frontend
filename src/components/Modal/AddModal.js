@@ -1,14 +1,46 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useState } from "react";
 
 import { useDispatch } from "react-redux";
+import { addData } from "../../store/DisplayMeetingSlice";
 import { closeModal } from "../../store/ModalSlice";
 import { toggleButtons } from "../../store/ToggleSlice";
 import { Container, ExitButton, Content } from "./CommonStyles";
 
 const AddModal = () => {
   const dispatch = useDispatch();
+  const [inputData, setInputData] = useState({
+    postId: "",
+    title: "",
+    subTitle: "",
+    category: "",
+    currentMember: "",
+    recruitments: "",
+    address: "",
+    date: "",
+    deadLine: "",
+    content: "",
+    user: "",
+    boardHits: 0,
+    position: "",
+  });
+
+  const handlerChange = (e) => {
+    const { value, className } = e.target;
+    setInputData({ ...inputData, [className]: value });
+  };
+
+  const inputList = [
+    { className: "title", placeholder: "모임 제목" },
+    { className: "subTitle", placeholder: "모임 소제목" },
+    { className: "category", placeholder: "모임 종류" },
+    { className: "address", placeholder: "모임 주소" },
+    { className: "deadLine", placeholder: "모임 신청 마감 기한" },
+    { className: "content", placeholder: "모임 내용" },
+  ];
+
   return (
     <Container>
       <div className="modalTitle">
@@ -23,21 +55,20 @@ const AddModal = () => {
         </ExitButton>
       </div>
       <Content css={ContentBox}>
-        <input className="title" placeholder="모임 제목"></input>
-        <input
-          className="titleAlt"
-          placeholder="모임 소 제목(10글자 이내로 입력해 주세요.)"
-        ></input>
-        <input className="category" placeholder="모임 종류"></input>
-        <input
-          className="location"
-          placeholder="모임 인원 / 위치 / 시간"
-        ></input>
-        <input className="deadLine" placeholder="모임 신청 마감 기한"></input>
-        <input className="description" placeholder="모임 내용"></input>
+        {inputList.map((data, idx) => {
+          return (
+            <input
+              key={idx}
+              className={data.className}
+              placeholder={data.placeholder}
+              onChange={handlerChange}
+            ></input>
+          );
+        })}
         <button
           onClick={() => {
             dispatch(closeModal());
+            dispatch(addData({ data: inputData }));
             dispatch(toggleButtons({ idx: 2 }));
           }}
         >
@@ -60,7 +91,7 @@ const ContentBox = css`
     border-radius: 15px;
   }
 
-  & .description {
+  & .content {
     height: 300px;
   }
 

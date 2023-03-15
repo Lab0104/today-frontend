@@ -3,9 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   toggleButton: [false, false, false, false],
   toggleSort: [true, false, false, false],
-  toggleMetting: [],
-  toggleType: "",
-  isOpen: false,
 };
 
 /** Modal 창 및 MapPage에서 토글 창 연동 필요 */

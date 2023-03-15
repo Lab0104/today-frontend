@@ -3,18 +3,22 @@ import { css } from "@emotion/react";
 
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeData } from "../../store/DisplayMeetingSlice";
+import {
+  changeData,
+  selectDisplayMeeting,
+} from "../../store/DisplayMeetingSlice";
 import { selectMap } from "../../store/KakaoMapSlice";
-import { meetingListDB } from "../../store/MeetingDB";
 import { toggleSorts } from "../../store/ToggleSlice";
 
 const { kakao } = window;
 
 function KakaoMapApi() {
+  const { meetingDB } = useSelector(selectDisplayMeeting);
+
   /** 지도 */
   const [kakaoMap, setKakaoMap] = useState();
   /** 모임 */
-  const [meetingList, setMeetingList] = useState([...meetingListDB]);
+  const [meetingList, setMeetingList] = useState([...meetingDB]);
   /** KakaoMap에서 제공하는 Marker 정보 */
   const [markers, setMarkers] = useState([]);
   /** 임의로 지정한 Marker 정보 */
@@ -155,7 +159,7 @@ function KakaoMapApi() {
 
   /** 모임 검색 */
   const searchDB = async () => {
-    setMeetingList([...meetingListDB]);
+    setMeetingList([...meetingDB]); // Add시 비동기로 늦음.
 
     infowindow.close();
     markers.map((marker, idx) => {
@@ -216,6 +220,8 @@ function KakaoMapApi() {
                 infowindow.setContent(content(data.title));
                 infowindow.open(kakaoMap, marker);
               });
+            } else {
+              alert("ERROR");
             }
             resolve();
           });
