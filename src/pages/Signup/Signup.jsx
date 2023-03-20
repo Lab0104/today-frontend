@@ -1,8 +1,8 @@
+// 제어 컴포넌트 방식
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
-import { Link } from "react-router-dom";
 
 import { useDaumPostcodePopup } from "react-daum-postcode";
 

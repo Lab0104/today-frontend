@@ -71,25 +71,6 @@ export default function Login() {
     window.location.href = KAKAO_AUTH_URL;
   };
 
-  /*
-  -- style변경 or API 요청에 활용 예정 --
-  useEffect(() => {
-    if (idStatus) {
-      console.log("참!");
-    } else {
-      console.log("거짓!");
-    }
-  }, [idStatus]);
-
-  useEffect(() => {
-    if (passwordStatus) {
-      console.log("참된값!");
-    } else {
-      console.log("거짓값!");
-    }
-  }, [passwordStatus]);
-  */
-
   return (
     <div className="login">
       <Link to="/" css={title}>
@@ -150,13 +131,16 @@ export default function Login() {
           <hr />
         </div>
         <img
-          src="images/kakao_login_buttons/kakao_login_large_wide.png"
+          src="/images/kakao_login_buttons/kakao_login_large_wide.png"
           alt="카카오 로그인"
           onClick={kakaoLoginHandler}
         />
         <div className="naver-btn">
           <img
-            src="images/naver_login_buttons/btnG_아이콘원형.png"
+            src={
+              process.env.PUBLIC_URL +
+              "images/naver_login_buttons/btnG_아이콘원형.png"
+            }
             alt="icon"
           />
           <span>네이버 로그인</span>

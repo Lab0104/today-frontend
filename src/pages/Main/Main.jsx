@@ -109,7 +109,7 @@ function Main() {
   const { isLoading, error } = useQuery(
     "meeting",
     async () => {
-      await fetch("/meetings")
+      await fetch("/api/meetings")
         .then((res) => res.json())
         .then((json) => {
           setMeetings((prev) => json);
@@ -128,7 +128,7 @@ function Main() {
 
   return (
     <>
-      <NavigationBar />
+      <NavigationBar width={width} />
       <MainContainer>
         {/* Modal Start */}
         <Modal isOpen={isOpen} onClose={handleClose} selector={"modal-root"}>

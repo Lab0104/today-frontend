@@ -6,17 +6,10 @@ import { css } from "@emotion/react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/userSlice";
 
-import useWidthThrottle from "../../hooks/useWidthThrottle";
-
 import "./NavigationBar.css";
 
-const visible = css`
-  display: none;
-`;
-
-export default function NavigationBar() {
+export default function NavigationBar({ width }) {
   const navigate = useNavigate();
-  const width = useWidthThrottle();
 
   const isLogged = useSelector((state) => state.user.isLogged);
   const dispatch = useDispatch();
@@ -120,7 +113,15 @@ export default function NavigationBar() {
         </div>
       </div>
       {searchHiddenStatus && (
-        <div className="hidden" css={searchToggle ? {} : visible}>
+        <div
+          className="hidden"
+          css={
+            searchToggle ||
+            css`
+              display: none;
+            `
+          }
+        >
           <div className="hidden-search">
             <div className="search">
               <input
