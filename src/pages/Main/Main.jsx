@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 import axios from "axios";
 import { useQuery } from "react-query";
 
@@ -31,33 +32,8 @@ const Placeholder = () => (
     </FlexwrapContainer>
   </FlexColumnContainer>
 );
-const MeetingList = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 40px 0;
-`;
-const Title = styled.div`
-  text-align: left;
-  font-size: 20px;
-  font-weight: 700;
-`;
-const MainContainer = styled.div`
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 30px;
-`;
-const ModalBody = styled.div`
-  border-radius: 8px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  max-height: calc(100vh - 16px);
-  overflow: hidden auto;
-  position: relative;
-  padding-block: 12px;
-  padding-inline: 24px;
-`;
 
-function Main() {
+export default function Main() {
   const width = useWidthThrottle();
   const [itemCount, setItemCount] = useState(0);
   useEffect(() => {
@@ -128,7 +104,7 @@ function Main() {
 
   return (
     <>
-      <NavigationBar width={width} />
+      <NavigationBar />
       <MainContainer>
         {/* Modal Start */}
         <Modal isOpen={isOpen} onClose={handleClose} selector={"modal-root"}>
@@ -159,23 +135,24 @@ function Main() {
           ></Pagination>
         </div>
         {/* Pagination End */}
-
-        {isLoading
-          ? Array.from({ length: 3 }).map((_, index) => (
-              <Placeholder key={index} />
-            ))
-          : meetings &&
-            meetings.map((meeting, idx) => (
-              <MeetingList key={idx}>
-                <Title>{meeting.title}</Title>
-                <Carousel
-                  list={meeting.list}
-                  itemCount={itemCount}
-                  count={idx}
-                  onClickModal={handleOpen}
-                />
-              </MeetingList>
-            ))}
+        <ListContainer width={width}>
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <Placeholder key={index} />
+              ))
+            : meetings &&
+              meetings.map((meeting, idx) => (
+                <MeetingList key={idx}>
+                  <Title>{meeting.title}</Title>
+                  <Carousel
+                    list={meeting.list}
+                    itemCount={itemCount}
+                    count={idx}
+                    onClickModal={handleOpen}
+                  />
+                </MeetingList>
+              ))}
+        </ListContainer>
       </MainContainer>
       <FooterDescription />
       <FooterMenus />
@@ -183,4 +160,37 @@ function Main() {
   );
 }
 
-export default Main;
+const ListContainer = styled.div`
+  ${({ width }) =>
+    width > 475
+      ? css`
+          margin-top: 80px;
+        `
+      : css`
+          margin-top: 130px;
+        `}
+`;
+const MeetingList = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0;
+`;
+const Title = styled.div`
+  text-align: left;
+  font-size: 20px;
+  font-weight: 700;
+`;
+const MainContainer = styled.div`
+  max-width: 1120px;
+  padding: 30px;
+`;
+const ModalBody = styled.div`
+  border-radius: 8px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  max-height: calc(100vh - 16px);
+  overflow: hidden auto;
+  position: relative;
+  padding-block: 12px;
+  padding-inline: 24px;
+`;

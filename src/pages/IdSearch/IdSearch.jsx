@@ -4,44 +4,6 @@ import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-const inputError = css`
-  border: 2px solid red;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  gap: 20px;
-`;
-const Form = styled.form`
-  width: 350px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-`;
-const Label = styled.label`
-  font-size: 12px;
-  text-align: left;
-`;
-const Input = styled.input`
-  outline: none;
-`;
-const FormErrorMessage = styled.p`
-  font-size: 10px;
-  color: red;
-  text-align: left;
-  margin: 0;
-`;
-const SearchButton = styled.button`
-  font-size: 12px;
-`;
-const BackButton = styled.button`
-  background-color: gray;
-`;
-
 export default function IdSearch() {
   const navigate = useNavigate();
   const {
@@ -85,3 +47,41 @@ export default function IdSearch() {
     </Container>
   );
 }
+
+const inputError = css`
+  border: 2px solid red;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 20px;
+`;
+const Form = styled.form`
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
+const Label = styled.label`
+  font-size: 12px;
+  text-align: left;
+`;
+const Input = styled.input`
+  outline: none;
+`;
+const FormErrorMessage = styled.p`
+  font-size: 10px;
+  color: red;
+  text-align: left;
+  margin: 0;
+`;
+const SearchButton = styled.button`
+  font-size: 12px;
+`;
+const BackButton = styled.button`
+  background-color: gray;
+`;

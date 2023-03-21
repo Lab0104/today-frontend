@@ -16,6 +16,12 @@ $form-size: 45px;
     border-top: 1px solid #000;
     outline: none;
   }
+  .title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 10px;
+  }
 
   .login-form {
     display: flex;

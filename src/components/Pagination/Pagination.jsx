@@ -1,5 +1,4 @@
 import React from "react";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { AiOutlineEllipsis } from "react-icons/ai";

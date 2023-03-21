@@ -34,10 +34,10 @@ const ArrowButton = styled.button`
   ${({ pos }) =>
     pos === "left"
       ? css`
-          left: 0;
+          left: -10px;
         `
       : css`
-          right: 0;
+          right: -10px;
         `}
 `;
 

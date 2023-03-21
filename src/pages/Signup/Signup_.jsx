@@ -1,4 +1,3 @@
-// 비제어 컴포넌트 방식
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import styled from "@emotion/styled";
@@ -7,55 +6,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { useDaumPostcodePopup } from "react-daum-postcode";
-
-const inputError = css`
-  border: 2px solid red;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  gap: 20px;
-`;
-const Form = styled.form`
-  width: 350px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-`;
-const Input = styled.input`
-  outline: none;
-`;
-const FormErrorMessage = styled.p`
-  font-size: 10px;
-  color: red;
-  text-align: left;
-  margin: 0;
-`;
-const AddressForm = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-const AddressInput = styled.input`
-  width: calc(80% - 5px);
-  outline: none;
-`;
-const AddressButton = styled.button`
-  width: calc(20% - 5px);
-  transition: all 0.2s linear;
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-const SignupButton = styled.button`
-  font-size: 12px;
-`;
-const BackButton = styled.button`
-  background-color: gray;
-`;
 
 export default function Signup_() {
   const navigate = useNavigate();
@@ -69,9 +19,20 @@ export default function Signup_() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    // 회원가입 비동기 처리 -> 서버로 데이터 보내는 로직 작성하기
-    await new Promise((dummy) => setTimeout(dummy, 1000));
     console.log(data);
+    try {
+      const req = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const isSignup = req.json();
+      if (isSignup) {
+        navigate("/signup/category");
+      }
+    } catch (err) {
+      alert(err);
+    }
   };
 
   const open = useDaumPostcodePopup();
@@ -206,3 +167,52 @@ export default function Signup_() {
     </Container>
   );
 }
+
+const inputError = css`
+  border: 2px solid red;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+  gap: 20px;
+`;
+const Form = styled.form`
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
+const Input = styled.input`
+  outline: none;
+`;
+const FormErrorMessage = styled.p`
+  font-size: 10px;
+  color: red;
+  text-align: left;
+  margin: 0;
+`;
+const AddressForm = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+const AddressInput = styled.input`
+  width: calc(80% - 5px);
+  outline: none;
+`;
+const AddressButton = styled.button`
+  width: calc(20% - 5px);
+  transition: all 0.2s linear;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+const SignupButton = styled.button`
+  font-size: 12px;
+`;
+const BackButton = styled.button`
+  background-color: gray;
+`;
