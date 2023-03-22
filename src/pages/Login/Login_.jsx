@@ -167,7 +167,7 @@ const FormErrorMessage = styled.p`
   font-size: 10px;
   color: red;
   text-align: left;
-  margin: 0;
+  margin: -10px 0 0 0;
 `;
 
 const CheckboxContainer = styled.div`

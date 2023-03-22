@@ -4,54 +4,6 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 
-const selected = css`
-  border: 2px solid black;
-`;
-
-const Container = styled.div`
-  max-width: 1120px;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const CategoryList = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-`;
-
-const CategoryItem = styled.div`
-  width: 345px;
-  height: 345px;
-  background-color: #efefef;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  cursor: pointer;
-`;
-
-const Image = styled.img`
-  width: 210px;
-  height: 200px;
-`;
-const ImageMessage = styled.p`
-  margin: 0;
-  font-size: 21px;
-`;
-
-const Button = styled.button`
-  width: 300px;
-  height: 50px;
-`;
-
 const imageSrc = [
   { src: "/images/category/cafe.png", msg: "카페 탐방" },
   { src: "/images/category/canvas.png", msg: "그림" },
@@ -114,3 +66,51 @@ export default function Category() {
     </Container>
   );
 }
+
+const selected = css`
+  border: 2px solid black;
+`;
+
+const Container = styled.div`
+  max-width: 1120px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CategoryList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+`;
+
+const CategoryItem = styled.div`
+  width: 345px;
+  height: 345px;
+  background-color: #efefef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  cursor: pointer;
+`;
+
+const Image = styled.img`
+  width: 210px;
+  height: 200px;
+`;
+const ImageMessage = styled.p`
+  margin: 0;
+  font-size: 21px;
+`;
+
+const Button = styled.button`
+  width: 300px;
+  height: 50px;
+`;

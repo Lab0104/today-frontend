@@ -183,6 +183,7 @@ const Title = styled.div`
 const MainContainer = styled.div`
   max-width: 1120px;
   padding: 30px;
+  margin: 0 auto;
 `;
 const ModalBody = styled.div`
   border-radius: 8px;
