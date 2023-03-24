@@ -1,6 +1,6 @@
-// 글 id	post_id
+// 글 id	postId
 // 모임제목	title
-// 모임 소제목	sub-title
+// 모임 소제목	subTitle
 // 모임 종류	category
 // 현재 인원  currentMember
 // 모임 인원	recruitments
@@ -8,8 +8,9 @@
 // 시간	date
 // 신청 마감 기간	deadLine
 // 모임 내용	content
-// 유저 id(작성자)	personal_info_id
+// 유저 id(작성자)	personalInfoId
 // 조회수 boardHits
+// 인기도 
 // 좌표 position
 
 export const meetingListDB = [

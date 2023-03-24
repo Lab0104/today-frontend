@@ -199,7 +199,7 @@ function MapPage() {
         <div className="searchBox">
           <div className="title" css={title}>
             <i
-              className="bi bi-list nav"
+              className="bi bi-list navIcon"
               onClick={() => {
                 handleOpenModal("NavModal");
               }}
