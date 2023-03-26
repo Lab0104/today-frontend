@@ -10,7 +10,6 @@ const { kakao } = window;
 
 function KakaoMapApi() {
   const { meetingDB } = useAppSelector((state) => state.display);
-
   /** 지도 */
   const [kakaoMap, setKakaoMap] = useState();
   /** 모임 */
@@ -167,7 +166,7 @@ function KakaoMapApi() {
     const meeting = meetingList.filter((e) => {
       if (
         e.title.includes(searchKeyword) ||
-        e.subTitle.includes(searchKeyword) ||
+        e.sub_title.includes(searchKeyword) ||
         e.content.includes(searchKeyword) ||
         e.address.includes(searchKeyword)
       ) {

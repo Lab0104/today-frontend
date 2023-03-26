@@ -119,7 +119,7 @@ function MapPage() {
 
   /** 검색 수행 - 버튼 클릭  */
   const handleSearch = () => {
-    dispatch(searchMap({ searchKeyword: text }));
+    dispatch(searchMap(text));
   };
 
   /** 지도 줌 인 & 줌 아웃  */

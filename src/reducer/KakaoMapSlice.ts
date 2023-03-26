@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+const initialState: MapState = {
   /** search, move, zoom */
   mapActions: "",
 
@@ -20,27 +20,39 @@ const initialState = {
   searchKeyword: "",
 };
 
+type MapState = {
+  mapActions: "search" | "move" | "zoom" | "";
+  zoomActions: "zoomIn" | "zoomOut" | "";
+  markerTitle: string;
+  checkOrder: boolean;
+  trackLocation: boolean;
+  searchKeyword: string;
+};
+
 /** mapAction으로 수행 하는 Action을 KakaoMapAPI에 전달, 같은 action을 여러번 전달 시 checkOrder으로 다른값 전달 -> 렌더링 */
 export const KakaoMapSlice = createSlice({
   name: "map",
   initialState,
   reducers: {
     /**검색 */
-    searchMap: (state, actions) => {
+    searchMap: (state, actions: PayloadAction<{ searchKeyword: string }>) => {
       const { searchKeyword } = actions.payload;
       state.searchKeyword = searchKeyword;
       state.mapActions = "search";
       state.checkOrder = !state.checkOrder;
     },
     /**마커로 이동 */
-    moveMap: (state, actions) => {
+    moveMap: (state, actions: PayloadAction<{ markerTitle: string }>) => {
       const { markerTitle } = actions.payload;
       state.markerTitle = markerTitle;
       state.mapActions = "move";
       state.checkOrder = !state.checkOrder;
     },
     /**줌 */
-    zoomMap: (state, actions) => {
+    zoomMap: (
+      state,
+      actions: PayloadAction<{ zoomActions: "zoomIn" | "zoomOut" }>
+    ) => {
       const { zoomActions } = actions.payload;
       state.mapActions = "zoom";
       state.zoomActions = zoomActions;
@@ -54,6 +66,4 @@ export const KakaoMapSlice = createSlice({
 });
 export const { searchMap, moveMap, zoomMap, currentLocation } =
   KakaoMapSlice.actions;
-// export const selectMap = (state) => state.map;
-
 export default KakaoMapSlice.reducer;

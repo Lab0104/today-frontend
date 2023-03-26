@@ -5,10 +5,6 @@ type ModalState = {
   isOpen: boolean;
 };
 
-type ModalPayload = {
-  modalType: string;
-};
-
 const initialState: ModalState = {
   modalType: "",
   isOpen: false,
@@ -19,7 +15,7 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModal: (state: ModalState, actions: PayloadAction<ModalPayload>) => {
+    openModal: (state, actions: PayloadAction<{ modalType: string }>) => {
       const { modalType } = actions.payload;
       state.modalType === "InfoModal"
         ? (state.isOpen = true)
@@ -35,6 +31,4 @@ export const modalSlice = createSlice({
   },
 });
 export const { openModal, closeModal } = modalSlice.actions;
-// export const selectModal = (state) => state.modal; // State 전달
-
 export default modalSlice.reducer;
