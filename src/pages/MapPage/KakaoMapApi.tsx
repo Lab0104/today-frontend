@@ -6,24 +6,28 @@ import { changeData } from "../../reducer/DisplayMeetingSlice";
 import { toggleSorts } from "../../reducer/ToggleSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 const { kakao } = window;
 
 function KakaoMapApi() {
   const { meetingDB } = useAppSelector((state) => state.display);
   /** 지도 */
-  const [kakaoMap, setKakaoMap] = useState();
+  const [kakaoMap, setKakaoMap] = useState<any>(); //new kakao.maps() ?
   /** 모임 */
   const [meetingList, setMeetingList] = useState([...meetingDB]);
   /** KakaoMap에서 제공하는 Marker 정보 */
-  const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState<any[]>([]); //new kakao.maps.Marker() Type 지정?
   /** 임의로 지정한 Marker 정보 */
-  const [markersData, setMarkersData] = useState([]);
+  const [markersData, setMarkersData] = useState<any[]>([]);
   /** 내 위치 마커 */
   const [userMarker, setUserMarker] = useState(new kakao.maps.Marker());
   /** 마커 클릭시 출력되는 창 */
-  const [infowindow, setInfowindow] = useState(
-    new kakao.maps.InfoWindow({ zIndex: 1 })
-  );
+  const [infowindow] = useState(new kakao.maps.InfoWindow({ zIndex: 1 }));
   const [asyncCheck, setAsyncCheck] = useState(false);
 
   const {
@@ -184,8 +188,8 @@ function KakaoMapApi() {
     //주소를 이용해 좌표값 할당
     await Promise.all(
       meeting.map((data, idx) => {
-        return new Promise((resolve) => {
-          geocoder.addressSearch(data.address, (result, status) => {
+        return new Promise<void>((resolve) => {
+          geocoder.addressSearch(data.address, (result: any, status: any) => {
             // 정상적으로 검색이 완료됐으면
             if (status === kakao.maps.services.Status.OK) {
               const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -225,7 +229,11 @@ function KakaoMapApi() {
     );
 
     // MapPage에서 출력하는 State에 저장
-    dispatch(changeData({ displayMeetings: [...meeting] }));
+    dispatch(
+      changeData({
+        displayMeetings: [...meeting],
+      })
+    );
     dispatch(toggleSorts({ idx: 0 }));
 
     // 지도 바운더리 설정
@@ -254,7 +262,7 @@ function KakaoMapApi() {
   // 지도 반환
   return <div css={mapStyle} ref={mapContainer}></div>;
 }
-const content = (place) => {
+const content = (place: string) => {
   return `<div style="padding: 10px;">
     <p style="width:inherit; white-space:nowrap; margin:auto;">${place}</p>
   </div>

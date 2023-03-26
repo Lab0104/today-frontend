@@ -16,13 +16,14 @@ export const DisplayMeetingSlice = createSlice({
   name: "display",
   initialState,
   reducers: {
-    changeData(state, actions: PayloadAction<DisplayState>) {
-      const { displayMeetings } = actions.payload;
-      state.displayMeetings = displayMeetings;
+    changeData(
+      state,
+      actions: PayloadAction<{ displayMeetings: ReceiveMeetingData[] }>
+    ) {
+      state.displayMeetings = actions.payload.displayMeetings;
     },
     addData(state, actions: PayloadAction<{ data: ReceiveMeetingData }>) {
-      const { data } = actions.payload;
-      state.meetingDB.push(data);
+      state.meetingDB.push(actions.payload.data);
     },
   },
 });

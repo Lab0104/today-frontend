@@ -21,9 +21,8 @@ export const toggleSlice = createSlice({
       state.toggleButton = [...list];
     },
     toggleSorts: (state, actions: PayloadAction<{ idx: number }>) => {
-      const { idx } = actions.payload;
       const list = [false, false, false, false];
-      list[idx] = true;
+      list[actions.payload.idx] = true;
       state.toggleSort = [...list];
     },
   },

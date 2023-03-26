@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect, useState, KeyboardEvent, ChangeEvent } from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import "./MapPage.css";
 import Map from "./KakaoMapApi";
-import { openModal } from "../../reducer/ModalSlice.ts";
-import AdMeetingCard from "../../components/MeetingCard/AdMeetingCard";
+import { openModal } from "../../reducer/ModalSlice";
+// import AdMeetingCard from "../../components/MeetingCard/AdMeetingCard";
 import {
   currentLocation,
   moveMap,
@@ -15,7 +15,6 @@ import {
 } from "../../reducer/KakaoMapSlice";
 import { changeData } from "../../reducer/DisplayMeetingSlice";
 import { setMeetingCard } from "../../reducer/MeetingCardSlice";
-import { meetingData } from "../../components/MeetingCard/meetingList";
 import { toggleButtons, toggleSorts } from "../../reducer/ToggleSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
@@ -79,51 +78,50 @@ function MapPage() {
   const { toggleButton, toggleSort } = useAppSelector((state) => state.toggle);
 
   /** 입력 값 State로 전달 */
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
 
   /**type 값에 따라서 모달을 염. setMeetingCard를 통해 상세창에 값 전달(address 필요)*/
-  const handleOpenModal = (
-    type,
-    address,
-    subTitle,
-    title,
-    category,
-    content
-  ) => {
+  const handleOpenModal = (type: string) => {
     dispatch(
       openModal({
         modalType: type,
-        isOpen: true,
       })
     );
+  };
 
-    if (address) {
-      dispatch(
-        setMeetingCard({
-          title: title,
-          subTitle: subTitle,
-          address: address,
-          category: category,
-          content: content,
-        })
-      );
-    }
+  const handleOpenMeeting = (
+    address: string,
+    sub_title: string,
+    title: string,
+    category: string,
+    content: string
+  ) => {
+    dispatch(openModal({ modalType: "infoModal" }));
+    dispatch(
+      setMeetingCard({
+        title: title,
+        subTitle: sub_title,
+        address: address,
+        category: category,
+        content: content,
+      })
+    );
   };
 
   /** 모임창 마우스 오버 시 지도 이동 */
-  const handleMouseOver = (title) => {
+  const handleMouseOver = (title: string) => {
     dispatch(moveMap({ markerTitle: title }));
   };
 
   /** 검색 수행 - 버튼 클릭  */
   const handleSearch = () => {
-    dispatch(searchMap(text));
+    dispatch(searchMap({ searchKeyword: text }));
   };
 
   /** 지도 줌 인 & 줌 아웃  */
-  const handleZoom = (action) => {
+  const handleZoom = (action: "zoomIn" | "zoomOut") => {
     dispatch(zoomMap({ zoomActions: action }));
   };
 
@@ -133,19 +131,19 @@ function MapPage() {
   };
 
   /** 검색 수행 - 엔터 입력  */
-  const handleOnKeyDown = (e) => {
+  const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       dispatch(searchMap({ searchKeyword: text }));
     }
   };
 
   /** 토글 아이콘 - idx번째 토글  */
-  const handleToggleIcons = (idx) => {
+  const handleToggleIcons = (idx: number) => {
     dispatch(toggleButtons({ idx: idx }));
   };
 
   /** 토글 버튼 - 모두 버튼 클릭 시 전부 해제 & 다른 버튼 클릭 시 모두 버튼 해제  */
-  const handleToggleFilters = (idx) => {
+  const handleToggleFilters = (idx: number) => {
     if (idx === 0 && toggleFilter[0] === false) {
       setToggleFilter([true, false, false, false, false, false, false, false]);
     } else if (idx !== 0) {
@@ -157,19 +155,19 @@ function MapPage() {
   };
 
   /** 토글 정렬  */
-  const handleToggleSort = (idx) => {
+  const handleToggleSort = (idx: number) => {
     dispatch(toggleSorts({ idx: idx }));
   };
 
   /** 정렬  */
-  const handleClickSort = (idx) => {
+  const handleClickSort = (idx: number) => {
     const sortList = [...displayMeetings];
     switch (idx) {
       case 0: // 거리순 -> 거리 계산 알고리즘 필요
         break;
 
       case 1: // 조회순
-        sortList.sort((a, b) => (a.boardHits > b.boardHits ? -1 : 1));
+        sortList.sort((a, b) => (a.hits > b.hits ? -1 : 1));
         dispatch(changeData({ displayMeetings: [...sortList] }));
         break;
 
@@ -236,22 +234,23 @@ function MapPage() {
             모임명 <span>{text}</span> 검색결과
           </div>
           <hr />
-
+          {/* 
           <div
             className="meetingCard"
             onClick={() =>
-              handleOpenModal(
+              handleOpenMeeting(
                 "InfoModal",
-                meetingData.address,
-                meetingData.subTitle,
-                meetingData.title,
-                meetingData.category,
+                meetingListDB.address,
+                meetingListDB.sub_title,
+                meetingListDB.title,
+                meetingListDB.category,
                 "광고 예제"
               )
             }
           >
-            <AdMeetingCard />
-          </div>
+            { <AdMeetingCard /> }
+          </div> 
+          */}
 
           {/* 모임 수, 정렬 값 */}
           <div className="smallBox">
@@ -283,10 +282,9 @@ function MapPage() {
                   className="listBox"
                   key={idx}
                   onClick={() => {
-                    handleOpenModal(
-                      "InfoModal",
+                    handleOpenMeeting(
                       data.address,
-                      data.subTitle,
+                      data.sub_title,
                       data.title,
                       data.category,
                       data.content
@@ -298,10 +296,10 @@ function MapPage() {
                 >
                   {idx === 0 ? <hr /> : ""}
                   <h4>{data.title}</h4>
-                  <p>{data.subTitle}</p>
+                  <p>{data.sub_title}</p>
                   <p>{data.category}</p>
                   <p>{data.address}</p>
-                  <p>조회수 : {data.boardHits}</p>
+                  <p>조회수 : {data.hits}</p>
                   <hr />
                 </div>
               );
