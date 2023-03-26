@@ -4,9 +4,8 @@ import ProfileModal from "./ProfileModal";
 import InfoModal from "./InfoModal";
 import NavModal from "./NavModal";
 import AddModal from "./AddModal";
-import { selectModal } from "../../store/ModalSlice";
-import { useSelector } from "react-redux";
 import FilterModal from "./FilterModal";
+import { useAppSelector } from "../../hooks";
 
 const modals = [
   {
@@ -41,7 +40,7 @@ const modals = [
 
 function GlobalModal() {
   // modal type을 string으로 받는다.
-  const { modalType, isOpen } = useSelector(selectModal);
+  const { modalType, isOpen } = useAppSelector((state) => state.modal);
   if (!isOpen) return; //isOpen이 false일때 모달을 닫아줌
 
   /** modal type에 해당하는 모달 component 반환 */

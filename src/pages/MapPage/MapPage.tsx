@@ -1,27 +1,22 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import { useEffect, useState, KeyboardEvent, ChangeEvent } from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import "./MapPage.css";
-import Map from "../../components/KakaoMapApi/KakaoMapApi";
-import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../store/ModalSlice";
-import AdMeetingCard from "../../components/MeetingCard/AdMeetingCard";
+import Map from "./KakaoMapApi";
+import { openModal } from "../../reducer/ModalSlice";
+// import AdMeetingCard from "../../components/MeetingCard/AdMeetingCard";
 import {
   currentLocation,
   moveMap,
   searchMap,
-  selectMap,
   zoomMap,
-} from "../../store/KakaoMapSlice";
-import {
-  changeData,
-  selectDisplayMeeting,
-} from "../../store/DisplayMeetingSlice";
-import { setMeetingCard } from "../../store/MeetingCardSlice";
-import { meetingData } from "../../components/MeetingCard/meetingList";
-import { selectToggle, toggleButtons } from "../../store/ToggleSlice";
+} from "../../reducer/KakaoMapSlice";
+import { changeData } from "../../reducer/DisplayMeetingSlice";
+import { setMeetingCard } from "../../reducer/MeetingCardSlice";
+import { toggleButtons, toggleSorts } from "../../reducer/ToggleSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 const filters = [
   "모두",
@@ -54,6 +49,10 @@ function MapPage() {
   const searchContext = location.state;
   const [text, setText] = useState(searchContext ? searchContext : "");
 
+  useEffect(() => {
+    dispatch(searchMap({ searchKeyword: text }));
+  }, [searchContext]);
+
   // 토글 배열
   const [toggleLocation, setToggleLocation] = useState(false);
   const [toggleFilter, setToggleFilter] = useState([
@@ -66,55 +65,53 @@ function MapPage() {
     false,
     false,
   ]);
-  const [toggleSort, setToggleSort] = useState([true, false, false, false]);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   /** 검색 결과 */
-  const { searchKeyword } = useSelector(selectMap);
+  const { searchKeyword } = useAppSelector((state) => state.map);
 
   /** 표시중인 모임들 */
-  const { displayMeetings } = useSelector(selectDisplayMeeting);
+  const { displayMeetings } = useAppSelector((state) => state.display);
 
   /** 버튼 아이콘 Toggle 설정 -> Modal 창에서 접근 필요 -> RTK */
-  const { toggleButton } = useSelector(selectToggle);
+  const { toggleButton, toggleSort } = useAppSelector((state) => state.toggle);
 
   /** 입력 값 State로 전달 */
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
 
   /**type 값에 따라서 모달을 염. setMeetingCard를 통해 상세창에 값 전달(address 필요)*/
-  const handleOpenModal = (
-    type,
-    address,
-    subTitle,
-    title,
-    category,
-    content
-  ) => {
+  const handleOpenModal = (type: string) => {
     dispatch(
       openModal({
         modalType: type,
-        isOpen: true,
       })
     );
+  };
 
-    if (address) {
-      dispatch(
-        setMeetingCard({
-          title: title,
-          subTitle: subTitle,
-          address: address,
-          category: category,
-          content: content,
-        })
-      );
-    }
+  const handleOpenMeeting = (
+    address: string,
+    sub_title: string,
+    title: string,
+    category: string,
+    content: string
+  ) => {
+    dispatch(openModal({ modalType: "infoModal" }));
+    dispatch(
+      setMeetingCard({
+        title: title,
+        subTitle: sub_title,
+        address: address,
+        category: category,
+        content: content,
+      })
+    );
   };
 
   /** 모임창 마우스 오버 시 지도 이동 */
-  const handleMouseOver = (title) => {
+  const handleMouseOver = (title: string) => {
     dispatch(moveMap({ markerTitle: title }));
   };
 
@@ -124,7 +121,7 @@ function MapPage() {
   };
 
   /** 지도 줌 인 & 줌 아웃  */
-  const handleZoom = (action) => {
+  const handleZoom = (action: "zoomIn" | "zoomOut") => {
     dispatch(zoomMap({ zoomActions: action }));
   };
 
@@ -134,19 +131,19 @@ function MapPage() {
   };
 
   /** 검색 수행 - 엔터 입력  */
-  const handleOnKeyDown = (e) => {
+  const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       dispatch(searchMap({ searchKeyword: text }));
     }
   };
 
   /** 토글 아이콘 - idx번째 토글  */
-  const handleToggleIcons = (idx) => {
+  const handleToggleIcons = (idx: number) => {
     dispatch(toggleButtons({ idx: idx }));
   };
 
   /** 토글 버튼 - 모두 버튼 클릭 시 전부 해제 & 다른 버튼 클릭 시 모두 버튼 해제  */
-  const handleToggleFilters = (idx) => {
+  const handleToggleFilters = (idx: number) => {
     if (idx === 0 && toggleFilter[0] === false) {
       setToggleFilter([true, false, false, false, false, false, false, false]);
     } else if (idx !== 0) {
@@ -158,22 +155,19 @@ function MapPage() {
   };
 
   /** 토글 정렬  */
-  const handleToggleSort = (idx) => {
-    const list = [false, false, false, false];
-    list[idx] = true;
-
-    setToggleSort([...list]);
+  const handleToggleSort = (idx: number) => {
+    dispatch(toggleSorts({ idx: idx }));
   };
 
   /** 정렬  */
-  const handleClickSort = (idx) => {
+  const handleClickSort = (idx: number) => {
     const sortList = [...displayMeetings];
     switch (idx) {
       case 0: // 거리순 -> 거리 계산 알고리즘 필요
         break;
 
       case 1: // 조회순
-        sortList.sort((a, b) => (a.boardHits > b.boardHits ? -1 : 1));
+        sortList.sort((a, b) => (a.hits > b.hits ? -1 : 1));
         dispatch(changeData({ displayMeetings: [...sortList] }));
         break;
 
@@ -195,7 +189,7 @@ function MapPage() {
         <div className="searchBox">
           <div className="title" css={title}>
             <i
-              className="bi bi-list nav"
+              className="bi bi-list navIcon"
               onClick={() => {
                 handleOpenModal("NavModal");
               }}
@@ -240,22 +234,23 @@ function MapPage() {
             모임명 <span>{text}</span> 검색결과
           </div>
           <hr />
-
+          {/* 
           <div
             className="meetingCard"
             onClick={() =>
-              handleOpenModal(
+              handleOpenMeeting(
                 "InfoModal",
-                meetingData.address,
-                meetingData.subTitle,
-                meetingData.title,
-                meetingData.category,
+                meetingListDB.address,
+                meetingListDB.sub_title,
+                meetingListDB.title,
+                meetingListDB.category,
                 "광고 예제"
               )
             }
           >
-            <AdMeetingCard />
-          </div>
+            { <AdMeetingCard /> }
+          </div> 
+          */}
 
           {/* 모임 수, 정렬 값 */}
           <div className="smallBox">
@@ -287,10 +282,9 @@ function MapPage() {
                   className="listBox"
                   key={idx}
                   onClick={() => {
-                    handleOpenModal(
-                      "InfoModal",
+                    handleOpenMeeting(
                       data.address,
-                      data.subTitle,
+                      data.sub_title,
                       data.title,
                       data.category,
                       data.content
@@ -302,18 +296,19 @@ function MapPage() {
                 >
                   {idx === 0 ? <hr /> : ""}
                   <h4>{data.title}</h4>
-                  <p>{data.subTitle}</p>
+                  <p>{data.sub_title}</p>
                   <p>{data.category}</p>
                   <p>{data.address}</p>
-                  <p>조회수 : {data.boardHits}</p>
+                  <p>조회수 : {data.hits}</p>
                   <hr />
                 </div>
               );
             })
           ) : (
-            <h4>
-              <h3>검색어: {searchKeyword}</h3> 검색 결과가 존재하지 않습니다.
-            </h4>
+            <>
+              <h3>검색어: {searchKeyword}</h3>
+              <h4>검색 결과가 존재하지 않습니다.</h4>
+            </>
           )}
           {/* 검색 결과 창 종료*/}
         </div>

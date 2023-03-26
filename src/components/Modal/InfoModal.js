@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../../store/ModalSlice";
+import { closeModal } from "../../reducer/ModalSlice.ts";
 import { ExitButton } from "./CommonStyles";
 
 function InfoModal() {

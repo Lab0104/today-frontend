@@ -40,7 +40,6 @@ const Condition = styled.div`
 `;
 
 export default function ModalMeeting({ list, onClose }) {
-  console.log(list);
   return (
     <Container>
       <Header>

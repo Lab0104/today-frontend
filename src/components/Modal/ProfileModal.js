@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../store/ModalSlice";
-import { toggleButtons } from "../../store/ToggleSlice";
+import { closeModal } from "../../reducer/ModalSlice.ts";
+import { toggleButtons } from "../../reducer/ToggleSlice";
 
 import { Container, ExitButton } from "./CommonStyles";
 import { interestData, reviewData, userData } from "./ModalData";

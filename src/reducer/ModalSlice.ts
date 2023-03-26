@@ -1,6 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+type ModalState = {
+  modalType: string;
+  isOpen: boolean;
+};
+
+const initialState: ModalState = {
   modalType: "",
   isOpen: false,
 };
@@ -10,15 +15,14 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    openModal: (state, actions) => {
-      const { modalType } = actions.payload;
+    openModal: (state, actions: PayloadAction<{ modalType: string }>) => {
       state.modalType === "InfoModal"
         ? (state.isOpen = true)
-        : state.modalType === modalType
+        : state.modalType === actions.payload.modalType
         ? (state.isOpen = !state.isOpen)
         : (state.isOpen = true);
 
-      state.modalType = modalType;
+      state.modalType = actions.payload.modalType;
     },
     closeModal: (state) => {
       state.isOpen = false;
@@ -26,6 +30,4 @@ export const modalSlice = createSlice({
   },
 });
 export const { openModal, closeModal } = modalSlice.actions;
-export const selectModal = (state) => state.modal; // State 전달
-
 export default modalSlice.reducer;

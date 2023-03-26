@@ -1,22 +1,12 @@
-/** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../../store/userSlice";
 
 import { Link } from "react-router-dom";
 
 import { REDIRECT_URI, REST_API_KEY } from "./dataKakaoLogin";
-import InputBox from "../../components/InputBox/InputBox";
 import "./Login.scss";
-
-const INPUT_SIZE = ["300px", "45px"];
-const title = css`
-  font-size: 30px;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 10px;
-`;
 
 export default function Login() {
   const user = useSelector((state) => state.user);
@@ -71,53 +61,30 @@ export default function Login() {
     window.location.href = KAKAO_AUTH_URL;
   };
 
-  /*
-  -- style변경 or API 요청에 활용 예정 --
-  useEffect(() => {
-    if (idStatus) {
-      console.log("참!");
-    } else {
-      console.log("거짓!");
-    }
-  }, [idStatus]);
-
-  useEffect(() => {
-    if (passwordStatus) {
-      console.log("참된값!");
-    } else {
-      console.log("거짓값!");
-    }
-  }, [passwordStatus]);
-  */
-
   return (
     <div className="login">
-      <Link to="/" css={title}>
+      <Link to="/" className="title">
         오늘 하루
       </Link>
       <div className="login-form">
         <InputBox
-          size={INPUT_SIZE}
           type="email"
           value={email}
+          placeholder="이메일"
           onChange={onEmailChangeHandler}
           style={{ border: `${idStatus ? "" : "2px solid red"}` }}
-        >
-          이메일
-        </InputBox>
+        />
         {idStatus || (
           <label className="input-alert">올바른 이메일 형식이 아닙니다.</label>
         )}
 
         <InputBox
-          size={INPUT_SIZE}
           type="password"
           value={password}
+          placeholder="비밀번호"
           onChange={onPasswordChangeHandler}
           style={{ border: `${passwordStatus ? "" : "2px solid red"}` }}
-        >
-          비밀번호
-        </InputBox>
+        />
         {passwordStatus || (
           <label className="input-alert" style={{}}>
             비밀번호는 최소 6자 이상입니다.
@@ -150,13 +117,16 @@ export default function Login() {
           <hr />
         </div>
         <img
-          src="images/kakao_login_buttons/kakao_login_large_wide.png"
+          src="/images/kakao_login_buttons/kakao_login_large_wide.png"
           alt="카카오 로그인"
           onClick={kakaoLoginHandler}
         />
         <div className="naver-btn">
           <img
-            src="images/naver_login_buttons/btnG_아이콘원형.png"
+            src={
+              process.env.PUBLIC_URL +
+              "images/naver_login_buttons/btnG_아이콘원형.png"
+            }
             alt="icon"
           />
           <span>네이버 로그인</span>
@@ -169,3 +139,12 @@ export default function Login() {
     </div>
   );
 }
+
+const InputBox = styled.input`
+  width: 300px;
+  height: 45px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  padding-left: 10px;
+  box-sizing: border-box;
+`;

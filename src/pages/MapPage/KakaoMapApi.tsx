@@ -2,28 +2,33 @@
 import { css } from "@emotion/react";
 
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { changeData } from "../../store/DisplayMeetingSlice";
-import { selectMap } from "../../store/KakaoMapSlice";
-import { meetingListDB } from "../../store/MeetingDB";
+import { changeData } from "../../reducer/DisplayMeetingSlice";
+import { toggleSorts } from "../../reducer/ToggleSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
 
 const { kakao } = window;
 
 function KakaoMapApi() {
+  const { meetingDB } = useAppSelector((state) => state.display);
   /** 지도 */
-  const [kakaoMap, setKakaoMap] = useState();
+  const [kakaoMap, setKakaoMap] = useState<any>(); //new kakao.maps() ?
   /** 모임 */
-  const [meetingList, setMeetingList] = useState([...meetingListDB]);
+  const [meetingList, setMeetingList] = useState([...meetingDB]);
   /** KakaoMap에서 제공하는 Marker 정보 */
-  const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState<any[]>([]); //new kakao.maps.Marker() Type 지정?
   /** 임의로 지정한 Marker 정보 */
-  const [markersData, setMarkersData] = useState([]);
+  const [markersData, setMarkersData] = useState<any[]>([]);
   /** 내 위치 마커 */
   const [userMarker, setUserMarker] = useState(new kakao.maps.Marker());
   /** 마커 클릭시 출력되는 창 */
-  const [infowindow, setInfowindow] = useState(
-    new kakao.maps.InfoWindow({ zIndex: 1 })
-  );
+  const [infowindow] = useState(new kakao.maps.InfoWindow({ zIndex: 1 }));
+  const [asyncCheck, setAsyncCheck] = useState(false);
 
   const {
     mapActions,
@@ -32,33 +37,22 @@ function KakaoMapApi() {
     checkOrder,
     zoomActions,
     trackLocation,
-  } = useSelector(selectMap);
+  } = useAppSelector((state) => state.map);
 
   /** 지도 Element와 useRef을 이용해 연결 */
   const mapContainer = useRef(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  /** 처음 렌더링 시 지도 생성 및 저장 */
+  useEffect(() => {
+    if (kakaoMap) return;
+    initMap();
+  }, []);
 
   /** CheckOrder의 변화에 따라 mapActions을 수행 */
   useEffect(() => {
-    switch (mapActions) {
-      case "search":
-        searchDB();
-        break;
-
-      case "move":
-        moveMap();
-        mouseOver();
-        break;
-
-      case "zoom":
-        const level = kakaoMap.getLevel();
-        zoomActions === "zoomIn"
-          ? kakaoMap.setLevel(level - 1)
-          : kakaoMap.setLevel(level + 1);
-        break;
-
-      default:
-        break;
+    if (kakaoMap) {
+      switchMapActions();
     }
   }, [checkOrder]);
 
@@ -99,11 +93,9 @@ function KakaoMapApi() {
       });
   }, [trackLocation]);
 
-  /** 처음 렌더링 시 지도 생성 및 저장 */
   useEffect(() => {
-    if (kakaoMap) return;
-    initMap();
-  }, []);
+    switchMapActions();
+  }, [asyncCheck]);
 
   /** 현재 위치 기반으로 지도 생성 */
   const initMap = () => {
@@ -121,6 +113,7 @@ function KakaoMapApi() {
             level: 5,
           };
           setKakaoMap(new kakao.maps.Map(mapContainer.current, options));
+          setAsyncCheck(true);
         },
         (error) => {
           alert(error + "Geolocation Error");
@@ -134,15 +127,38 @@ function KakaoMapApi() {
         level: 5,
       };
       setKakaoMap(new kakao.maps.Map(mapContainer.current, options));
+      setAsyncCheck(true);
+    }
+  };
+
+  const switchMapActions = () => {
+    if (!kakaoMap) return;
+
+    switch (mapActions) {
+      case "search":
+        searchDB();
+        break;
+
+      case "move":
+        moveMap();
+        mouseOver();
+        break;
+
+      case "zoom":
+        const level = kakaoMap.getLevel();
+        zoomActions === "zoomIn"
+          ? kakaoMap.setLevel(level - 1)
+          : kakaoMap.setLevel(level + 1);
+        break;
+
+      default:
+        break;
     }
   };
 
   /** 모임 검색 */
   const searchDB = async () => {
-    if (!kakaoMap) return;
-    if (searchKeyword === "") return;
-
-    setMeetingList([...meetingListDB]);
+    setMeetingList([...meetingDB]); // Add시 비동기로 늦음.
 
     infowindow.close();
     markers.map((marker, idx) => {
@@ -150,19 +166,16 @@ function KakaoMapApi() {
     });
     setMarkers([]);
 
-    let check = true;
     //검색 한 키워드가 제목, 내용, 주소 등에 포함 시 Filter
     const meeting = meetingList.filter((e) => {
       if (
         e.title.includes(searchKeyword) ||
-        e.subTitle.includes(searchKeyword) ||
+        e.sub_title.includes(searchKeyword) ||
         e.content.includes(searchKeyword) ||
         e.address.includes(searchKeyword)
       ) {
-        check = true;
         return true;
       }
-      check = false;
       return false;
     });
 
@@ -175,8 +188,8 @@ function KakaoMapApi() {
     //주소를 이용해 좌표값 할당
     await Promise.all(
       meeting.map((data, idx) => {
-        return new Promise((resolve) => {
-          geocoder.addressSearch(data.address, (result, status) => {
+        return new Promise<void>((resolve) => {
+          geocoder.addressSearch(data.address, (result: any, status: any) => {
             // 정상적으로 검색이 완료됐으면
             if (status === kakao.maps.services.Status.OK) {
               const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -206,6 +219,8 @@ function KakaoMapApi() {
                 infowindow.setContent(content(data.title));
                 infowindow.open(kakaoMap, marker);
               });
+            } else {
+              alert("ERROR");
             }
             resolve();
           });
@@ -214,10 +229,15 @@ function KakaoMapApi() {
     );
 
     // MapPage에서 출력하는 State에 저장
-    dispatch(changeData({ displayMeetings: [...meeting] }));
+    dispatch(
+      changeData({
+        displayMeetings: [...meeting],
+      })
+    );
+    dispatch(toggleSorts({ idx: 0 }));
 
     // 지도 바운더리 설정
-    if (check) kakaoMap.setBounds(bounds);
+    if (meeting.length !== 0) kakaoMap.setBounds(bounds);
   };
 
   // 마커 타이틀과 일치하는 곳으로 이동
@@ -242,7 +262,7 @@ function KakaoMapApi() {
   // 지도 반환
   return <div css={mapStyle} ref={mapContainer}></div>;
 }
-const content = (place) => {
+const content = (place: string) => {
   return `<div style="padding: 10px;">
     <p style="width:inherit; white-space:nowrap; margin:auto;">${place}</p>
   </div>
