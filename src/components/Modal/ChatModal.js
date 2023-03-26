@@ -4,8 +4,8 @@ import styled from "@emotion/styled";
 
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { closeModal, openModal } from "../../store/ModalSlice";
-import { toggleButtons } from "../../store/ToggleSlice";
+import { closeModal, openModal } from "../../reducer/ModalSlice.ts";
+import { toggleButtons } from "../../reducer/ToggleSlice";
 import { Container, Content, ExitButton, Icon } from "./CommonStyles";
 import { chatsData } from "./ModalData";
 

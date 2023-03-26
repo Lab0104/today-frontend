@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { openModal } from "../../store/ModalSlice";
+import { openModal } from "../../reducer/ModalSlice.ts";
 import { Container, Content, ExitButton, Icon } from "./CommonStyles";
 import { messagesData } from "./ModalData";
 

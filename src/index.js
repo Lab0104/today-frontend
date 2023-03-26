@@ -4,12 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
-import store from "./store/Store";
+import { store } from "./store";
 
 import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
 const queryClient = new QueryClient({
   queryCache: new QueryCache(),
-
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

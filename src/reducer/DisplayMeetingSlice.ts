@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { meetingListDB } from "./MeetingDB";
+import { meetingListDB } from "../store/MeetingDB";
 
 const initialState = {
   displayMeetings: [],
@@ -22,6 +22,6 @@ export const DisplayMeetingSlice = createSlice({
   },
 });
 export const { changeData, addData } = DisplayMeetingSlice.actions;
-export const selectDisplayMeeting = (state) => state.display;
+// export const selectDisplayMeeting = (state) => state.display;
 
 export default DisplayMeetingSlice.reducer;

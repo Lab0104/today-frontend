@@ -10,8 +10,13 @@
 // 모임 내용	content
 // 유저 id(작성자)	personalInfoId
 // 조회수 boardHits
-// 인기도 
+// 인기도
 // 좌표 position
+declare global {
+  type MeetingCard = {
+    [key: string]: string | number;
+  };
+}
 
 export const meetingListDB = [
   {

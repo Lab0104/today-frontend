@@ -4,28 +4,20 @@ import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import "./MapPage.css";
-import Map from "../../components/KakaoMapApi/KakaoMapApi";
-import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "../../store/ModalSlice";
+import Map from "./KakaoMapApi";
+import { openModal } from "../../reducer/ModalSlice.ts";
 import AdMeetingCard from "../../components/MeetingCard/AdMeetingCard";
 import {
   currentLocation,
   moveMap,
   searchMap,
-  selectMap,
   zoomMap,
-} from "../../store/KakaoMapSlice";
-import {
-  changeData,
-  selectDisplayMeeting,
-} from "../../store/DisplayMeetingSlice";
-import { setMeetingCard } from "../../store/MeetingCardSlice";
+} from "../../reducer/KakaoMapSlice";
+import { changeData } from "../../reducer/DisplayMeetingSlice";
+import { setMeetingCard } from "../../reducer/MeetingCardSlice";
 import { meetingData } from "../../components/MeetingCard/meetingList";
-import {
-  selectToggle,
-  toggleButtons,
-  toggleSorts,
-} from "../../store/ToggleSlice";
+import { toggleButtons, toggleSorts } from "../../reducer/ToggleSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 const filters = [
   "모두",
@@ -75,16 +67,16 @@ function MapPage() {
     false,
   ]);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   /** 검색 결과 */
-  const { searchKeyword } = useSelector(selectMap);
+  const { searchKeyword } = useAppSelector((state) => state.map);
 
   /** 표시중인 모임들 */
-  const { displayMeetings } = useSelector(selectDisplayMeeting);
+  const { displayMeetings } = useAppSelector((state) => state.display);
 
   /** 버튼 아이콘 Toggle 설정 -> Modal 창에서 접근 필요 -> RTK */
-  const { toggleButton, toggleSort } = useSelector(selectToggle);
+  const { toggleButton, toggleSort } = useAppSelector((state) => state.toggle);
 
   /** 입력 값 State로 전달 */
   const handleChange = (e) => {

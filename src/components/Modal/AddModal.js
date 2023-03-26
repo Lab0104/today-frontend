@@ -4,9 +4,9 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { addData } from "../../store/DisplayMeetingSlice";
-import { closeModal } from "../../store/ModalSlice";
-import { toggleButtons } from "../../store/ToggleSlice";
+import { addData } from "../../reducer/DisplayMeetingSlice";
+import { closeModal } from "../../reducer/ModalSlice.ts";
+import { toggleButtons } from "../../reducer/ToggleSlice";
 import { Container, ExitButton, Content } from "./CommonStyles";
 
 const AddModal = () => {

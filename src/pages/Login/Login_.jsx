@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { login } from "../../store/userSlice";
+import { login } from "../../reducer/userSlice";
 
 import { Link, useNavigate } from "react-router-dom";
 

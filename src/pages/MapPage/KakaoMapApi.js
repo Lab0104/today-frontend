@@ -2,18 +2,14 @@
 import { css } from "@emotion/react";
 
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  changeData,
-  selectDisplayMeeting,
-} from "../../store/DisplayMeetingSlice";
-import { selectMap } from "../../store/KakaoMapSlice";
-import { toggleSorts } from "../../store/ToggleSlice";
+import { changeData } from "../../reducer/DisplayMeetingSlice";
+import { toggleSorts } from "../../reducer/ToggleSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 const { kakao } = window;
 
 function KakaoMapApi() {
-  const { meetingDB } = useSelector(selectDisplayMeeting);
+  const { meetingDB } = useAppSelector((state) => state.display);
 
   /** 지도 */
   const [kakaoMap, setKakaoMap] = useState();
@@ -38,11 +34,11 @@ function KakaoMapApi() {
     checkOrder,
     zoomActions,
     trackLocation,
-  } = useSelector(selectMap);
+  } = useAppSelector((state) => state.map);
 
   /** 지도 Element와 useRef을 이용해 연결 */
   const mapContainer = useRef(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   /** 처음 렌더링 시 지도 생성 및 저장 */
   useEffect(() => {

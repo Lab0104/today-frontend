@@ -52,8 +52,8 @@ export const KakaoMapSlice = createSlice({
     },
   },
 });
-export const { searchMap, moveMap, openInfoWindow, zoomMap, currentLocation } =
+export const { searchMap, moveMap, zoomMap, currentLocation } =
   KakaoMapSlice.actions;
-export const selectMap = (state) => state.map;
+// export const selectMap = (state) => state.map;
 
 export default KakaoMapSlice.reducer;

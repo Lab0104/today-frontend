@@ -25,6 +25,6 @@ export const toggleSlice = createSlice({
   },
 });
 export const { toggleButtons, toggleSorts } = toggleSlice.actions;
-export const selectToggle = (state) => state.toggle; // State 전달
+// export const selectToggle = (state) => state.toggle; // State 전달
 
 export default toggleSlice.reducer;
