@@ -5,10 +5,19 @@ import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FcCheckmark } from "react-icons/fc";
-
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
 import { emailCheck } from "../../utils/regexCheck";
+
+type FormValues = {
+  nickname: string;
+  email: string;
+  inputVerifyNum: number;
+  password: string;
+  confirmPassword: string;
+  address: string;
+  detail_address: string;
+};
 
 export default function Signup_() {
   const [verifyNumber, setVerifyNumber] = useState(0);
@@ -23,11 +32,11 @@ export default function Signup_() {
     clearErrors,
     formState: { isSubmitting, errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<FormValues>();
 
   // const { onChange, onBlur, name, ref } = register('firstName');
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FormValues) => {
     console.log(data);
     if (!isVerify) {
       setError("inputVerifyNum", {
@@ -42,7 +51,7 @@ export default function Signup_() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      const isSignup = req.json();
+      const isSignup = await req.json();
       if (isSignup) {
         navigate("/signup/category");
       }
@@ -54,7 +63,13 @@ export default function Signup_() {
   const open = useDaumPostcodePopup();
   const POPUPWIDTH = 500;
   const POPUPHEIGHT = 400;
-  const handleComplete = (data) => {
+  const handleComplete = (data: {
+    sigungu: string;
+    address: string;
+    addressType: string;
+    bname?: string | undefined;
+    buildingName?: string | undefined;
+  }) => {
     // 향후 매칭에 활용 될 시군 데이터
     console.log(data.sigungu);
     let fullAddress = data.address;
@@ -127,7 +142,7 @@ export default function Signup_() {
 
   return (
     <Container>
-      <h2>회원가입</h2>
+      <h2 style={{ cursor: "default" }}>회원가입</h2>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           type="text"

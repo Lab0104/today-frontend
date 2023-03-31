@@ -9,6 +9,19 @@ const RedSpan = styled.span`
   color: red;
 `;
 
+interface meetingProps {
+  id: number;
+  onClick: () => void;
+  status: boolean;
+  title: string;
+  participant: number;
+  total: number;
+  subTitle: string;
+  address: string;
+  deadline: string;
+  like: boolean;
+}
+
 export default function MeetingCard({
   id,
   onClick,
@@ -20,7 +33,7 @@ export default function MeetingCard({
   address = "주소",
   deadline = "마감일",
   like = false,
-}) {
+}: meetingProps) {
   return (
     <div className="meeting">
       <div className="meeting-header">

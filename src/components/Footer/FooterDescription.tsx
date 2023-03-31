@@ -12,7 +12,7 @@ const ContainerDefaultOptions = css`
   text-align: left;
 `;
 
-const FooterDescriptionContainer = styled.div`
+const FooterDescriptionContainer = styled.div<{ background: string }>`
   padding: 40px;
   background-color: ${({ background }) => background};
   ${ContainerDefaultOptions}

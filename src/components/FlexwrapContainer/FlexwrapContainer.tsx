@@ -1,10 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
-export default function FlexwrapContainer({ children, style = {} }) {
+interface containerProps {
+  children: React.ReactNode;
+}
+
+export default function FlexwrapContainer({ children }: containerProps) {
   return (
     <div
-      style={style}
       css={css`
         display: flex;
         flex-wrap: wrap;

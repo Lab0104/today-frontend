@@ -18,7 +18,7 @@ const containerDefaultOptions = css`
   text-align: left;
 `;
 
-const FooterMenuContainer = styled.div`
+const FooterMenuContainer = styled.div<{ background: string }>`
   padding: 40px 20px;
   flex-direction: column;
   gap: 30px;

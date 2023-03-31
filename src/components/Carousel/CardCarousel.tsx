@@ -14,7 +14,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const ArrowButton = styled.button`
+const ArrowButton = styled.button<{ pos: string }>`
   position: absolute;
   top: 0;
   height: 100%;
@@ -45,7 +45,7 @@ const CarouselList = styled.ul`
   overflow: hidden;
 `;
 
-const CarouselListItem = styled.li`
+const CarouselListItem = styled.li<{ activeIndex: number }>`
   width: 100%;
   flex: 1 0 100%;
   transform: translateX(-${({ activeIndex }) => activeIndex * 100}%);
@@ -56,7 +56,7 @@ const CarouselListItem = styled.li`
   }
 `;
 
-const NavButton = styled.button`
+const NavButton = styled.button<{ isActive: boolean }>`
   width: 4px;
   height: 4px;
   background-color: #000;
@@ -86,7 +86,7 @@ const banners = [
   "images/kakao_login_buttons/kakao_login_large_wide.png",
 ];
 
-export default function CardCarousel({ list }) {
+export default function CardCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -102,17 +102,17 @@ export default function CardCarousel({ list }) {
   const handleMouseEnter = () => setIsFocused(true);
   const handleMouseLeave = () => setIsFocused(false);
 
-  const goTo = (index) => {
+  const goTo = (index: number) => {
     setActiveIndex(index);
   };
 
   useEffect(() => {
-    let interval;
+    let interval: number | undefined;
     if (!isFocused) {
-      interval = setInterval(handleNext, 3000);
+      interval = window.setInterval(handleNext, 3000);
     }
     return () => {
-      clearInterval(interval);
+      window.clearInterval(interval);
     };
   }, [isFocused, handleNext]);
 

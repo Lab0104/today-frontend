@@ -16,7 +16,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const ArrowButton = styled.button`
+const ArrowButton = styled.button<{ pos: string }>`
   position: absolute;
   top: calc(50% - 22.5px);
   z-index: 1;
@@ -58,7 +58,7 @@ const MeetingList = styled.div`
   }
 `;
 
-const NavButton = styled.button`
+const NavButton = styled.button<{ isActive: boolean }>`
   width: 4px;
   height: 4px;
   background-color: #000;
@@ -79,25 +79,43 @@ const Nav = styled.ul`
   justify-content: center;
 `;
 
+export type listType = {
+  id: number;
+  title: string;
+  participant: number;
+  total: number;
+  subTitle: string;
+  address: string;
+  deadline: string;
+  status: boolean;
+  like: boolean;
+}[];
+
+interface carouselProps {
+  itemCount: number;
+  count: number;
+  onClickModal: (count: number, id: number) => void;
+  list: listType;
+}
+
 export default function Carousel({
   list,
-  children,
   itemCount,
   count,
   onClickModal,
-}) {
-  const [activeIndex, setActiveIndex] = useState(0);
+}: carouselProps) {
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const navItemCount = useMemo(
     () =>
       list.length % itemCount === 0
         ? list.length / itemCount
-        : parseInt(list.length / itemCount) + 1,
+        : Math.floor(list.length / itemCount) + 1,
     [list.length, itemCount]
   );
-  // const [isFocused, setIsFocused] = useState(false);
+  // const [isFocused, setIsFocused] = useState<boolean>(false);
 
   const resetActiveIndex = useCallback(
-    (activeIndex) => {
+    (activeIndex: number) => {
       if (navItemCount <= activeIndex) {
         setActiveIndex((prev) => navItemCount - 1);
       }
@@ -120,7 +138,7 @@ export default function Carousel({
   // const handleMouseEnter = () => setIsFocused(true);
   // const handleMouseLeave = () => setIsFocused(false);
 
-  const goTo = (index) => {
+  const goTo = (index: number) => {
     setActiveIndex(index);
   };
 

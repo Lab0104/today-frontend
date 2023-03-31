@@ -20,10 +20,11 @@ export default function Category() {
     Array.from({ length: imageSrc.length }).map(() => false)
   );
 
-  const itemClick = (e) => {
+  const itemClick = (e: React.MouseEvent) => {
+    const id = Number((e.target as HTMLElement).id);
     setIsClick((prev) => {
       let arr = [...prev];
-      arr[e.target.id] = !arr[e.target.id];
+      arr[id] = !arr[id];
       return arr;
     });
   };
@@ -41,6 +42,7 @@ export default function Category() {
 
     if (res) {
       alert("축하합니다! 회원가입이 완료되었습니다!");
+      console.log(obj);
       navigate("/login");
     }
   };
@@ -50,17 +52,20 @@ export default function Category() {
       <h2>관심있는 모임을 알려주세요!</h2>
       <p>알려주신 모임을 추천해드려요</p>
       <CategoryList>
-        {imageSrc.map((item, idx) => (
-          <CategoryItem
-            key={idx}
-            onClick={itemClick}
-            id={idx}
-            css={isClick[idx] && selected}
-          >
-            <Image src={item.src} alt="icon" id={idx} />
-            <ImageMessage id={idx}>{item.msg}</ImageMessage>
-          </CategoryItem>
-        ))}
+        {imageSrc.map((item, idx) => {
+          const id = String(idx);
+          return (
+            <CategoryItem
+              key={id}
+              onClick={itemClick}
+              css={isClick[idx] && selected}
+              id={id}
+            >
+              <Image src={item.src} alt="icon" id={id} />
+              <ImageMessage id={id}>{item.msg}</ImageMessage>
+            </CategoryItem>
+          );
+        })}
       </CategoryList>
       <Button onClick={submitClick}>선택 완료</Button>
     </Container>

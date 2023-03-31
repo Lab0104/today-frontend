@@ -21,14 +21,14 @@ const Item = styled.li`
 `;
 
 export default function InfiniteScroll({ size = 25 }) {
-  const currentPageRef = useRef(0);
+  const currentPageRef = useRef<number>(0);
   const listRef = useRef(null);
 
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<any[]>([]);
   const [isLast, setIsLast] = useState(false);
   const [isScrollBottom, setIsScrollBottom] = useState(false);
 
-  const getList = async (init) => {
+  const getList = async (init?: boolean | undefined) => {
     const params = { page: currentPageRef.current, size: size };
 
     try {

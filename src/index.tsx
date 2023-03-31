@@ -11,7 +11,9 @@ const queryClient = new QueryClient({
   queryCache: new QueryCache(),
 });
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 root.render(
   // <React.StrictMode>

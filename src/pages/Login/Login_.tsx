@@ -10,6 +10,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { REDIRECT_URI, REST_API_KEY } from "./dataKakaoLogin";
 
+type FormValues = {
+  email: string;
+  password: string;
+  isSaved: boolean;
+};
+
 export default function Login_() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,9 +26,9 @@ export default function Login_() {
     register,
     formState: { isSubmitting, errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<FormValues>();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FormValues) => {
     console.log(data);
     try {
       const req = await fetch("/api/login", {
@@ -188,7 +194,7 @@ const SearchInfo = styled.div`
 const LineContainer = styled.div`
   width: 100%;
   display: flex;
-  gap: 15px;
+  gap: 10px;
   font-size: 12px;
 `;
 
@@ -196,13 +202,14 @@ const LoginButton = styled.button`
   font-size: 12px;
 `;
 const Line = styled.hr`
-  width: 50%;
+  width: 45%;
   height: 0;
   border-top: 1px solid #000;
   outline: none;
 `;
 const Span = styled.span`
-  width: 30px;
+  width: 10%;
+  cursor: default;
 `;
 
 const Img = styled.img`

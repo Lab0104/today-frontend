@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled from "@emotion/styled";
 import { CSSTransition } from "react-transition-group";
 
@@ -34,7 +34,19 @@ const Container = styled.div`
   width: 100%;
 `;
 
-export default function Modal({ children, isOpen, onClose, selector }) {
+interface modalProps {
+  children: ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+  selector?: string;
+}
+
+export default function Modal({
+  children,
+  isOpen,
+  onClose,
+  selector,
+}: modalProps) {
   return (
     <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
       <Portal selector={selector}>

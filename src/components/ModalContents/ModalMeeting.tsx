@@ -39,26 +39,39 @@ const Condition = styled.div`
   font-size: 14px;
 `;
 
-export default function ModalMeeting({ list, onClose }) {
+interface modalProps {
+  list: {
+    title: string;
+    total: number;
+    participant: number;
+    subTitle: string;
+    address: string;
+    status: boolean;
+    deadline: string;
+  } | null;
+  onClose: () => void;
+}
+
+export default function ModalMeeting({ list, onClose }: modalProps) {
   return (
     <Container>
       <Header>
         <span>아이콘</span>
         <Title>
-          {list.title} ({list.participant}/{list.total})
-          <div style={{ fontSize: "16px" }}>{list.subTitle}</div>
+          {list?.title} ({list?.participant}/{list?.total})
+          <div style={{ fontSize: "16px" }}>{list?.subTitle}</div>
         </Title>
         <Close onClick={onClose}>닫기</Close>
       </Header>
       <Condition>
-        <div>{list.address}</div>
+        <div>{list?.address}</div>
         <div>
-          {list.status ? (
+          {list?.status ? (
             <span css={green}>모집중</span>
           ) : (
             <span css={red}>모집종료</span>
           )}{" "}
-          | {list.deadline}
+          | {list?.deadline}
         </div>
       </Condition>
     </Container>

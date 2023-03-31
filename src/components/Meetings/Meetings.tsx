@@ -2,7 +2,10 @@
 import styled from "@emotion/styled";
 import MeetingCard from "../MeetingCard/MeetingCard";
 
-const CarouselContainer = styled.div`
+const CarouselContainer = styled.div<{
+  activeIndex: number;
+  itemCount: number;
+}>`
   display: flex;
   width: 270px;
   margin: 40px 0;
@@ -13,6 +16,24 @@ const CarouselContainer = styled.div`
   );
   transition: 200ms ease;
 `;
+export type listType = {
+  id: number;
+  status: boolean;
+  title: string;
+  participant: number;
+  total: number;
+  subTitle: string;
+  address: string;
+  deadline: string;
+  like: boolean;
+};
+interface meetingProps {
+  count: number;
+  meetingList: listType[];
+  onClickModal: (count: number, id: number) => void;
+  itemCount: number;
+  activeIndex: number;
+}
 
 export default function Meetings({
   count,
@@ -20,7 +41,7 @@ export default function Meetings({
   onClickModal,
   itemCount = 1,
   activeIndex = 0,
-}) {
+}: meetingProps) {
   return (
     <CarouselContainer activeIndex={activeIndex} itemCount={itemCount}>
       {meetingList &&

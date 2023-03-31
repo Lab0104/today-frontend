@@ -1,3 +1,11 @@
+interface pageProps {
+  count: number;
+  page: number;
+  onPageChange: (item: number) => void;
+  disabled?: boolean | undefined;
+  siblingCount?: number | undefined;
+  boundaryCount?: number | undefined;
+}
 const usePagination = ({
   count, // 전체 페이지 수
   page, // 현재 페이지
@@ -5,8 +13,8 @@ const usePagination = ({
   disabled,
   siblingCount = 1, // 현재 페이지 전후에 항상 표시되는 페이지 수
   boundaryCount = 1, // 시작과 끝에서 항상 표시되는 페이지의 수
-}) => {
-  const range = (start, end) => {
+}: pageProps) => {
+  const range = (start: number, end: number) => {
     const length = end - start + 1;
     return Array.from({ length }).map((_, index) => index + start);
   };

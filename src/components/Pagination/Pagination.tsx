@@ -5,7 +5,7 @@ import { AiOutlineEllipsis } from "react-icons/ai";
 import usePagination from "../../hooks/usePagination";
 
 const Navigation = styled.nav``;
-const Button = styled.button`
+const Button = styled.button<{ selected: boolean }>`
   color: ${({ selected }) => (selected ? "#fff" : "#000")};
   border: 0;
   margin: 0;
@@ -37,12 +37,21 @@ const ItemList = styled.ul`
   list-style: none;
 `;
 
-const getLabel = (item) => {
+const getLabel = (item: number | string) => {
   if (typeof item === "number") return item;
   else if (item.indexOf("ellipsis") > -1) return <AiOutlineEllipsis />;
   else if (item.indexOf("prev") > -1) return <GrFormPrevious />;
   else if (item.indexOf("next") > -1) return <GrFormNext />;
 };
+
+interface pageProps {
+  count: number;
+  page: number;
+  onPageChange: (item: number) => void;
+  disabled?: boolean | undefined;
+  siblingCount?: number | undefined;
+  boundaryCount?: number | undefined;
+}
 
 export default function Pagination({
   count,
@@ -51,7 +60,7 @@ export default function Pagination({
   disabled,
   siblingCount,
   boundaryCount,
-}) {
+}: pageProps) {
   const { items } = usePagination({
     count,
     page,

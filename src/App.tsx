@@ -13,7 +13,7 @@ import MapPage from "./pages/MapPage/MapPage";
 import Main from "./pages/Main/Main";
 import GlobalModal from "./components/Modal/GlobalModal";
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
       <GlobalModal />
@@ -30,6 +30,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

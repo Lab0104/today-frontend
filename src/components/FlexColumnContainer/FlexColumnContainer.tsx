@@ -1,7 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
-export default function MeetingContainer({ children, style = {} }) {
+interface containerProps {
+  children: React.ReactNode;
+  style: object;
+}
+
+export default function MeetingContainer({
+  children,
+  style = {},
+}: containerProps) {
   return (
     <div
       style={style}

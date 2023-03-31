@@ -4,42 +4,45 @@ import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-export default function PasswordSearch() {
+type FormValues = {
+  nickname: string;
+};
+
+export default function IdSearch() {
   const navigate = useNavigate();
   const {
     register,
     formState: { isSubmitting, errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<FormValues>();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: {}) => {
     // 회원가입 비동기 처리 -> 서버로 데이터 보내는 로직 작성하기
     await new Promise((dummy) => setTimeout(dummy, 1000));
     console.log(data);
   };
   return (
     <Container>
-      <h2>비밀번호 찾기</h2>
+      <h2>아이디 찾기</h2>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Label id="email">이메일</Label>
+        <Label id="email">닉네임</Label>
         <Input
-          id="email"
           type="text"
-          placeholder="이메일(ID)"
-          css={errors?.email && inputError}
-          {...register("email", {
-            required: "이메일을 입력해주세요.",
-            pattern: {
-              value: /\w{4,}@\w{2,}\.\w{2,}/g,
-              message: "유효한 이메일 형식이 아닙니다.",
+          placeholder="별명"
+          css={errors?.nickname && inputError}
+          {...register("nickname", {
+            required: "닉네임을 입력해주세요.",
+            minLength: {
+              value: 2,
+              message: "2자 이상 입력해주세요.",
             },
           })}
         />
-        {errors?.email && (
-          <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
+        {errors.nickname && (
+          <FormErrorMessage>{errors?.nickname?.message}</FormErrorMessage>
         )}
         <SearchButton type="submit" disabled={isSubmitting}>
-          비밀번호 찾기
+          아이디 찾기
         </SearchButton>
         <BackButton type="button" onClick={() => navigate("/login")}>
           돌아가기
@@ -71,7 +74,7 @@ const Label = styled.label`
   font-size: 12px;
   text-align: left;
 `;
-const Input = styled.input`
+const Input = styled.input<{ css: {} | undefined }>`
   outline: none;
 `;
 const FormErrorMessage = styled.p`
