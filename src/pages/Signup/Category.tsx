@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const imageSrc = [
   { src: "/images/category/cafe.png", msg: "카페 탐방" },
@@ -68,16 +69,28 @@ export default function Category() {
         })}
       </CategoryList>
       <Button onClick={submitClick}>선택 완료</Button>
+      <Link
+        to="/login"
+        css={nonSelect}
+        onClick={() => alert("회원가입이 완료되었습니다.")}
+      >
+        다음에 선택할게요
+      </Link>
     </Container>
   );
 }
+
+const nonSelect = css`
+  font-size: 12px;
+  text-decoration: underline;
+  color: gray;
+`;
 
 const selected = css`
   border: 2px solid black;
 `;
 
 const Container = styled.div`
-  max-width: 1120px;
   padding: 30px;
   display: flex;
   flex-direction: column;

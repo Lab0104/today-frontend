@@ -7,6 +7,7 @@ export const userSlice = createSlice({
     password: null,
     isSaved: false,
     isLogged: false,
+    login_method: "",
   },
   reducers: {
     login: (state, action) => {
@@ -15,14 +16,17 @@ export const userSlice = createSlice({
       state.password = action.payload.password;
       state.isSaved = action.payload.isSaved;
       state.isLogged = true;
+      state.login_method = action.payload.login_method;
     },
     logout: (state) => {
       state.email = null;
       state.password = null;
       state.isLogged = false;
+      state.login_method = "";
     },
     kakaoLogin: (state) => {
       state.isLogged = true;
+      state.login_method = "kakao";
     },
   },
 });

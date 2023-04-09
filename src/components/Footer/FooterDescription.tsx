@@ -13,6 +13,7 @@ const ContainerDefaultOptions = css`
 `;
 
 const FooterDescriptionContainer = styled.div<{ background: string }>`
+  width: 100%;
   padding: 40px;
   background-color: ${({ background }) => background};
   ${ContainerDefaultOptions}

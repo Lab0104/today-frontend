@@ -15,40 +15,22 @@ const hidden = css`
   visibility: hidden;
 `;
 
+type dropdownList = {
+  name: string;
+  href: string;
+};
+type dropdownProps = {
+  list: dropdownList[];
+  onClick: React.MouseEventHandler<HTMLAnchorElement> | undefined;
+};
 type EventHandlers<T> = Omit<
   DOMAttributes<T>,
   "children" | "dangerouslySetInnerHTML"
 >;
-
-export type Event<
+type Event<
   TElement extends keyof JSX.IntrinsicElements,
   TEventHandler extends keyof EventHandlers<TElement>
 > = ComponentProps<TElement>[TEventHandler];
-
-const isNotLogin = (
-  handler: (e: { target: { innerHTML: string } }) => void
-) => [{ name: "로그인", href: "/login", onclick: handler }];
-const isLogin = (handler: (e: { target: { innerHTML: string } }) => void) => [
-  { name: "내 정보", href: "/", onclick: handler },
-  { name: "알림", href: "/", onclick: handler },
-  { name: "채팅", href: "/", onclick: handler },
-  { name: "로그아웃", href: "/", onclick: handler },
-];
-
-interface Props {
-  list: any;
-}
-
-const DropdownContents: React.FC<Props> = ({ list }) => {
-  return list.map(
-    (item: { name: string; href: string; onclick: () => void }) => (
-      <Link to={item.href} key={item.name} onClick={item.onclick}>
-        {item.name}
-      </Link>
-    )
-  );
-};
-
 interface globalStateUser {
   user: {
     email: null;
@@ -57,6 +39,26 @@ interface globalStateUser {
     isLogged: false;
   };
 }
+
+const keywords = ["단기", "스터디", "문화생활", "밥"];
+const userMenus = [
+  { name: "내 정보", href: "/" },
+  { name: "알림", href: "/" },
+  { name: "채팅", href: "/" },
+  { name: "로그아웃", href: "/" },
+];
+
+const DropdownContents: React.FC<dropdownProps> = ({ list, onClick }) => {
+  return (
+    <>
+      {list.map((item: dropdownList) => (
+        <Link to={item.href} key={item.name} onClick={onClick}>
+          {item.name}
+        </Link>
+      ))}
+    </>
+  );
+};
 
 export default function NavigationBar() {
   const navigate = useNavigate();
@@ -73,11 +75,19 @@ export default function NavigationBar() {
   const searchOnClick = () => {
     navigate("/map", { state: searchContext });
   };
-  const dropdownOnClick = (e: { target: { innerHTML: string } }) => {
-    if (e.target.innerHTML === "로그아웃") {
-      alert("로그아웃");
-      dispatch(logout());
+  const dropdownOnClick: Event<"a", "onClick"> = (e) => {
+    const value = e.currentTarget.innerHTML;
+    switch (value) {
+      case "로그아웃":
+        alert("로그아웃");
+        dispatch(logout());
+        break;
+      default:
     }
+  };
+  const keywordOnClick: Event<"span", "onClick"> = (e) => {
+    const value = e.currentTarget.innerHTML;
+    navigate("/map", { state: value });
   };
 
   const searchOnChange: Event<"input", "onChange"> = (e) => {
@@ -94,47 +104,27 @@ export default function NavigationBar() {
     <nav className="nav">
       <div className="header">
         <Link className="logo" to="/">
-          오늘 하루
+          LOGO
         </Link>
-        <div className="search">
-          <input
-            type="text"
-            value={searchContext}
-            placeholder="새로운 모임을 검색해보세요!"
-            onChange={searchOnChange}
-            onKeyDown={handleOnKeyDown}
-          />
-          <button
-            className="material-icons search-icon"
-            onClick={searchOnClick}
-          >
-            search
-          </button>
-        </div>
-        <div className="user">
-          <div className="dropdown" onClick={userOnClick}>
-            <span className="material-icons user-icon">account_circle</span>
-            <div
-              className="dropdown-contents"
-              css={dropdownToggle ? visible : hidden}
-            >
-              {isLogged ? (
-                <DropdownContents list={isLogin(dropdownOnClick)} />
-              ) : (
-                <DropdownContents list={isNotLogin(dropdownOnClick)} />
-              )}
+        <div className="searchContainer">
+          <div className="searchKeyword">
+            <span className="material-icons keywordIcon">search</span>
+            <div className="keywords">
+              {keywords &&
+                keywords.map((keyword, idx) => (
+                  <span key={idx} onClick={keywordOnClick}>
+                    {keyword}
+                  </span>
+                ))}
             </div>
           </div>
-        </div>
-      </div>
-      <div className="hidden">
-        <div className="hidden-search">
           <div className="search">
             <input
               type="text"
               value={searchContext}
-              placeholder="새로운 모임을 검색해보세요!"
+              placeholder="장소, 모임 검색"
               onChange={searchOnChange}
+              onKeyDown={handleOnKeyDown}
             />
             <button
               className="material-icons search-icon"
@@ -143,6 +133,51 @@ export default function NavigationBar() {
               search
             </button>
           </div>
+        </div>
+        <div className="user">
+          {isLogged ? (
+            <div className="dropdown" onClick={userOnClick}>
+              <span className="material-icons user-icon">account_circle</span>
+              <div
+                className="dropdown-contents"
+                css={dropdownToggle ? visible : hidden}
+              >
+                <DropdownContents list={userMenus} onClick={dropdownOnClick} />
+              </div>
+            </div>
+          ) : (
+            <div className="loginAndSignup">
+              <button onClick={() => navigate("/login")}>로그인</button>
+              <button onClick={() => navigate("/signup")}>회원가입</button>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="hidden">
+        <div className="searchKeyword">
+          <span className="material-icons keywordIcon">search</span>
+          <div className="keywords">
+            {keywords &&
+              keywords.map((keyword, idx) => (
+                <span key={idx} onClick={keywordOnClick}>
+                  {keyword}
+                </span>
+              ))}
+          </div>
+        </div>
+        <div className="search">
+          <input
+            type="text"
+            value={searchContext}
+            placeholder="장소, 모임 검색"
+            onChange={searchOnChange}
+          />
+          <button
+            className="material-icons search-icon"
+            onClick={searchOnClick}
+          >
+            search
+          </button>
         </div>
       </div>
     </nav>

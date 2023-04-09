@@ -19,6 +19,7 @@ const containerDefaultOptions = css`
 `;
 
 const FooterMenuContainer = styled.div<{ background: string }>`
+  width: 100%;
   padding: 40px 20px;
   flex-direction: column;
   gap: 30px;

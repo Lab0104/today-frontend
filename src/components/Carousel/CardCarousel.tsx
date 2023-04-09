@@ -43,13 +43,14 @@ const CarouselList = styled.ul`
   padding: 0;
   display: flex;
   overflow: hidden;
+  border-radius: 15px;
 `;
 
 const CarouselListItem = styled.li<{ activeIndex: number }>`
   width: 100%;
   flex: 1 0 100%;
   transform: translateX(-${({ activeIndex }) => activeIndex * 100}%);
-  transition: 200ms ease;
+  transition: 500ms ease;
   > img {
     width: 100%;
     height: fit-content;

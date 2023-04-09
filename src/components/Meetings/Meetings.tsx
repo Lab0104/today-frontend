@@ -6,9 +6,10 @@ const CarouselContainer = styled.div<{
   activeIndex: number;
   itemCount: number;
 }>`
+  border-box: box-sizing;
   display: flex;
   width: 270px;
-  margin: 40px 0;
+  margin: 40px 5px;
   justify-content: left;
   gap: 20px;
   transform: translateX(
@@ -17,14 +18,14 @@ const CarouselContainer = styled.div<{
   transition: 200ms ease;
 `;
 export type listType = {
-  id: number;
-  status: boolean;
+  meet_id: number;
   title: string;
-  participant: number;
-  total: number;
-  subTitle: string;
+  maximum_participants: number;
+  registered_participants_count: number;
   address: string;
   deadline: string;
+  date: string;
+  category: string;
   like: boolean;
 };
 interface meetingProps {
@@ -33,12 +34,14 @@ interface meetingProps {
   onClickModal: (count: number, id: number) => void;
   itemCount: number;
   activeIndex: number;
+  currentTime: number;
 }
 
 export default function Meetings({
   count,
   meetingList,
   onClickModal,
+  currentTime,
   itemCount = 1,
   activeIndex = 0,
 }: meetingProps) {
@@ -48,16 +51,16 @@ export default function Meetings({
         meetingList.map((meeting, index) => (
           <MeetingCard
             key={index}
-            id={meeting.id}
-            onClick={() => onClickModal(count, meeting.id - 1)}
-            status={meeting.status}
+            id={meeting.meet_id}
+            onClick={() => onClickModal(count, meeting.meet_id - 1)}
             title={meeting.title}
-            participant={meeting.participant}
-            total={meeting.total}
-            subTitle={meeting.subTitle}
+            participant={meeting.registered_participants_count}
+            total={meeting.maximum_participants}
             address={meeting.address}
             deadline={meeting.deadline}
+            category={meeting.category}
             like={meeting.like}
+            currentTime={currentTime}
           ></MeetingCard>
         ))}
     </CarouselContainer>

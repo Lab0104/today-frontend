@@ -1,14 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
-
-const green = css`
-  color: #227b3d;
-`;
-const red = css`
-  color: red;
-`;
+import MeetingStatus from "components/MeetingStatus/MeetingStatus";
 
 const Container = styled.div`
   display: flex;
@@ -31,49 +24,45 @@ const Title = styled.div`
 const Close = styled.span`
   cursor: pointer;
 `;
-const Condition = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  text-align: left;
-  font-size: 14px;
-`;
 
 interface modalProps {
   list: {
+    meet_id: number;
     title: string;
-    total: number;
-    participant: number;
-    subTitle: string;
+    maximum_participants: number;
+    registered_participants_count: number;
     address: string;
-    status: boolean;
     deadline: string;
+    date: string;
+    category: string;
+    like: boolean;
   } | null;
   onClose: () => void;
+  currentTime: number;
 }
 
-export default function ModalMeeting({ list, onClose }: modalProps) {
+export default function ModalMeeting({
+  list,
+  onClose,
+  currentTime,
+}: modalProps) {
   return (
     <Container>
       <Header>
         <span>아이콘</span>
         <Title>
-          {list?.title} ({list?.participant}/{list?.total})
-          <div style={{ fontSize: "16px" }}>{list?.subTitle}</div>
+          {list?.title} ({list?.registered_participants_count}/
+          {list?.maximum_participants})
         </Title>
         <Close onClick={onClose}>닫기</Close>
       </Header>
-      <Condition>
-        <div>{list?.address}</div>
-        <div>
-          {list?.status ? (
-            <span css={green}>모집중</span>
-          ) : (
-            <span css={red}>모집종료</span>
-          )}{" "}
-          | {list?.deadline}
-        </div>
-      </Condition>
+      <span>{list?.address}</span>
+      <MeetingStatus
+        total={list?.maximum_participants}
+        participant={list?.registered_participants_count}
+        deadline={list?.deadline}
+        currentTime={currentTime}
+      />
     </Container>
   );
 }

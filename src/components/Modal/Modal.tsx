@@ -29,9 +29,10 @@ const Dim = styled.div`
 `;
 
 const Container = styled.div`
-  max-width: 456px;
-  position: relative;
   width: 100%;
+  max-width: 456px;
+  min-width: 375px;
+  position: relative;
 `;
 
 interface modalProps {

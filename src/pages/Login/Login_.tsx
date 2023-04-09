@@ -44,6 +44,7 @@ export default function Login_() {
             email: data.email,
             password: data.password,
             isSaved: data.isSaved,
+            login_method: "default",
           })
         );
         navigate("/");

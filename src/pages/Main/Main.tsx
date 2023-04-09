@@ -6,7 +6,8 @@ import axios from "axios";
 import { useQuery } from "react-query";
 
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
-import Carousel from "../../components/Carousel/Carousel";
+import MeetingCarousel from "../../components/Carousel/MeetingCarousel";
+import CardCarousel from "../../components/Carousel/CardCarousel";
 import FlexColumnContainer from "../../components/FlexColumnContainer/FlexColumnContainer";
 import FlexwrapContainer from "../../components/FlexwrapContainer/FlexwrapContainer";
 import Pagination from "../../components/Pagination/Pagination";
@@ -17,18 +18,19 @@ import FooterDescription from "../../components/Footer/FooterDescription";
 import FooterMenus from "../../components/Footer/FooterMenus";
 
 import useWidthThrottle from "../../hooks/useWidthThrottle";
+import { getCurrentTimeToNumber } from "utils/time";
 
 export type listType = {
   title: string;
   list: {
-    id: number;
-    status: boolean;
+    meet_id: number;
     title: string;
-    participant: number;
-    total: number;
-    subTitle: string;
+    maximum_participants: number;
+    registered_participants_count: number;
     address: string;
     deadline: string;
+    date: string;
+    category: string;
     like: boolean;
   }[];
 };
@@ -53,6 +55,7 @@ function Placeholder() {
 }
 
 export default function Main() {
+  const currentTime = getCurrentTimeToNumber();
   const width = useWidthThrottle();
   const [itemCount, setItemCount] = useState(0);
   useEffect(() => {
@@ -135,7 +138,7 @@ export default function Main() {
       {meetings !== null ? (
         <>
           <NavigationBar />
-          <MainContainer>
+          <MainContainer width={width}>
             {/* Modal Start */}
             <Modal isOpen={isOpen} onClose={handleClose} selector="modal-root">
               <ModalBody>
@@ -145,6 +148,7 @@ export default function Main() {
                       meetings && meetings[meetingsCount].list[meetingIndex]
                     }
                     onClose={handleClose}
+                    currentTime={currentTime}
                   />
                 ) : (
                   <p>Not Found 404</p>
@@ -152,9 +156,9 @@ export default function Main() {
               </ModalBody>
             </Modal>
             {/* Modal End */}
-
+            <CardCarousel />
             {/* Pagination Start */}
-            <div style={{ display: "none" }}>
+            <div style={{ display: "none", marginTop: "100px" }}>
               <ul>
                 {items.map((item: { _id: number; name: string }) => (
                   <li key={item._id}>{item.name}</li>
@@ -167,7 +171,7 @@ export default function Main() {
               />
             </div>
             {/* Pagination End */}
-            <ListContainer width={width}>
+            <ListContainer>
               {isLoading
                 ? Array.from({ length: 3 }).map((_, index) => (
                     <Placeholder key={index} />
@@ -176,11 +180,12 @@ export default function Main() {
                   meetings.map((meeting, idx) => (
                     <MeetingList key={idx}>
                       <Title>{meeting.title}</Title>
-                      <Carousel
+                      <MeetingCarousel
                         list={meeting.list}
                         itemCount={itemCount}
                         count={idx}
                         onClickModal={handleOpen}
+                        currentTime={currentTime}
                       />
                     </MeetingList>
                   ))}
@@ -196,16 +201,7 @@ export default function Main() {
   );
 }
 
-const ListContainer = styled.div<{ width: number }>`
-  ${({ width }) =>
-    width > 475
-      ? css`
-          margin-top: 80px;
-        `
-      : css`
-          margin-top: 130px;
-        `}
-`;
+const ListContainer = styled.div``;
 const MeetingList = styled.div`
   display: flex;
   flex-direction: column;
@@ -216,10 +212,20 @@ const Title = styled.div`
   font-size: 20px;
   font-weight: 700;
 `;
-const MainContainer = styled.div`
+const MainContainer = styled.div<{ width: number }>`
   max-width: 1120px;
+  min-width: 375px;
   padding: 30px;
   margin: 0 auto;
+  box-sizing: border-box;
+  ${({ width }) =>
+    width > 600
+      ? css`
+          padding-top: 120px;
+        `
+      : css`
+          padding-top: 180px;
+        `}
 `;
 const ModalBody = styled.div`
   border-radius: 8px;
