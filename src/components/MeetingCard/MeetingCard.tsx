@@ -1,53 +1,42 @@
 import MeetingStatus from "components/MeetingStatus/MeetingStatus";
+import LikeButton from "./LikeButton";
+
+import { TypeMeetingList } from "mainPageTypes";
 import "./MeetingCard.css";
 
 interface meetingProps {
-  id: number;
-  onClick: () => void;
-  title: string;
-  participant: number;
-  total: number;
-  address: string;
-  deadline: string;
-  category: string;
-  like: boolean;
+  list: TypeMeetingList;
   currentTime: number;
+  onClick: () => void;
+  isLogged: boolean;
 }
 
 export default function MeetingCard({
-  id,
-  onClick,
+  list,
   currentTime,
-  title = "제목",
-  participant = 0,
-  total = 0,
-  address = "주소",
-  deadline = "마감일",
-  category = "대메뉴",
-  like = false,
+  onClick,
+  isLogged,
 }: meetingProps) {
+  const {
+    title,
+    maximum_participants,
+    registered_participants_count,
+    address,
+    deadline,
+    category,
+  } = list;
+
   return (
     <div className="meeting">
       <div className="meeting-category">
         <MeetingStatus
-          total={total}
-          participant={participant}
+          total={maximum_participants}
+          participant={registered_participants_count}
           deadline={deadline}
           currentTime={currentTime}
         />
         <span>{category} · 소분류</span>
-        <span
-          className={
-            like
-              ? "material-symbols-outlined like"
-              : "material-symbols-outlined"
-          }
-          onClick={() => {
-            like = !like;
-          }}
-        >
-          favorite
-        </span>
+        {isLogged && <LikeButton likeProp={list?.like} />}
       </div>
       <span className="meeting-title" onClick={onClick}>
         {title}

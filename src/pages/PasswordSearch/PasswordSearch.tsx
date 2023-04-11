@@ -4,28 +4,11 @@ import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import useWidthThrottle from "../../hooks/useWidthThrottle";
-
-const Test = styled.div<{ width: number }>`
-  width: 400px;
-  height: 400px;
-  background-color: blue;
-  ${({ width }) =>
-    width < 700
-      ? css`
-          padding: 10px;
-        `
-      : css`
-          padding: 40px;
-        `}
-`;
-
 type FormValues = {
   email: string;
 };
 
 export default function PasswordSearch() {
-  const width = useWidthThrottle();
   const navigate = useNavigate();
   const {
     register,
@@ -40,7 +23,6 @@ export default function PasswordSearch() {
   };
   return (
     <Container>
-      <Test width={width} />
       <h2>비밀번호 찾기</h2>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Label id="email">이메일</Label>

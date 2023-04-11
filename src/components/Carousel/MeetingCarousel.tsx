@@ -4,51 +4,15 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
 
-import Meetings from "../Meetings/Meetings";
+import MeetingCard from "components/MeetingCard/MeetingCard";
 
-const Base = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
+import { TypeMeetingList } from "mainPageTypes";
+import "./Carousel.scss";
 
-const Container = styled.div`
-  position: relative;
-`;
-
-const ArrowButton = styled.button<{ pos: string }>`
-  position: absolute;
-  top: calc(50% - 22.5px);
-  z-index: 1;
-  padding: 0;
-  font-size: 45px;
-  font-weight: bold;
-  background-color: transparent;
-  color: gray;
-  border: none;
-  margin: 0;
-  cursor: pointer;
-  &:hover {
-    color: black;
-  }
-  ${({ pos }) =>
-    pos === "left"
-      ? css`
-          left: -10px;
-        `
-      : css`
-          right: -10px;
-        `}
-`;
 // meetingcard 가로 260px(width: 250px & margin: 5px 0)
 // card gap: 10px
-const MeetingList = styled.div`
+const itemListStyle = css`
   width: 260px;
-  display: flex;
-  align-items: center;
-
-  overflow: hidden;
-  margin: 0 auto;
   @media screen and (min-width: 660px) {
     width: 530px;
   }
@@ -67,46 +31,38 @@ const NavButton = styled.button<{ isActive: boolean }>`
   opacity: ${({ isActive }) => (isActive ? 0.3 : 0.1)};
 `;
 
-const NavItem = styled.li`
-  display: inline-block;
-  margin-left: 2px;
-  margin-right: 2px;
-`;
-
-const Nav = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
+const CarouselContainer = styled.div<{
+  activeIndex: number;
+  itemCount: number;
+}>`
+  border-box: box-sizing;
   display: flex;
-  justify-content: center;
+  width: 270px;
+  margin: 40px 5px;
+  justify-content: left;
+  gap: 20px;
+  transform: translateX(
+    -${({ activeIndex, itemCount }) => (activeIndex === 0 ? activeIndex : activeIndex * itemCount * 100)}%
+  );
+  transition: 200ms ease;
 `;
-
-export type listType = {
-  meet_id: number;
-  title: string;
-  maximum_participants: number;
-  registered_participants_count: number;
-  address: string;
-  deadline: string;
-  date: string;
-  category: string;
-  like: boolean;
-}[];
 
 interface carouselProps {
   itemCount: number;
   count: number;
   onClickModal: (count: number, id: number) => void;
-  list: listType;
+  list: TypeMeetingList[];
   currentTime: number;
+  isLogged: boolean;
 }
 
-export default function Carousel({
+export default function MeetingCarousel({
   list,
   itemCount,
   count,
   onClickModal,
   currentTime,
+  isLogged,
 }: carouselProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const navItemCount = useMemo(
@@ -116,7 +72,6 @@ export default function Carousel({
         : Math.floor(list.length / itemCount) + 1,
     [list.length, itemCount]
   );
-  // const [isFocused, setIsFocused] = useState<boolean>(false);
 
   const resetActiveIndex = useCallback(
     (activeIndex: number) => {
@@ -139,58 +94,41 @@ export default function Carousel({
     resetActiveIndex(activeIndex);
   }, [resetActiveIndex, activeIndex]);
 
-  // const handleMouseEnter = () => setIsFocused(true);
-  // const handleMouseLeave = () => setIsFocused(false);
-
   const goTo = (index: number) => {
     setActiveIndex(index);
   };
 
-  // useEffect(() => {
-  //   let interval;
-  //   if (!isFocused) {
-  //     interval = setInterval(handleNext, 3000);
-  //   }
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [isFocused, handleNext]);
-
   return (
-    // <Base onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-    <Base>
-      <Container>
-        <ArrowButton pos={"left"} onClick={handlePrev}>
+    <div className="carousel-container">
+      <div className="content">
+        <button className="leftArrowButton" onClick={handlePrev}>
           <RiArrowDropLeftLine />
-        </ArrowButton>
-        <MeetingList>
-          <Meetings
-            count={count}
-            meetingList={list}
-            onClickModal={onClickModal}
-            activeIndex={activeIndex}
-            itemCount={itemCount}
-            currentTime={currentTime}
-          />
-        </MeetingList>
-        {/* <CarouselList>
-          {banners.map((banner, index) => (
-            <CarouselListItem activeIndex={activeIndex} key={index}>
-              <img src={banner} alt="이미지" />
-            </CarouselListItem>
-          ))}
-        </CarouselList> */}
-        <ArrowButton pos={"right"} onClick={handleNext}>
+        </button>
+        <ul className="itemList" css={itemListStyle}>
+          <CarouselContainer activeIndex={activeIndex} itemCount={itemCount}>
+            {list &&
+              list.map((meeting, index) => (
+                <MeetingCard
+                  key={index}
+                  list={meeting}
+                  currentTime={currentTime}
+                  onClick={() => onClickModal(count, meeting.meet_id - 1)}
+                  isLogged={isLogged}
+                ></MeetingCard>
+              ))}
+          </CarouselContainer>
+        </ul>
+        <button className="rightArrowButton" onClick={handleNext}>
           <RiArrowDropRightLine />
-        </ArrowButton>
-      </Container>
-      <Nav>
+        </button>
+      </div>
+      <ul className="nav">
         {Array.from({ length: navItemCount }).map((_, index) => (
-          <NavItem key={index} onClick={() => goTo(index)}>
+          <li className="navItem" key={index} onClick={() => goTo(index)}>
             <NavButton isActive={activeIndex === index} />
-          </NavItem>
+          </li>
         ))}
-      </Nav>
-    </Base>
+      </ul>
+    </div>
   );
 }

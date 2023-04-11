@@ -6,7 +6,7 @@ const useWidthThrottle = () => {
 
   const handleResize = _.throttle(() => {
     setWidth((val) => window.innerWidth);
-  }, 300);
+  }, 1000);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);

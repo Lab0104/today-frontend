@@ -1,49 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
 import { useEffect, useState, useCallback } from "react";
 
-const Base = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const Container = styled.div`
-  position: relative;
-`;
-
-const ArrowButton = styled.button<{ pos: string }>`
-  position: absolute;
-  top: 0;
-  height: 100%;
-  z-index: 1;
-  padding: 8px 12px;
-  font-size: 45px;
-  font-weight: bold;
-  background-color: transparent;
-  color: #fff;
-  border: none;
-  margin: 0;
-  cursor: pointer;
-  ${({ pos }) =>
-    pos === "left"
-      ? css`
-          left: 0;
-        `
-      : css`
-          right: 0;
-        `}
-`;
-
-const CarouselList = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  overflow: hidden;
-`;
+import "./Carousel.scss";
 
 const CarouselListItem = styled.li<{ activeIndex: number }>`
   width: 100%;
@@ -63,20 +23,6 @@ const NavButton = styled.button<{ isActive: boolean }>`
   opacity: ${({ isActive }) => (isActive ? 0.3 : 0.1)};
 `;
 
-const NavItem = styled.li`
-  display: inline-block;
-  margin-left: 2px;
-  margin-right: 2px;
-`;
-
-const Nav = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-`;
-
 const banners = [
   "images/kakao_login_buttons/kakao_login_large_wide.png",
   "images/kakao_login_buttons/kakao_login_large_wide.png",
@@ -86,7 +32,7 @@ const banners = [
   "images/kakao_login_buttons/kakao_login_large_wide.png",
 ];
 
-export default function CardCarousel() {
+export default function Carousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -117,29 +63,33 @@ export default function CardCarousel() {
   }, [isFocused, handleNext]);
 
   return (
-    <Base onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <Container>
-        <ArrowButton pos={"left"} onClick={handlePrev}>
-          <RiArrowDropLeftLine />
-        </ArrowButton>
-        <CarouselList>
+    <div
+      className="carousel-container"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="content">
+        <button className="leftArrowButton" onClick={handlePrev}>
+          <RiArrowDropLeftLine style={{ color: "black" }} />
+        </button>
+        <ul className="itemList">
           {banners.map((banner, index) => (
             <CarouselListItem activeIndex={activeIndex} key={index}>
               <img src={banner} alt="이미지" />
             </CarouselListItem>
           ))}
-        </CarouselList>
-        <ArrowButton pos={"right"} onClick={handleNext}>
+        </ul>
+        <button className="rightArrowButton" onClick={handleNext}>
           <RiArrowDropRightLine />
-        </ArrowButton>
-      </Container>
-      <Nav>
+        </button>
+      </div>
+      <ul className="nav">
         {Array.from({ length: banners.length }).map((_, index) => (
-          <NavItem key={index} onClick={() => goTo(index)}>
+          <li className="navItem" key={index} onClick={() => goTo(index)}>
             <NavButton isActive={activeIndex === index} />
-          </NavItem>
+          </li>
         ))}
-      </Nav>
-    </Base>
+      </ul>
+    </div>
   );
 }

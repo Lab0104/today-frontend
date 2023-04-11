@@ -1,0 +1,15 @@
+@import "../../utils/utils.scss";
+
+.notice-container {
+  max-width: $app-max-width;
+  min-width: $app-min-width;
+  padding: 120px 30px 30px 30px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .notice-container {
+    padding-top: 180px;
+  }
+}

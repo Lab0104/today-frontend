@@ -36,15 +36,16 @@ export default function Login_() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      const isLogin = await req.json();
+      const res = await req.json();
 
-      if (isLogin) {
+      if (res.isSuccess) {
         dispatch(
           login({
-            email: data.email,
-            password: data.password,
-            isSaved: data.isSaved,
-            login_method: "default",
+            id: res.user_id,
+            email: res.email,
+            isSaved: res.isSaved,
+            login_method: res.login_method,
+            isLogged: res.isSuccess,
           })
         );
         navigate("/");

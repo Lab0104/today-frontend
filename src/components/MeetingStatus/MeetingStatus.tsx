@@ -17,7 +17,6 @@ export default function MeetingStatus({
   deadline,
   currentTime,
 }: propsType) {
-  console.log("meetingStatus");
   const statusInnerHTML = (
     total: number | undefined,
     participant: number | undefined,

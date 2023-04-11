@@ -2,11 +2,13 @@
 import React, { useState, ComponentProps, DOMAttributes } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
+import { RiArrowDropUpLine, RiArrowDropDownLine } from "react-icons/ri";
 
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../reducer/userSlice";
 
-import "./NavigationBar.css";
+import { TypeUser } from "mainPageTypes";
+import "./NavigationBar.scss";
 
 const visible = css`
   visibility: visible;
@@ -31,14 +33,6 @@ type Event<
   TElement extends keyof JSX.IntrinsicElements,
   TEventHandler extends keyof EventHandlers<TElement>
 > = ComponentProps<TElement>[TEventHandler];
-interface globalStateUser {
-  user: {
-    email: null;
-    password: null;
-    isSaved: false;
-    isLogged: false;
-  };
-}
 
 const keywords = ["단기", "스터디", "문화생활", "밥"];
 const userMenus = [
@@ -63,7 +57,7 @@ const DropdownContents: React.FC<dropdownProps> = ({ list, onClick }) => {
 export default function NavigationBar() {
   const navigate = useNavigate();
 
-  const isLogged = useSelector((state: globalStateUser) => state.user.isLogged);
+  const isLogged = useSelector((state: TypeUser) => state.user.isLogged);
   const dispatch = useDispatch();
 
   const [dropdownToggle, setDropdownToggle] = useState(false);
@@ -101,7 +95,7 @@ export default function NavigationBar() {
   };
 
   return (
-    <nav className="nav">
+    <nav className="navigation-nav">
       <div className="header">
         <Link className="logo" to="/">
           LOGO
@@ -144,6 +138,11 @@ export default function NavigationBar() {
               >
                 <DropdownContents list={userMenus} onClick={dropdownOnClick} />
               </div>
+              {dropdownToggle ? (
+                <RiArrowDropUpLine style={{ color: "black" }} />
+              ) : (
+                <RiArrowDropDownLine style={{ color: "black" }} />
+              )}
             </div>
           ) : (
             <div className="loginAndSignup">

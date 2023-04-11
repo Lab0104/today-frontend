@@ -62,7 +62,7 @@ export default function Login() {
   };
 
   return (
-    <div className="login">
+    <div className="login-container">
       <Link to="/" className="title">
         오늘 하루
       </Link>
