@@ -3,52 +3,14 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
+import useWidthThrottle from "hooks/useWidthThrottle";
 
 import MeetingCard from "components/MeetingCard/MeetingCard";
 
 import { TypeMeetingList } from "mainPageTypes";
 import "./Carousel.scss";
 
-// meetingcard 가로 260px(width: 250px & margin: 5px 0)
-// card gap: 10px
-const itemListStyle = css`
-  width: 260px;
-  @media screen and (min-width: 660px) {
-    width: 530px;
-  }
-  @media screen and (min-width: 930px) {
-    width: 800px;
-  }
-  @media screen and (min-width: 1200px) {
-    width: 1070px;
-  }
-`;
-
-const NavButton = styled.button<{ isActive: boolean }>`
-  width: 4px;
-  height: 4px;
-  background-color: #000;
-  opacity: ${({ isActive }) => (isActive ? 0.3 : 0.1)};
-`;
-
-const CarouselContainer = styled.div<{
-  activeIndex: number;
-  itemCount: number;
-}>`
-  border-box: box-sizing;
-  display: flex;
-  width: 270px;
-  margin: 40px 5px;
-  justify-content: left;
-  gap: 20px;
-  transform: translateX(
-    -${({ activeIndex, itemCount }) => (activeIndex === 0 ? activeIndex : activeIndex * itemCount * 100)}%
-  );
-  transition: 200ms ease;
-`;
-
 interface carouselProps {
-  itemCount: number;
   count: number;
   onClickModal: (count: number, id: number) => void;
   list: TypeMeetingList[];
@@ -58,12 +20,19 @@ interface carouselProps {
 
 export default function MeetingCarousel({
   list,
-  itemCount,
   count,
   onClickModal,
   currentTime,
   isLogged,
 }: carouselProps) {
+  const width = useWidthThrottle();
+  const getCount = useCallback(() => {
+    if (width < 660) return 1;
+    else if (width < 930) return 2;
+    else if (width < 1200) return 3;
+    else return 4;
+  }, [width]);
+  const [itemCount, setItemCount] = useState(getCount());
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const navItemCount = useMemo(
     () =>
@@ -89,6 +58,10 @@ export default function MeetingCarousel({
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? prev - 1 + navItemCount : prev - 1));
   };
+
+  useEffect(() => {
+    setItemCount(getCount());
+  }, [getCount]);
 
   useEffect(() => {
     resetActiveIndex(activeIndex);
@@ -132,3 +105,39 @@ export default function MeetingCarousel({
     </div>
   );
 }
+
+const itemListStyle = css`
+  width: 260px;
+  @media screen and (min-width: 660px) {
+    width: 530px;
+  }
+  @media screen and (min-width: 930px) {
+    width: 800px;
+  }
+  @media screen and (min-width: 1200px) {
+    width: 1070px;
+  }
+`;
+
+const NavButton = styled.button<{ isActive: boolean }>`
+  width: 4px;
+  height: 4px;
+  background-color: #000;
+  opacity: ${({ isActive }) => (isActive ? 0.3 : 0.1)};
+`;
+
+const CarouselContainer = styled.div<{
+  activeIndex: number;
+  itemCount: number;
+}>`
+  border-box: box-sizing;
+  display: flex;
+  width: 270px;
+  margin: 40px 5px;
+  justify-content: left;
+  gap: 20px;
+  transform: translateX(
+    -${({ activeIndex, itemCount }) => (activeIndex === 0 ? activeIndex : activeIndex * itemCount * 100)}%
+  );
+  transition: 200ms ease;
+`;

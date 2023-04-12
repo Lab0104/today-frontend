@@ -4,10 +4,10 @@ import "./App.scss";
 
 import GlobalModal from "./components/Modal/GlobalModal";
 import Main from "./pages/Main/Main";
-import Login from "./pages/Login/Login_";
+import Login from "./pages/Login/Login";
 import KakaoLogin from "./pages/Login/KakaoLogin";
 import NaverLogin from "./pages/Login/NaverLogin";
-import Signup from "./pages/Signup/Signup_";
+import Signup from "./pages/Signup/Signup";
 import SignupCategory from "./pages/Signup/SignupCategory";
 import IdSearch from "./pages/IdSearch/IdSearch";
 import PasswordSearch from "./pages/PasswordSearch/PasswordSearch";

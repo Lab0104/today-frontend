@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 import MainPlaceHolder from "components/Skeleton/placeholders/MainPlaceHolder";
@@ -12,7 +12,6 @@ import MeetingCarousel from "../../components/Carousel/MeetingCarousel";
 import FooterDescription from "../../components/Footer/FooterDescription";
 import FooterMenus from "../../components/Footer/FooterMenus";
 
-import useWidthThrottle from "../../hooks/useWidthThrottle";
 import { getCurrentTimeToNumber } from "utils/time";
 import { useGetPostQuery } from "services/postApi";
 
@@ -21,21 +20,10 @@ import { TypeUser } from "mainPageTypes";
 import "./Main.scss";
 
 export default function Main() {
-  const isLogged = useSelector((state: TypeUser) => state.user.isLogged);
-
+  const { user_id: userId, isLogged } = useSelector(
+    (state: TypeUser) => state.user
+  );
   const currentTime = getCurrentTimeToNumber();
-  const width = useWidthThrottle();
-  const getCount = useCallback(() => {
-    if (width < 660) return 1;
-    else if (width < 930) return 2;
-    else if (width < 1200) return 3;
-    else return 4;
-  }, [width]);
-  const [itemCount, setItemCount] = useState(getCount());
-
-  useEffect(() => {
-    setItemCount(getCount());
-  }, [getCount]);
 
   /* Modal Start */
   const [isOpen, setIsOpen] = useState(false);
@@ -51,8 +39,12 @@ export default function Main() {
   };
   /* Modal End */
 
-  const { data, isLoading, error } = useGetPostQuery({
-    name: isLogged ? "meetings/login" : "meetings",
+  const {
+    data: meetingData,
+    isLoading: meetingLoading,
+    error: meetingError,
+  } = useGetPostQuery({
+    name: isLogged ? `meetings/login?user_id=${userId}` : "meetings",
   });
   // const dispatch = useDispatch();
   // const meetingList = useSelector(
@@ -80,8 +72,8 @@ export default function Main() {
   //     retry: 0, // 실패 시 재호출 횟수
   //   }
   // );
-  if (isLoading) return <MainPlaceHolder />;
-  if (error) return <div>404 Not Found</div>;
+  if (meetingLoading) return <MainPlaceHolder />;
+  if (meetingError) return <div>404 Not Found</div>;
 
   return (
     <>
@@ -92,7 +84,9 @@ export default function Main() {
           <div className="modalBody">
             {meetingsCount !== null && meetingIndex !== null ? (
               <ModalMeeting
-                list={data && data[meetingsCount].list[meetingIndex]}
+                list={
+                  meetingData && meetingData[meetingsCount].list[meetingIndex]
+                }
                 onClose={handleClose}
                 currentTime={currentTime}
               />
@@ -104,13 +98,12 @@ export default function Main() {
         {/* Modal End */}
         <MainBannerCarousel />
         <CategoryList />
-        {data &&
-          data.map((meeting: TypeMeetingData, idx: number) => (
+        {meetingData &&
+          meetingData.map((meeting: TypeMeetingData, idx: number) => (
             <div className="meetingList" key={idx}>
               <div className="title">{meeting.title}</div>
               <MeetingCarousel
                 list={meeting.list}
-                itemCount={itemCount}
                 count={idx}
                 onClickModal={handleOpen}
                 currentTime={currentTime}

@@ -7,47 +7,7 @@ import { useEffect, useState, useCallback } from "react";
 
 import "./Carousel.scss";
 
-const navStyle = css`
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background-color: white;
-  opacity: 0.5;
-`;
 const colors = ["#e4e4e4", "red", "green", "yellow", "black", "white"];
-const CarouselListItem = styled.li<{ activeIndex: number; src: string }>`
-  position: relative;
-  width: 100%;
-  height: 300px;
-  background-color: ${({ activeIndex }) => colors[activeIndex]};
-  background-image: url(${({ src }) => src});
-  background-repeat: no-repeat;
-  flex: 1 0 100%;
-  transform: translateX(-${({ activeIndex }) => activeIndex * 100}%);
-  transition: 200ms ease;
-  > img {
-    width: 100%;
-    height: fit-content;
-  }
-`;
-const Item = styled.div`
-  position: absolute;
-  left: 100px;
-  top: 140px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  font-size: 12px;
-`;
-
-const NavButton = styled.button<{ isActive: boolean }>`
-  width: 7px;
-  height: 7px;
-  padding: 0;
-  border-radius: 50%;
-  background-color: #000;
-  opacity: ${({ isActive }) => (isActive ? 0.3 : 0.1)};
-`;
 
 const banners = [
   "images/kakao_login_buttons/kakao_login_large_wide.png",
@@ -146,3 +106,44 @@ export default function MainBannerCarousel() {
     </div>
   );
 }
+
+const navStyle = css`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: white;
+  opacity: 0.5;
+`;
+const CarouselListItem = styled.li<{ activeIndex: number; src: string }>`
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background-color: ${({ activeIndex }) => colors[activeIndex]};
+  background-image: url(${({ src }) => src});
+  background-repeat: no-repeat;
+  flex: 1 0 100%;
+  transform: translateX(-${({ activeIndex }) => activeIndex * 100}%);
+  transition: 200ms ease;
+  > img {
+    width: 100%;
+    height: fit-content;
+  }
+`;
+const Item = styled.div`
+  position: absolute;
+  left: 100px;
+  top: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12px;
+`;
+
+const NavButton = styled.button<{ isActive: boolean }>`
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: #000;
+  opacity: ${({ isActive }) => (isActive ? 0.3 : 0.1)};
+`;

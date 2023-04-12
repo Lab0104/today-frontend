@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -9,6 +8,7 @@ import { login } from "../../reducer/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 import { REDIRECT_URI, REST_API_KEY } from "./dataKakaoLogin";
+import "./Login.scss";
 
 type FormValues = {
   email: string;
@@ -41,7 +41,7 @@ export default function Login_() {
       if (res.isSuccess) {
         dispatch(
           login({
-            id: res.user_id,
+            user_id: res.user_id,
             email: res.email,
             isSaved: res.isSaved,
             login_method: res.login_method,
@@ -62,12 +62,12 @@ export default function Login_() {
   };
 
   return (
-    <Container>
-      <Link to="/" css={Title}>
+    <div className="login-container">
+      <Link className="title" to="/">
         오늘 하루
       </Link>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <InputBox
+      <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
+        <input
           type="text"
           placeholder="ID(이메일)"
           css={errors?.email && inputError}
@@ -80,10 +80,10 @@ export default function Login_() {
           })}
         />
         {errors?.email && (
-          <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
+          <p className="errorMessage">{errors?.email?.message}</p>
         )}
 
-        <InputBox
+        <input
           type="password"
           placeholder="비밀번호"
           css={errors?.password && inputError}
@@ -96,148 +96,50 @@ export default function Login_() {
           })}
         />
         {errors?.password && (
-          <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
+          <p className="errorMessage">{errors?.password?.message}</p>
         )}
 
-        <CheckboxContainer>
+        <div className="loginCheckbox">
           <input type="checkbox" id="loginSaved" {...register("isSaved")} />
           <label id="loginSaved">아이디 저장하기</label>
-        </CheckboxContainer>
+        </div>
 
-        <LoginButton type="submit" disabled={isSubmitting}>
+        <button type="submit" disabled={isSubmitting}>
           로그인
-        </LoginButton>
-      </Form>
+        </button>
+      </form>
 
-      <SearchInfo>
+      <div className="loginOptions">
         <Link to="/search/id">아이디 찾기</Link>|
         <Link to="/search/password">비밀번호 찾기</Link>
-      </SearchInfo>
-      <LineContainer>
-        <Line />
-        <Span>또는</Span>
-        <Line />
-      </LineContainer>
-      <Img
+      </div>
+      <div className="line">
+        <hr />
+        <span>또는</span>
+        <hr />
+      </div>
+      <img
+        className="kakaoLoginImage"
         src="/images/kakao_login_buttons/kakao_login_large_wide.png"
         alt="카카오 로그인"
         onClick={kakaoLoginHandler}
       />
-      <NaverButton>
-        <Icon
+      <div className="naverLoginButton">
+        <img
+          className="naverLoginImage"
           src={"images/naver_login_buttons/btnG_아이콘원형.png"}
           alt="icon"
         />
-        <NaverSpan>네이버 로그인</NaverSpan>
-      </NaverButton>
-      <SearchInfo>
+        <span>네이버 로그인</span>
+      </div>
+      <div className="loginOptions">
         <span>아직 회원이 아니신가요?</span>
         <Link to="/signUp">회원가입</Link>
-      </SearchInfo>
-    </Container>
+      </div>
+    </div>
   );
 }
 
 const inputError = css`
   border: 2px solid red;
-`;
-
-const Container = styled.div`
-  width: 350px;
-  height: 100vh;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-`;
-
-const Form = styled.form`
-  width: 350px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-`;
-
-const Title = css`
-  font-size: 30px;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 10px;
-`;
-
-const InputBox = styled.input`
-  outline: none;
-`;
-
-const FormErrorMessage = styled.p`
-  font-size: 10px;
-  color: red;
-  text-align: left;
-  margin: -10px 0 0 0;
-`;
-
-const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
-  height: 14px;
-  font-size: 11px;
-  gap: 2px;
-`;
-
-const SearchInfo = styled.div`
-  display: flex;
-  gap: 7px;
-  align-items: center;
-  font-size: 12px;
-`;
-
-const LineContainer = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  font-size: 12px;
-`;
-
-const LoginButton = styled.button`
-  font-size: 12px;
-`;
-const Line = styled.hr`
-  width: 45%;
-  height: 0;
-  border-top: 1px solid #000;
-  outline: none;
-`;
-const Span = styled.span`
-  width: 10%;
-  cursor: default;
-`;
-
-const Img = styled.img`
-  display: block;
-  width: 100%;
-  cursor: pointer;
-`;
-
-const NaverButton = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 52.5px;
-  background-color: #03c75a;
-  border-radius: 6px;
-  color: white;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-`;
-const Icon = styled.img`
-  width: 45px;
-  height: 45px;
-  margin-left: 3px;
-`;
-const NaverSpan = styled.span`
-  padding-left: 90px;
-  font-size: 15px;
 `;

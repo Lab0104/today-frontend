@@ -1,10 +1,48 @@
-.signUp {
+.signup-container {
   display: flex;
-  height: 100vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  margin: 50px 0;
+  gap: 20px;
+
+  .title {
+    cursor: default;
+  }
+
+  .signupForm {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    input {
+      outline: none;
+    }
+
+    .errorMessage {
+      font-size: 10px;
+      color: red;
+      text-align: left;
+      margin: -10px 0 0 0;
+    }
+
+    .buttonForm {
+      display: flex;
+      gap: 10px;
+
+      input {
+        width: calc(80% - 5px);
+        outline: none;
+      }
+
+      button {
+        width: calc(20% - 5px);
+        transition: all 0.2s linear;
+        font-size: 12px;
+      }
+    }
+  }
 }
 .signUp h3 {
   color: #2d3748;

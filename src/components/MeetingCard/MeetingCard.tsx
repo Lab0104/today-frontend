@@ -2,7 +2,7 @@ import MeetingStatus from "components/MeetingStatus/MeetingStatus";
 import LikeButton from "./LikeButton";
 
 import { TypeMeetingList } from "mainPageTypes";
-import "./MeetingCard.css";
+import "./MeetingCard.scss";
 
 interface meetingProps {
   list: TypeMeetingList;
@@ -27,8 +27,8 @@ export default function MeetingCard({
   } = list;
 
   return (
-    <div className="meeting">
-      <div className="meeting-category">
+    <div className="meetingCard-container">
+      <div className="category">
         <MeetingStatus
           total={maximum_participants}
           participant={registered_participants_count}
@@ -38,11 +38,11 @@ export default function MeetingCard({
         <span>{category} · 소분류</span>
         {isLogged && <LikeButton likeProp={list?.like} />}
       </div>
-      <span className="meeting-title" onClick={onClick}>
+      <span className="title" onClick={onClick}>
         {title}
       </span>
       <span>{address}</span>
-      <span>{deadline}</span>
+      <span>{deadline.split("T").join(" ")}</span>
     </div>
   );
 }

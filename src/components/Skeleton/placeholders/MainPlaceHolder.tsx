@@ -5,7 +5,7 @@ import "./placeholder.scss";
 
 export default function MainPlaceHolder() {
   return (
-    <div className="container">
+    <div className="placeholder-container">
       <Skeleton width={100} height={80} widthUnit={"%"} rounded />
       <Skeleton width={100} height={300} widthUnit={"%"} rounded />
       {Array.from({ length: 4 }).map((_, idx) => (

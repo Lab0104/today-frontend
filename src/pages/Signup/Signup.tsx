@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
-import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +7,8 @@ import { FcCheckmark } from "react-icons/fc";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
 import { emailCheck } from "../../utils/regexCheck";
+
+import "./Signup.scss";
 
 type FormValues = {
   nickname: string;
@@ -141,10 +142,10 @@ export default function Signup_() {
   };
 
   return (
-    <Container>
-      <h2 style={{ cursor: "default" }}>회원가입</h2>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Input
+    <div className="signup-container">
+      <h2 className="title">회원가입</h2>
+      <form className="signupForm" onSubmit={handleSubmit(onSubmit)}>
+        <input
           type="text"
           placeholder="별명"
           css={errors?.nickname && inputError}
@@ -157,10 +158,10 @@ export default function Signup_() {
           })}
         />
         {errors?.nickname && (
-          <FormErrorMessage>{errors?.nickname?.message}</FormErrorMessage>
+          <p className="errorMessage">{errors?.nickname?.message}</p>
         )}
-        <ButtonForm>
-          <ButtonFormInput
+        <div className="buttonForm">
+          <input
             type="text"
             placeholder="ID(이메일)"
             css={errors?.email && inputError}
@@ -172,18 +173,18 @@ export default function Signup_() {
               },
             })}
           />
-          <ButtonFormSubmit type="button" onClick={onEmailVerifyClick}>
+          <button type="button" onClick={onEmailVerifyClick}>
             인증번호
             <br />
             받기
-          </ButtonFormSubmit>
-        </ButtonForm>
+          </button>
+        </div>
         {errors?.email && (
-          <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
+          <p className="errorMessage">{errors?.email?.message}</p>
         )}
         {isGetVerifyButtonClick && (
-          <ButtonForm>
-            <ButtonFormInput
+          <div className="buttonForm">
+            <input
               type="text"
               placeholder="인증번호"
               css={errors?.inputVerifyNum && inputError}
@@ -191,7 +192,7 @@ export default function Signup_() {
                 required: "인증번호를 입력해주세요",
               })}
             />
-            <ButtonFormSubmit
+            <button
               type="button"
               onClick={onVerifyClick}
               css={
@@ -212,13 +213,13 @@ export default function Signup_() {
                   확인
                 </span>
               )}
-            </ButtonFormSubmit>
-          </ButtonForm>
+            </button>
+          </div>
         )}
         {errors?.inputVerifyNum && (
-          <FormErrorMessage>{errors?.inputVerifyNum?.message}</FormErrorMessage>
+          <p className="errorMessage">{errors?.inputVerifyNum?.message}</p>
         )}
-        <Input
+        <input
           type="password"
           placeholder="비밀번호"
           css={errors?.password && inputError}
@@ -231,9 +232,9 @@ export default function Signup_() {
           })}
         />
         {errors?.password && (
-          <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
+          <p className="errorMessage">{errors?.password?.message}</p>
         )}
-        <Input
+        <input
           type="password"
           placeholder="비밀번호 확인"
           css={errors?.confirmPassword && inputError}
@@ -245,12 +246,10 @@ export default function Signup_() {
           })}
         />
         {errors?.confirmPassword && (
-          <FormErrorMessage>
-            {errors?.confirmPassword?.message}
-          </FormErrorMessage>
+          <p className="errorMessage">{errors?.confirmPassword?.message}</p>
         )}
-        <ButtonForm>
-          <ButtonFormInput
+        <div className="buttonForm">
+          <input
             type="text"
             placeholder="주소"
             css={errors?.address && inputError}
@@ -259,16 +258,16 @@ export default function Signup_() {
               required: "주소지를 입력해주세요.",
             })}
           />
-          <ButtonFormSubmit type="button" onClick={onAddressClick}>
+          <button type="button" onClick={onAddressClick}>
             주소
             <br />
             찾기
-          </ButtonFormSubmit>
-        </ButtonForm>
+          </button>
+        </div>
         {errors?.address && (
-          <FormErrorMessage>{errors?.address?.message}</FormErrorMessage>
+          <p className="errorMessage">{errors?.address?.message}</p>
         )}
-        <Input
+        <input
           type="text"
           placeholder="상세주소"
           {...register("detail_address")}
@@ -285,48 +284,11 @@ export default function Signup_() {
         >
           뒤로가기
         </button>
-      </Form>
-    </Container>
+      </form>
+    </div>
   );
 }
 
 const inputError = css`
   border: 2px solid red;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 50px 0;
-  gap: 20px;
-`;
-const Form = styled.form`
-  width: 350px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-`;
-const Input = styled.input`
-  outline: none;
-`;
-const FormErrorMessage = styled.p`
-  font-size: 10px;
-  color: red;
-  text-align: left;
-  margin: -10px 0 0 0;
-`;
-const ButtonForm = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-const ButtonFormInput = styled.input`
-  width: calc(80% - 5px);
-  outline: none;
-`;
-const ButtonFormSubmit = styled.button`
-  width: calc(20% - 5px);
-  transition: all 0.2s linear;
-  font-size: 12px;
 `;

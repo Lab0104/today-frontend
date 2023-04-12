@@ -1,7 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
-import { BsBook } from "react-icons/bs";
+import { BsBook, BsPeople } from "react-icons/bs";
+import { TbMovie } from "react-icons/tb";
+import { TfiGame } from "react-icons/tfi";
+import {
+  IoBusiness,
+  IoFastFoodOutline,
+  IoAirplaneOutline,
+} from "react-icons/io5";
+import { GiStoneCrafting } from "react-icons/gi";
 
 import "./CategoryList.scss";
 
@@ -11,47 +20,159 @@ const clickOnStyle = css`
 `;
 
 const categories = [
-  "학문/스터디",
-  "학문/스터디",
-  "학문/스터디",
-  "학문/스터디",
-  "학문/스터디",
-  "학문/스터디",
-  "학문/스터디",
-  "학문/스터디",
+  {
+    name: "학문/스터디",
+    icon: <BsBook />,
+    list: [
+      "프로그래밍 언어 스터디",
+      "영어 회화 스터디",
+      "디자인 스터디",
+      "수학 스터디",
+      "과학 실험 스터디",
+    ],
+  },
+  {
+    name: "비즈니스",
+    icon: <IoBusiness />,
+    list: [
+      "창업 컨설팅 그룹",
+      "경영 전략 모임",
+      "마케팅 교육 모임",
+      "취업 멘토링 그룹",
+      "글로벌 비즈니스 네트워크 그룹",
+    ],
+  },
+  {
+    name: "예술/문화",
+    icon: <TbMovie />,
+    list: [
+      "문학 작품 독서 그룹",
+      "콘서트, 연극 관람 모임",
+      "필름, 영화 관람 그룹",
+      "문화유산 탐방 모임",
+    ],
+  },
+  {
+    name: "스포츠/게임",
+    icon: <TfiGame />,
+    list: [
+      "축구 클럽",
+      "테니스 동호회",
+      "보드 게임 그룹",
+      "카드 게임 모임",
+      "게임 개발 동아리",
+    ],
+  },
+  {
+    name: "사회활동/자선",
+    icon: <BsPeople />,
+    list: [
+      "장애인 돕기 봉사 모임",
+      "동물보호 활동 그룹",
+      "청소년 지원 봉사 모임",
+      "글로벌 기아 해결 운동",
+      "지역 사회 문제 해결 그룹",
+    ],
+  },
+  {
+    name: "요리/음식",
+    icon: <IoFastFoodOutline />,
+    list: [
+      "베이킹 동호회",
+      "쿠킹 클래스 그룹",
+      "다양한 음식 맛보기 모임",
+      "정기적인 레스토랑 방문 그룹",
+      "지역 푸드 투어 그룹",
+    ],
+  },
+  {
+    name: "여행/문화 탐방",
+    icon: <IoAirplaneOutline />,
+    list: [
+      "해외 여행 그룹",
+      "국내 여행 그룹",
+      "여행사 투어 그룹",
+      "유적지 탐방 모임",
+      "문화 축제 탐방 그룹",
+    ],
+  },
+  {
+    name: "수공예",
+    icon: <GiStoneCrafting />,
+    list: [
+      "뜨개질 동호회",
+      "도예 작업실 그룹",
+      "목공 예술 동아리",
+      "수채화, 디자인 스케치 모임",
+      "섬유 미술 작업실 그룹",
+    ],
+  },
 ];
 
 export default function CategoryList() {
+  const navigate = useNavigate();
   const [categoriesStatus, setCategoriesStatus] = useState(
     categories.map(() => false)
   );
-  const handleItemClick = (index: number) => {
+  const [index, setIndex] = useState<number | undefined>(undefined);
+
+  const handleItemClick = (idx: number) => {
+    setIndex((prev) => (prev === idx ? undefined : idx));
     setCategoriesStatus((prev) => {
       let arr = [...prev];
-      arr[index] = !arr[index];
+      const trueIndex = arr.findIndex((item) => item);
+      if (trueIndex !== -1) {
+        arr[trueIndex] = false;
+        if (trueIndex !== idx) {
+          arr[idx] = !arr[idx];
+        }
+      } else {
+        arr[idx] = !arr[idx];
+      }
       return arr;
     });
   };
+  const handleSubItemClick = (item: string) => {
+    navigate("/map", { state: item });
+  };
+
   return (
     <div className="categoryList-container">
-      {categories &&
-        categories.map((category, idx) => (
-          <div
-            key={idx}
-            className="itemList"
-            onClick={() => {
-              handleItemClick(idx);
-            }}
-          >
+      <div className="largeCategoryList">
+        {categories &&
+          categories.map((category, idx) => (
             <div
-              className="itemIcon"
-              css={categoriesStatus[idx] && clickOnStyle}
+              key={idx}
+              className="itemList"
+              onClick={() => {
+                handleItemClick(idx);
+              }}
             >
-              <BsBook />
+              <div
+                className="itemIcon"
+                css={categoriesStatus[idx] && clickOnStyle}
+              >
+                {category.icon}
+              </div>
+              <span className="itemName">{category.name}</span>
             </div>
-            <span className="itemName">{category}</span>
-          </div>
-        ))}
+          ))}
+      </div>
+      {index === 0 || index ? (
+        <div className="subCategoryList">
+          {categories[index].list.map((item, idx) => (
+            <div
+              key={idx}
+              className="subCategoryItem"
+              onClick={() => handleSubItemClick(item)}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

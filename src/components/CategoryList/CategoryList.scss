@@ -1,41 +1,78 @@
 .categoryList-container {
   display: flex;
-  gap: 5px;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 30px;
 
-  .itemList {
-    width: 100px;
-    height: 100px;
+  @mixin categoryList {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
-    cursor: pointer;
-    &:hover {
-      color: #9747ff;
-    }
-    &:active {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .largeCategoryList {
+    @include categoryList;
+
+    .itemList {
+      width: 100px;
+      height: 110px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      &:hover {
+        color: #9747ff;
+        .itemIcon {
+          border: 2px solid #9747ff;
+        }
+        .itemName {
+          color: #9747ff;
+        }
+      }
+
       .itemIcon {
-        background-color: #9747ff;
-        color: #ffffff;
+        width: 60px;
+        height: 60px;
+        box-shadow: 2px 2px 6px 3px rgba(151, 151, 151, 0.5);
+        border-radius: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .itemName {
+        font-size: 12px;
+        font-weight: 700;
+        color: black;
       }
     }
+  }
 
-    .itemIcon {
-      width: 60px;
-      height: 60px;
-      box-shadow: 2px 2px 6px 3px rgba(151, 151, 151, 0.5);
-      border-radius: 100px;
+  .subCategoryList {
+    @include categoryList;
+    gap: 15px;
+
+    .subCategoryItem {
+      width: 200px;
+      height: 35px;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .itemName {
       font-size: 12px;
       font-weight: 700;
-      color: black;
+      color: #474747;
+      box-shadow: 2px 2px 6px 3px rgba(151, 151, 151, 0.5);
+      border: 1px solid #979797;
+      border-radius: 10px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+        color: #9747ff;
+        border: 2px solid #9747ff;
+      }
     }
   }
 }

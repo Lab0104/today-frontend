@@ -5,24 +5,6 @@ import { useEffect, useState, useCallback } from "react";
 
 import "./Carousel.scss";
 
-const CarouselListItem = styled.li<{ activeIndex: number }>`
-  width: 100%;
-  flex: 1 0 100%;
-  transform: translateX(-${({ activeIndex }) => activeIndex * 100}%);
-  transition: 200ms ease;
-  > img {
-    width: 100%;
-    height: fit-content;
-  }
-`;
-
-const NavButton = styled.button<{ isActive: boolean }>`
-  width: 4px;
-  height: 4px;
-  background-color: #000;
-  opacity: ${({ isActive }) => (isActive ? 0.3 : 0.1)};
-`;
-
 const banners = [
   "images/kakao_login_buttons/kakao_login_large_wide.png",
   "images/kakao_login_buttons/kakao_login_large_wide.png",
@@ -93,3 +75,21 @@ export default function Carousel() {
     </div>
   );
 }
+
+const CarouselListItem = styled.li<{ activeIndex: number }>`
+  width: 100%;
+  flex: 1 0 100%;
+  transform: translateX(-${({ activeIndex }) => activeIndex * 100}%);
+  transition: 200ms ease;
+  > img {
+    width: 100%;
+    height: fit-content;
+  }
+`;
+
+const NavButton = styled.button<{ isActive: boolean }>`
+  width: 4px;
+  height: 4px;
+  background-color: #000;
+  opacity: ${({ isActive }) => (isActive ? 0.3 : 0.1)};
+`;

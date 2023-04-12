@@ -10,13 +10,6 @@ import { logout } from "../../reducer/userSlice";
 import { TypeUser } from "mainPageTypes";
 import "./NavigationBar.scss";
 
-const visible = css`
-  visibility: visible;
-`;
-const hidden = css`
-  visibility: hidden;
-`;
-
 type dropdownList = {
   name: string;
   href: string;
@@ -182,3 +175,10 @@ export default function NavigationBar() {
     </nav>
   );
 }
+
+const visible = css`
+  visibility: visible;
+`;
+const hidden = css`
+  visibility: hidden;
+`;
