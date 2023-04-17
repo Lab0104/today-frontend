@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { CSSTransition } from "react-transition-group";
 
@@ -7,6 +7,7 @@ import { closeModal } from "reducer/MainModalSlice";
 
 import Portal from "./Portal";
 import "./Modal.scss";
+import ModalMeeting from "components/ModalContents/ModalMeeting";
 
 const Overlay = styled.div`
   position: fixed;
@@ -32,26 +33,32 @@ const Dim = styled.div`
 `;
 
 const Container = styled.div`
-  width: 100%;
-  max-width: 456px;
-  min-width: 375px;
+  box-sizing: border-box;
+  width: 90%;
+  max-width: 400px;
+  min-width: 350px;
+  min-height: 500px;
+  padding: 20px;
+  border-radius: 20px;
   position: relative;
+  background-color: white;
 `;
 
 interface modalProps {
-  children: ReactNode;
   isOpen: boolean;
   selector?: string;
 }
 
-export default function Modal({ children, isOpen, selector }: modalProps) {
+export default function MeetingCardModal({ isOpen, selector }: modalProps) {
   const dispatch = useDispatch();
   return (
     <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
       <Portal selector={selector}>
         <Overlay>
           <Dim onClick={() => dispatch(closeModal())} />
-          <Container>{children}</Container>
+          <Container>
+            <ModalMeeting />
+          </Container>
         </Overlay>
       </Portal>
     </CSSTransition>

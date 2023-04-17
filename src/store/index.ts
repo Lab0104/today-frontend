@@ -4,13 +4,15 @@ import DisplayMeetingSlice from "../reducer/DisplayMeetingSlice";
 import KakaoMapSlice from "../reducer/KakaoMapSlice";
 import MeetingCardSlice from "../reducer/MeetingCardSlice";
 import ModalSlice from "../reducer/ModalSlice";
+import MainModalSlice from "../reducer/MainModalSlice";
 import ToggleSlice from "../reducer/ToggleSlice";
-import userSlice from "../reducer/userSlice";
+import UserSlice from "../reducer/UserSlice";
 import { postApi } from "../services/postApi";
 
 export const store = configureStore({
   reducer: {
-    user: userSlice,
+    user: UserSlice,
+    mainModal: MainModalSlice,
     modal: ModalSlice, // 모달 창
     meetingCard: MeetingCardSlice, // 모임 카드(수정 필요)
     map: KakaoMapSlice, // 카카오 맵

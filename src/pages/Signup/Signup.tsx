@@ -20,7 +20,7 @@ type FormValues = {
   detail_address: string;
 };
 
-export default function Signup_() {
+export default function Signup() {
   const [verifyNumber, setVerifyNumber] = useState(0);
   const [isGetVerifyButtonClick, setIsGetVerifyButtonClick] = useState(false);
   const [isVerify, setIsVerify] = useState(false);

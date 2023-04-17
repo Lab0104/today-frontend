@@ -27,21 +27,20 @@
 
   .content {
     position: relative;
-    cursor: pointer;
 
-    .leftArrowButton {
+    .meetingLeftArrowButton {
       @include arrowButton;
-      left: 0;
+      left: -15px;
     }
-    .leftPaddingArrowButton {
+    .bannerLeftArrowButton {
       @include arrowButton;
       left: 10px;
     }
-    .rightArrowButton {
+    .meetingRightArrowButton {
       @include arrowButton;
-      right: 0;
+      right: -15px;
     }
-    .rightPaddingArrowButton {
+    .bannerRightArrowButton {
       @include arrowButton;
       right: 10px;
     }

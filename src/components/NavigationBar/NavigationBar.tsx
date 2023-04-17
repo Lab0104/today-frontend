@@ -1,13 +1,19 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, ComponentProps, DOMAttributes } from "react";
+import React, { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { RiArrowDropUpLine, RiArrowDropDownLine } from "react-icons/ri";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { AiOutlineClose } from "react-icons/ai";
 
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../reducer/userSlice";
+import { logout } from "../../reducer/UserSlice";
 
-import { TypeUser } from "mainPageTypes";
+import _ from "lodash";
+
+import { Event } from "eventType";
+import { TypeUser } from "userTypes";
 import "./NavigationBar.scss";
 
 type dropdownList = {
@@ -16,18 +22,17 @@ type dropdownList = {
 };
 type dropdownProps = {
   list: dropdownList[];
-  onClick: React.MouseEventHandler<HTMLAnchorElement> | undefined;
+  onClick: Event<"a", "onClick"> | undefined;
 };
-type EventHandlers<T> = Omit<
-  DOMAttributes<T>,
-  "children" | "dangerouslySetInnerHTML"
->;
-type Event<
-  TElement extends keyof JSX.IntrinsicElements,
-  TEventHandler extends keyof EventHandlers<TElement>
-> = ComponentProps<TElement>[TEventHandler];
 
 const keywords = ["단기", "스터디", "문화생활", "밥"];
+const sideNavigationMenus = [
+  { name: "공지사항", href: "/" },
+  { name: "이벤트", href: "/" },
+  { name: "소개", href: "/" },
+  { name: "고객센터", href: "/" },
+  { name: "광고등록", href: "/" },
+];
 const userMenus = [
   { name: "내 정보", href: "/" },
   { name: "알림", href: "/" },
@@ -47,15 +52,31 @@ const DropdownContents: React.FC<dropdownProps> = ({ list, onClick }) => {
   );
 };
 
-export default function NavigationBar() {
+const NavigationBar = React.memo(() => {
+  console.log("navigation!");
   const navigate = useNavigate();
 
-  const isLogged = useSelector((state: TypeUser) => state.user.isLogged);
+  const isLogged = useSelector(
+    (state: { user: TypeUser }) => state.user.isLogged
+  );
   const dispatch = useDispatch();
 
   const [dropdownToggle, setDropdownToggle] = useState(false);
+  const [isSideNavClose, setIsSideNavClose] = useState(1);
   const [searchContext, setSearchContext] = useState("");
-
+  const debouncedInput = useMemo(
+    () =>
+      _.debounce((searchContext) => {
+        setSearchContext(searchContext);
+      }, 300),
+    []
+  );
+  const sideNavOpenOnClick = () => setIsSideNavClose(0);
+  const sideNavCloseOnClick = () => setIsSideNavClose(1);
+  const sideNavMenuOnClick = (link: string) => {
+    setIsSideNavClose(1);
+    navigate(link);
+  };
   const userOnClick = () => {
     setDropdownToggle((prev) => !prev);
   };
@@ -79,7 +100,7 @@ export default function NavigationBar() {
 
   const searchOnChange: Event<"input", "onChange"> = (e) => {
     const value = e.currentTarget.value;
-    setSearchContext(value);
+    debouncedInput(value);
   };
   const handleOnKeyDown: Event<"input", "onKeyDown"> = (e) => {
     if (e.key === "Enter") {
@@ -89,10 +110,28 @@ export default function NavigationBar() {
 
   return (
     <nav className="navigation-nav">
+      <>
+        <SideNavigation isClose={isSideNavClose}>
+          <CloseButton>
+            <AiOutlineClose
+              style={{ cursor: "pointer" }}
+              onClick={sideNavCloseOnClick}
+            />
+          </CloseButton>
+          {sideNavigationMenus &&
+            sideNavigationMenus.map((menu, idx) => (
+              <span key={idx} onClick={() => sideNavMenuOnClick(menu.href)}>
+                {menu?.name}
+              </span>
+            ))}
+        </SideNavigation>
+        <Dim isClose={isSideNavClose} onClick={sideNavCloseOnClick} />
+      </>
       <div className="header">
-        <Link className="logo" to="/">
-          LOGO
-        </Link>
+        <div className="logo">
+          <RxHamburgerMenu onClick={sideNavOpenOnClick} />
+          <Link to="/">LOGO</Link>
+        </div>
         <div className="searchContainer">
           <div className="searchKeyword">
             <span className="material-icons keywordIcon">search</span>
@@ -108,7 +147,6 @@ export default function NavigationBar() {
           <div className="search">
             <input
               type="text"
-              value={searchContext}
               placeholder="장소, 모임 검색"
               onChange={searchOnChange}
               onKeyDown={handleOnKeyDown}
@@ -160,7 +198,6 @@ export default function NavigationBar() {
         <div className="search">
           <input
             type="text"
-            value={searchContext}
             placeholder="장소, 모임 검색"
             onChange={searchOnChange}
           />
@@ -174,11 +211,54 @@ export default function NavigationBar() {
       </div>
     </nav>
   );
-}
+});
 
 const visible = css`
-  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
 `;
 const hidden = css`
+  opacity: 0;
   visibility: hidden;
 `;
+
+const SideNavigation = styled.div<{ isClose: number }>`
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  width: 200px;
+  height: 1440px;
+  padding: 20px;
+  z-index: 9;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform: translateX(-${({ isClose }) => isClose * 200}px);
+  transition: transform 500ms ease;
+
+  & span {
+    display: inline;
+    cursor: pointer;
+  }
+`;
+
+const Dim = styled.div<{ isClose: number }>`
+  z-index: 1;
+  height: 1440px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  botton: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: ${({ isClose }) => (isClose ? "none" : "block")};
+`;
+
+const CloseButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  font-size: 20px;
+`;
+
+export default NavigationBar;

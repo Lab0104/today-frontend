@@ -109,7 +109,7 @@ const categories = [
   },
 ];
 
-export default function CategoryList() {
+const CategoryList = React.memo(() => {
   const navigate = useNavigate();
   const [categoriesStatus, setCategoriesStatus] = useState(
     categories.map(() => false)
@@ -175,4 +175,6 @@ export default function CategoryList() {
       )}
     </div>
   );
-}
+});
+
+export default CategoryList;

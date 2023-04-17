@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
-import { useEffect, useState, useCallback } from "react";
 
 import "./Carousel.scss";
 
@@ -18,7 +18,7 @@ const banners = [
   "images/kakao_login_buttons/kakao_login_large_wide.png",
 ];
 
-export default function MainBannerCarousel() {
+const MainBannerCarousel = React.memo(() => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
@@ -65,8 +65,8 @@ export default function MainBannerCarousel() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="content">
-        <button className="leftPaddingArrowButton" onClick={handlePrev}>
+      <div className="content" style={{ cursor: "pointer" }}>
+        <button className="bannerLeftArrowButton" onClick={handlePrev}>
           <RiArrowDropLeftLine />
         </button>
         <ul className="itemList">
@@ -87,7 +87,7 @@ export default function MainBannerCarousel() {
             </CarouselListItem>
           ))}
         </ul>
-        <button className="rightPaddingArrowButton" onClick={handleNext}>
+        <button className="bannerRightArrowButton" onClick={handleNext}>
           <RiArrowDropRightLine />
         </button>
       </div>
@@ -105,7 +105,7 @@ export default function MainBannerCarousel() {
       </ul>
     </div>
   );
-}
+});
 
 const navStyle = css`
   position: absolute;
@@ -123,7 +123,7 @@ const CarouselListItem = styled.li<{ activeIndex: number; src: string }>`
   background-repeat: no-repeat;
   flex: 1 0 100%;
   transform: translateX(-${({ activeIndex }) => activeIndex * 100}%);
-  transition: 200ms ease;
+  transition: 500ms ease;
   > img {
     width: 100%;
     height: fit-content;
@@ -147,3 +147,5 @@ const NavButton = styled.button<{ isActive: boolean }>`
   background-color: #000;
   opacity: ${({ isActive }) => (isActive ? 0.3 : 0.1)};
 `;
+
+export default MainBannerCarousel;

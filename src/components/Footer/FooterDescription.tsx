@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
@@ -17,6 +18,7 @@ const FooterDescriptionContainer = styled.div<{ background: string }>`
   padding: 40px;
   background-color: ${({ background }) => background};
   ${ContainerDefaultOptions}
+  cursor: default;
 `;
 
 const Title = styled.span`
@@ -55,7 +57,7 @@ const Description = styled.div`
   }
 `;
 
-export default function FooterDescription() {
+const FooterDescription = React.memo(() => {
   return (
     <FooterDescriptionContainer background={"rgba(170, 170, 170, 0.3)"}>
       <Title>
@@ -91,4 +93,6 @@ export default function FooterDescription() {
       </DescriptionContainer>
     </FooterDescriptionContainer>
   );
-}
+});
+
+export default FooterDescription;

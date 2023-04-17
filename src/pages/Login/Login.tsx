@@ -3,7 +3,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { login } from "../../reducer/userSlice";
+import { login } from "../../reducer/UserSlice";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ type FormValues = {
   isSaved: boolean;
 };
 
-export default function Login_() {
+export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

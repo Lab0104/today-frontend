@@ -1,4 +1,12 @@
+/** @jsxImportSource @emotion/react */
 import { useState } from "react";
+import { css } from "@emotion/react";
+import { HiHeart, HiOutlineHeart } from "react-icons/hi";
+
+const heartStyle = css`
+  font-size: 20px;
+  cursor: pointer;
+`;
 
 function LikeButton({ likeProp }: { likeProp: boolean | undefined }) {
   const [like, setLike] = useState(likeProp);
@@ -11,14 +19,13 @@ function LikeButton({ likeProp }: { likeProp: boolean | undefined }) {
     });
   };
   return (
-    <span
-      className={
-        like ? "material-symbols-outlined like" : "material-symbols-outlined"
-      }
-      onClick={handleLikeClick}
-    >
-      favorite
-    </span>
+    <>
+      {like ? (
+        <HiHeart css={heartStyle} onClick={handleLikeClick} />
+      ) : (
+        <HiOutlineHeart css={heartStyle} onClick={handleLikeClick} />
+      )}
+    </>
   );
 }
 

@@ -81,7 +81,7 @@ const corpInfoList = [
   "개인정보 책임자 : 문지혜",
 ];
 
-export default function FooterMenus() {
+const FooterMenus = React.memo(() => {
   return (
     <FooterMenuContainer background={"#6667AB"}>
       <MenuContainer>
@@ -117,4 +117,6 @@ export default function FooterMenus() {
       </ContractContainer>
     </FooterMenuContainer>
   );
-}
+});
+
+export default FooterMenus;

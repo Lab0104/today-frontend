@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
-import useWidthThrottle from "hooks/useWidthThrottle";
+import useItemCountCarousel from "hooks/useItemCountCarousel";
 
 import MeetingCard from "components/MeetingCard/MeetingCard";
 
@@ -11,28 +11,13 @@ import { TypeMeetingList } from "mainPageTypes";
 import "./Carousel.scss";
 
 interface carouselProps {
-  count: number;
-  onClickModal: (count: number, id: number) => void;
   list: TypeMeetingList[];
   currentTime: number;
-  isLogged: boolean;
 }
 
-export default function MeetingCarousel({
-  list,
-  count,
-  onClickModal,
-  currentTime,
-  isLogged,
-}: carouselProps) {
-  const width = useWidthThrottle();
-  const getCount = useCallback(() => {
-    if (width < 660) return 1;
-    else if (width < 930) return 2;
-    else if (width < 1200) return 3;
-    else return 4;
-  }, [width]);
-  const [itemCount, setItemCount] = useState(getCount());
+const MeetingCarousel = React.memo(({ list, currentTime }: carouselProps) => {
+  console.log("meetingCarousel");
+  const itemCount = useItemCountCarousel();
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const navItemCount = useMemo(
     () =>
@@ -55,26 +40,22 @@ export default function MeetingCarousel({
     setActiveIndex((prev) => (activeIndex + 1) % navItemCount);
   }, [activeIndex, navItemCount]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setActiveIndex((prev) => (prev === 0 ? prev - 1 + navItemCount : prev - 1));
-  };
-
-  useEffect(() => {
-    setItemCount(getCount());
-  }, [getCount]);
-
-  useEffect(() => {
-    resetActiveIndex(activeIndex);
-  }, [resetActiveIndex, activeIndex]);
+  }, [navItemCount]);
 
   const goTo = (index: number) => {
     setActiveIndex(index);
   };
 
+  useEffect(() => {
+    resetActiveIndex(activeIndex);
+  }, [resetActiveIndex, activeIndex]);
+
   return (
     <div className="carousel-container">
       <div className="content">
-        <button className="leftArrowButton" onClick={handlePrev}>
+        <button className="meetingLeftArrowButton" onClick={handlePrev}>
           <RiArrowDropLeftLine />
         </button>
         <ul className="itemList" css={itemListStyle}>
@@ -85,13 +66,11 @@ export default function MeetingCarousel({
                   key={index}
                   list={meeting}
                   currentTime={currentTime}
-                  onClick={() => onClickModal(count, meeting.meet_id - 1)}
-                  isLogged={isLogged}
                 ></MeetingCard>
               ))}
           </CarouselContainer>
         </ul>
-        <button className="rightArrowButton" onClick={handleNext}>
+        <button className="meetingRightArrowButton" onClick={handleNext}>
           <RiArrowDropRightLine />
         </button>
       </div>
@@ -104,7 +83,7 @@ export default function MeetingCarousel({
       </ul>
     </div>
   );
-}
+});
 
 const itemListStyle = css`
   width: 260px;
@@ -130,14 +109,16 @@ const CarouselContainer = styled.div<{
   activeIndex: number;
   itemCount: number;
 }>`
-  border-box: box-sizing;
+  box-sizing: border-box;
   display: flex;
   width: 270px;
-  margin: 40px 5px;
+  margin: 5px;
   justify-content: left;
   gap: 20px;
   transform: translateX(
     -${({ activeIndex, itemCount }) => (activeIndex === 0 ? activeIndex : activeIndex * itemCount * 100)}%
   );
-  transition: 200ms ease;
+  transition: 500ms ease;
 `;
+
+export default MeetingCarousel;

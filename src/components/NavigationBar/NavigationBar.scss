@@ -94,10 +94,18 @@
       min-width: 80px;
       flex-grow: 1;
       display: flex;
+      align-items: center;
       justify-content: left;
+      gap: 15px;
+      color: black;
+      font-size: 20px;
       color: #9747ff;
-      font-weight: 700;
-      font-size: 30px;
+
+      a {
+        color: #9747ff;
+        font-weight: 700;
+        font-size: 30px;
+      }
     }
 
     .searchContainer {
