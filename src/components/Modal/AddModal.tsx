@@ -4,10 +4,11 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { addData } from "../../reducer/DisplayMeetingSlice";
+import { useForm } from "react-hook-form";
 import { closeModal } from "../../reducer/ModalSlice";
 import { toggleButtons } from "../../reducer/ToggleSlice";
 import { Container, ExitButton, Content } from "./CommonStyles";
+import { useDaumPostcodePopup } from "react-daum-postcode";
 
 import {
   BsAlarm,
@@ -16,28 +17,82 @@ import {
   BsPeopleFill,
   BsChevronDown,
 } from "react-icons/bs";
+import DatePicker from "components/DropDown/DataPIcker";
 
 const AddModal = () => {
   const dispatch = useDispatch();
-  const [inputData, setInputData] = useState({
-    postId: "",
-    title: "",
-    subTitle: "",
-    category: "",
-    currentMember: "",
-    recruitments: "",
-    address: "",
-    date: "",
-    deadLine: "",
-    content: "",
-    user: "",
-    boardHits: 0,
-    position: "",
-  });
+  // const [inputData, setInputData] = useState({
+  //   postId: "",
+  //   title: "",
+  //   subTitle: "",
+  //   category: "",
+  //   currentMember: "",
+  //   recruitments: "",
+  //   address: "",
+  //   date: "",
+  //   deadLine: "",
+  //   content: "",
+  //   user: "",
+  //   boardHits: 0,
+  //   position: "",
+  // });
 
-  const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, className } = e.target;
-    setInputData({ ...inputData, [className]: value });
+  const [address, setAddress] = useState("주소");
+
+  const [view, setView] = useState(false);
+
+  // const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value, className } = e.target;
+  //   setInputData({ ...inputData, [className]: value });
+  // };
+
+  const Dropdown = (): JSX.Element => {
+    return <div css={dropbox}></div>;
+  };
+
+  const dropbox = css`
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+  `;
+
+  const open = useDaumPostcodePopup();
+  const POPUPWIDTH = 500;
+  const POPUPHEIGHT = 400;
+
+  const handleComplete = (data: {
+    sigungu: string;
+    address: string;
+    addressType: string;
+    bname?: string | undefined;
+    buildingName?: string | undefined;
+  }) => {
+    // 향후 매칭에 활용 될 시군 데이터
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+    setAddress(fullAddress);
+  };
+
+  const onAddressClick = () => {
+    open({
+      onComplete: handleComplete,
+      width: POPUPWIDTH,
+      height: POPUPHEIGHT,
+      left: document.body.offsetWidth / 2 - POPUPWIDTH / 2,
+      top: window.screen.height / 2 - POPUPHEIGHT / 2,
+    });
   };
 
   return (
@@ -61,7 +116,13 @@ const AddModal = () => {
           <div className="input-category">
             <div className="category large">
               <p>모임 카테고리</p>
-              <BsChevronDown className="drop-down" />
+              <BsChevronDown
+                className="drop-down"
+                onClick={() => {
+                  setView(!view);
+                }}
+              />
+              {view && <Dropdown></Dropdown>}
             </div>
             <div className="category sub">
               <p>모임 카테고리</p>
@@ -69,23 +130,27 @@ const AddModal = () => {
             </div>
           </div>
           <div className="input-info">
-            <div className="wrapper">
-              <div className="people info-box">
-                <BsPeopleFill />
-                <p>인원 수</p>
-              </div>
-              <div className="date info-box">
-                <BsCalendar2 />
-                <p>날짜</p>
-              </div>
+            <div className="people info-box">
+              <BsPeopleFill />
+              <input placeholder="인원 수" type="number"></input>
+            </div>
+            <div className="date info-box">
+              <BsCalendar2 />
+              <DatePicker />
             </div>
             <div className="place info-box">
               <BsMap />
-              <p>장소</p>
+              <input
+                type="text"
+                placeholder={address}
+                readOnly
+                onClick={onAddressClick}
+              />
+              {/* <input type="text" placeholder="상세주소" /> */}
             </div>
             <div className="deadline info-box">
               <BsAlarm />
-              <p>모집 마감</p>
+              <DatePicker />
             </div>
           </div>
           <div className="input-content">
@@ -98,6 +163,7 @@ const AddModal = () => {
           </div>
         </div>
         <button
+          className="add"
           onClick={() => {
             dispatch(closeModal());
             // dispatch(addData({ data: inputData }));
@@ -125,10 +191,10 @@ const ContentBox = css`
     display: flex;
     flex-direction: column;
     gap: 8px;
+    font-size: 16px;
   }
   & input {
     width: 100%;
-    height: 48px;
     padding: 0 30px;
     font-family: "Noto Sans KR";
     font-size: 16px;
@@ -191,8 +257,16 @@ const ContentBox = css`
     line-height: 16px;
   }
 
+  & .input-info input {
+    border: none;
+    height: 32px;
+    font-size: 14px;
+    padding: 0;
+    color: #979797;
+  }
+
   & .input-content {
-    height: 300px;
+    height: 250px;
     box-sizing: border-box;
     background-color: #fff;
     padding: 30px;
@@ -207,7 +281,7 @@ const ContentBox = css`
     line-height: 16px;
     resize: none;
     width: 360px;
-    height: 200px;
+    height: 150px;
     border: none;
   }
 
@@ -226,7 +300,7 @@ const ContentBox = css`
     box-sizing: border-box;
   }
 
-  & button {
+  & button.add {
     box-sizing: border-box;
     padding: 16px 30px;
     gap: 10px;
@@ -242,3 +316,56 @@ const ContentBox = css`
 `;
 
 export default AddModal;
+
+/* 
+# 카테고리
+
+1. 학문/스터디
+    - 프로그래밍 언어 스터디
+    - 영어 회화 스터디
+    - 디자인 스터디
+    - 수학 스터디
+    - 과학 실험 스터디
+2. 비즈니스
+    - 창업 컨설팅 그룹
+    - 경영 전략 모임
+    - 마케팅 교육 모임
+    - 취업 멘토링 그룹
+    - 글로벌 비즈니스 네트워크 그룹
+3. 예술/문화
+    - 문학 작품 독서 그룹
+    - 미술 전시 관람 그룹
+    - 콘서트, 연극 관람 모임
+    - 필름, 영화 관람 그룹
+    - 문화유산 탐방 모임
+4. 스포츠/게임
+    - 축구 클럽
+    - 테니스 동호회
+    - 보드 게임 그룹
+    - 카드 게임 모임
+    - 게임 개발 동아리
+5. 사회활동/자선
+    - 장애인 돕기 봉사 모임
+    - 동물보호 활동 그룹
+    - 청소년 지원 봉사 모임
+    - 글로벌 기아 해결 운동
+    - 지역 사회 문제 해결 그룹
+6. 요리/음식
+    - 베이킹 동호회
+    - 쿠킹 클래스 그룹
+    - 다양한 음식 맛보기 모임
+    - 정기적인 레스토랑 방문 그룹
+    - 지역 푸드 투어 그룹
+7. 여행/문화 탐방
+    - 해외 여행 그룹
+    - 국내 여행 그룹
+    - 여행사 투어 그룹
+    - 유적지 탐방 모임
+    - 문화 축제 탐방 그룹
+8. 수공예
+    - 뜨개질 동호회
+    - 도예 작업실 그룹
+    - 목공 예술 동아리
+    - 수채화, 디자인 스케치 모임
+    - 섬유 미술 작업실 그룹
+*/
