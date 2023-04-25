@@ -18,6 +18,7 @@ import {
   BsChevronDown,
 } from "react-icons/bs";
 import DatePicker from "components/DropDown/DataPIcker";
+import { categories } from "components/CategoryList/CategoryList";
 
 const AddModal = () => {
   const dispatch = useDispatch();
@@ -47,14 +48,65 @@ const AddModal = () => {
   // };
 
   const Dropdown = (): JSX.Element => {
-    return <div css={dropbox}></div>;
+    return (
+      <div css={dropbox}>
+        <ul>
+          {categories.map((data) => {
+            return (
+              <div className="wrapper">
+                <li className="data-name">{data.name}</li>
+                <div className="data-list">
+                  {data.list.map((list) => {
+                    return <li>{list}</li>;
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </ul>
+      </div>
+    );
   };
 
   const dropbox = css`
     position: absolute;
-    background: #fff;
-    width: 100%;
-    height: 100%;
+    left: 70px;
+    top: 48px;
+    background-color: #fff;
+    width: 150px;
+    height: fit-content;
+    z-index: 11;
+    border: 1px solid black;
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding: 10px;
+    }
+    li:hover {
+      cursor: pointer;
+      background-color: #eee;
+    }
+    .wrapper {
+      position: relative;
+    }
+
+    .data-list {
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid black;
+
+      top: 0;
+      left: 100%;
+      display: none;
+      width: 200px;
+      padding: 10px 0;
+    }
+    .wrapper:hover .data-list {
+      display: block;
+    }
   `;
 
   const open = useDaumPostcodePopup();

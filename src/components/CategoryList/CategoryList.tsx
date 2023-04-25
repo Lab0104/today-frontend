@@ -19,7 +19,7 @@ const clickOnStyle = css`
   background-color: #9747ff;
 `;
 
-const categories = [
+export const categories = [
   {
     name: "학문/스터디",
     icon: <BsBook />,
