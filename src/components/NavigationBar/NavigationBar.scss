@@ -1,0 +1,212 @@
+@import "../../utils/utils.scss";
+
+.navigation-nav {
+  position: fixed;
+  width: 100%;
+  min-width: $app-min-width;
+  padding: 0 30px;
+  height: 120px;
+  z-index: 10;
+  background-color: #fff;
+  box-sizing: border-box;
+
+  .searchKeyword {
+    position: absolute;
+    top: 20px;
+    display: flex;
+    gap: 1px;
+    align-items: center;
+    width: 100%;
+    color: #707070;
+    font-size: 10px;
+    font-weight: 500;
+    text-align: left;
+
+    .keywordIcon {
+      cursor: default;
+      font-size: 14px;
+    }
+
+    .keywords {
+      display: flex;
+      gap: 10px;
+
+      span {
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+        &::after {
+          content: "|";
+          position: absolute;
+          top: -1px;
+          right: -6px;
+        }
+        &:last-child::after {
+          content: "";
+        }
+      }
+    }
+  }
+
+  .search {
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    padding-left: 10px;
+    border: 2px solid #9747ff;
+
+    input {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: none;
+      outline: none;
+    }
+
+    .search-icon {
+      width: 35px;
+      height: 100%;
+      color: #9747ff;
+      background-color: #fff;
+      border-radius: 0 10px 10px 0;
+      padding: 0;
+      text-align: center;
+    }
+  }
+
+  .header {
+    position: relative;
+    max-width: calc($app-max-width - 60px);
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #eee;
+
+    .logo {
+      min-width: 80px;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      gap: 15px;
+      color: black;
+      font-size: 20px;
+      color: #9747ff;
+
+      a {
+        color: #9747ff;
+        font-weight: 700;
+        font-size: 30px;
+      }
+    }
+
+    .searchContainer {
+      position: relative;
+      max-width: 450px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      flex-grow: 8;
+
+      @media (max-width: 600px) {
+        display: none;
+      }
+    }
+
+    .user {
+      height: 40px;
+      flex-grow: 1;
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .loginAndSignup {
+        min-width: 110px;
+        display: flex;
+        gap: 15px;
+
+        button {
+          display: inline;
+          height: auto;
+          background: transparent;
+          color: #000;
+          padding: 0;
+          font-weight: 700;
+          border-radius: 15px;
+          text-align: right;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .dropdown {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        .user-icon {
+          font-size: 30px;
+        }
+
+        .dropdown-contents {
+          width: 80px;
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 35px;
+          right: 0;
+          z-index: 9;
+          font-size: 12px;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          background-color: #f9f9f9;
+
+          a {
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 30px;
+            padding: 5px 0;
+
+            &:hover {
+              border-radius: 10px;
+              background-color: #ececec;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .hidden {
+    position: absolute;
+    bottom: -35px;
+    width: calc(100% - 60px);
+    display: none;
+    flex-direction: column;
+
+    .searchKeyword {
+      top: -20px;
+    }
+
+    @media (max-width: 600px) {
+      display: flex;
+    }
+  }
+}

@@ -1,28 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { TypeUser } from "userTypes";
+
+const initialState: TypeUser = {
+  user_id: 0,
+  email: "",
+  isSaved: false,
+  login_method: "",
+  isLogged: false,
+};
+
 export const userSlice = createSlice({
   name: "user",
-  initialState: {
-    email: null,
-    password: null,
-    isSaved: false,
-    isLogged: false,
-  },
+  initialState,
   reducers: {
     login: (state, action) => {
-      console.log(action);
+      state.user_id = action.payload.user_id;
       state.email = action.payload.email;
-      state.password = action.payload.password;
       state.isSaved = action.payload.isSaved;
       state.isLogged = true;
+      state.login_method = action.payload.login_method;
     },
     logout: (state) => {
-      state.email = null;
-      state.password = null;
+      state.user_id = 0;
+      state.email = "";
+      state.isSaved = false;
       state.isLogged = false;
+      state.login_method = "";
     },
     kakaoLogin: (state) => {
       state.isLogged = true;
+      state.login_method = "kakao";
     },
   },
 });

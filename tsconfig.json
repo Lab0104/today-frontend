@@ -1,12 +1,24 @@
 {
+  // "compileOnSave": true,
+  // "extends": "tsconfig 설정을 상속받아 올 파일의 경로"
   "compilerOptions": {
-    "jsx": "react",
-    "target": "ES5",
-    "module": "commonjs",
-    "strict": true,
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "./src",
+    "allowJs": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
-    "outDir": "dist"
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
-  "include": ["src/**/*"],
+  "include": ["src", "next-env.d.ts", "**/*.ts", "**/*.tsx", "./src/@types"],
   "exclude": ["node_modules"]
 }

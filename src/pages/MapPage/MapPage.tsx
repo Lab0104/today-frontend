@@ -6,7 +6,6 @@ import { css } from "@emotion/react";
 import "./MapPage.css";
 import Map from "./KakaoMapApi";
 import { openModal } from "../../reducer/ModalSlice";
-// import AdMeetingCard from "../../components/MeetingCard/AdMeetingCard";
 import {
   currentLocation,
   moveMap,

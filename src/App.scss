@@ -1,8 +1,4 @@
-/* 전체 영역 스타일 설정 */
-
-$app-min-width: 375px;
-$app-max-width: 1120px;
-$form-items-height: 45px;
+@import "./utils/utils.scss";
 
 body {
   font-family: "Roboto", sans-serif;
@@ -10,7 +6,6 @@ body {
 }
 .App {
   position: relative;
-  text-align: center;
   min-width: $app-min-width;
 }
 /* 태그 공통 스타일 전역 설정 */

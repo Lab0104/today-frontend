@@ -1,0 +1,105 @@
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+  gap: 20px;
+
+  .title {
+    cursor: default;
+  }
+
+  .signupForm {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    input {
+      outline: none;
+    }
+
+    .errorMessage {
+      font-size: 10px;
+      color: red;
+      text-align: left;
+      margin: -10px 0 0 0;
+    }
+
+    .buttonForm {
+      display: flex;
+      gap: 10px;
+
+      input {
+        width: calc(80% - 5px);
+        outline: none;
+      }
+
+      button {
+        width: calc(20% - 5px);
+        transition: all 0.2s linear;
+        font-size: 12px;
+      }
+    }
+  }
+}
+.signUp h3 {
+  color: #2d3748;
+  font-weight: 400;
+}
+.signUp span {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  color: #000;
+}
+.signUp hr {
+  width: 350px;
+  border-top: 1px solid #000;
+  background-color: #000;
+  outline: none;
+}
+
+.signUp .user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  width: 350px;
+}
+.signUp .user-info input {
+  background-color: #eeeeee;
+}
+
+.signUp .signUp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  width: 350px;
+}
+.signUp .signUp-form .search-address {
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.signUp .signUp-form .search-address input {
+  width: calc(80% - 5px);
+}
+#address:focus {
+  outline: none;
+}
+.signUp .signUp-form .search-address button {
+  width: calc(20% - 5px);
+  transition: all 0.2s linear;
+}
+.signUp .signUp-form .search-address button:hover {
+  transform: scale(1.1);
+}
+.signUp .signUp-form button {
+  font-size: 12px;
+}
