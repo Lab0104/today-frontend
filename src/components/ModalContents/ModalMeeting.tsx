@@ -23,7 +23,6 @@ export default function ModalMeeting() {
   const { modalContent } = useSelector(
     (state: { mainModal: TypeModalState }) => state.mainModal
   );
-  console.log(modalContent);
   return (
     <>
       {modalContent ? (
@@ -168,14 +167,13 @@ const Footer = styled.div<{ isLogged: boolean }>`
     background-color: #9747ff;
     border-radius: 5px;
   }
-  & button:first-child {
+  & button:first-of-type {
     width: calc(100% - ${({ isLogged }) => (isLogged ? 110 : 55)}px);
   }
-  & button:nth-child(2) span {
-    transform: translateY(1.5px);
-    background-color: black;
+  & button:nth-of-type(2) {
+    font-size: 20px;
   }
-  & button:last-child {
+  & button:last-of-type {
     font-size: 20px;
   }
 `;

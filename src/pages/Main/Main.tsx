@@ -55,7 +55,7 @@ export default function Main() {
         {meetingData &&
           meetingData.map((meeting: TypeMeetingData, idx: number) => (
             <div className="meetingList" key={idx}>
-              <div className="title">{meeting.title}</div>
+              <p className="list-title">{meeting.title}</p>
               <MeetingCarousel list={meeting.list} currentTime={currentTime} />
             </div>
           ))}

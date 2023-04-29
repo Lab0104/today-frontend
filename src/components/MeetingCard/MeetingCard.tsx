@@ -36,21 +36,21 @@ const MeetingCard = React.memo(({ list, currentTime }: meetingProps) => {
     <>
       <div className="meetingCard-container">
         <div className="meeting-header">
-          <MeetingStatus
-            total={maximum_participants}
-            participant={registered_participants_count}
-            deadline={deadline}
-            currentTime={currentTime}
-          />
+          <div className="header">
+            <MeetingStatus
+              total={maximum_participants}
+              participant={registered_participants_count}
+              deadline={deadline}
+              currentTime={currentTime}
+            />
+            <span>{Object.keys(category)}</span>
+          </div>
+
           {isLogged && <LikeButton likeProp={list?.like} />}
         </div>
-        <span className="title" onClick={openModalOnClick}>
+        <span className="meeting-title" onClick={openModalOnClick}>
           {title}
         </span>
-        <div className="meeting-category">
-          <span>{Object.keys(category)[0]}</span>
-          <span>{Object.values(category)}</span>
-        </div>
         <span>{address}</span>
         <span>{deadline.split("T").join(" ")}</span>
       </div>

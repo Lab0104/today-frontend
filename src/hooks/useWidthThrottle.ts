@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import _ from "lodash";
 
 const useWidthThrottle = () => {
-  const [width, setWidth] = useState(window.innerWidth);
+  const width = useRef<number>(window.innerWidth);
 
   const handleResize = _.throttle(() => {
-    setWidth((val) => window.innerWidth);
+    width.current = window.innerWidth;
   }, 1000);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const useWidthThrottle = () => {
     };
   }, []);
 
-  return width;
+  return width.current;
 };
 
 export default useWidthThrottle;

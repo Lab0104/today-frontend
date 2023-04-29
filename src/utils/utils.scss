@@ -1,3 +1,25 @@
-$app-min-width: 375px;
-$app-max-width: 1200px;
+$max-width-app: 1200px;
+$min-width-app: 375px;
+$max-width-search: 450px;
 $form-items-height: 45px;
+
+$height-navigation-item: 40px;
+
+$color-theme-primary: #9747ff;
+$color-theme-secondary: #faab07;
+$color-theme-primary-blur: rgba(151, 71, 255, 0.2);
+
+$color-basic-black: #000;
+$color-basic-white: #fff;
+$color-basic-red: #f01919;
+
+$color-gray-brightness01: #2c2c2c;
+$color-gray-brightness02: #474747;
+$color-gray-brightness03: #707070;
+$color-gray-brightness04: #979797;
+$color-gray-brightness05: #cccccc;
+$color-gray-brightness06: #eeeeee;
+
+$padding-main-page: 30px;
+
+$reactive-width-navigation: 600px;

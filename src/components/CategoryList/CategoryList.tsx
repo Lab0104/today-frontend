@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
 import { css } from "@emotion/react";
 import { BsBook, BsPeople } from "react-icons/bs";
 import { TbMovie } from "react-icons/tb";
@@ -115,6 +116,9 @@ const CategoryList = React.memo(() => {
     categories.map(() => false)
   );
   const [index, setIndex] = useState<number | undefined>(undefined);
+  const subCategoryToggle = useMemo<boolean | undefined>(() => {
+    return index === 0 || index ? true : false;
+  }, [index]);
 
   const handleItemClick = (idx: number) => {
     setIndex((prev) => (prev === idx ? undefined : idx));
@@ -138,41 +142,51 @@ const CategoryList = React.memo(() => {
 
   return (
     <div className="categoryList-container">
-      <div className="largeCategoryList">
+      <div className="large-category">
         {categories &&
           categories.map((category, idx) => (
             <div
               key={idx}
-              className="itemList"
+              className="large-item"
               onClick={() => {
                 handleItemClick(idx);
               }}
             >
               <div
-                className="itemIcon"
+                className="item-icon"
                 css={categoriesStatus[idx] && clickOnStyle}
               >
                 {category.icon}
               </div>
-              <span className="itemName">{category.name}</span>
+              <span className="item-name">{category.name}</span>
             </div>
           ))}
       </div>
-      {index === 0 || index ? (
-        <div className="subCategoryList">
-          {categories[index].list.map((item, idx) => (
-            <div
-              key={idx}
-              className="subCategoryItem"
-              onClick={() => handleSubItemClick(item)}
-            >
-              {item}
-            </div>
-          ))}
+      <CSSTransition
+        in={subCategoryToggle}
+        timeout={300}
+        classNames="sub-list"
+        unmountOnExit
+      >
+        <div
+          className={
+            subCategoryToggle
+              ? "sub-category sub-category-open"
+              : "sub-category sub-category-close"
+          }
+        >
+          {index &&
+            categories[index].list.map((item, idx) => (
+              <div
+                key={idx}
+                className="sub-item"
+                onClick={() => handleSubItemClick(item)}
+              >
+                {item}
+              </div>
+            ))}
         </div>
-      ) : (
-        ""
-      )}
+      </CSSTransition>
     </div>
   );
 });

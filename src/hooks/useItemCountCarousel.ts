@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import _ from "lodash";
 
 const getCount = (width: number) => {
@@ -10,6 +10,7 @@ const getCount = (width: number) => {
 
 const useItemCountCarousel = () => {
   const [itemCount, setItemCount] = useState(getCount(window.innerWidth));
+  // const itemCount = useRef<number>(1);
 
   const handleResize = _.throttle(() => {
     const width = window.innerWidth;
