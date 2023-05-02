@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../reducer/ModalSlice";
-import { toggleButtons } from "../../reducer/ToggleSlice";
+import { closeModal } from "../../../reducer/ModalSlice";
+import { toggleButtons } from "../../../reducer/ToggleSlice";
 
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import "./AddModal.scss";
@@ -14,7 +14,7 @@ import {
   BsChevronDown,
   BsChevronUp,
 } from "react-icons/bs";
-import DatePicker from "components/DropDown/DataPIcker";
+import DatePicker from "components/Assest/DataPIcker";
 
 import { categories } from "components/CategoryList/CategoryList";
 
@@ -122,9 +122,13 @@ const AddModal = () => {
           >
             <p>{category[2] === "" ? category[0] : category}</p>
             {view ? (
-              <BsChevronUp className="drop-down" />
+              <div className="drop-down">
+                <BsChevronUp />
+              </div>
             ) : (
-              <BsChevronDown className="drop-down" />
+              <div className="drop-down">
+                <BsChevronDown />
+              </div>
             )}
             {view && <Dropdown></Dropdown>}
           </div>
