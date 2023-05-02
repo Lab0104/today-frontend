@@ -15,6 +15,7 @@ import { useGetPostQuery } from "services/postApi";
 import { TypeMeetingData, TypeModalState } from "mainPageTypes";
 import { TypeUser } from "userTypes";
 import "./Main.scss";
+import { meetingApi } from "store/MeetingDB";
 
 export default function Main() {
   console.log("main");
@@ -40,7 +41,26 @@ export default function Main() {
   }
   if (meetingError) {
     console.log("error!");
-    return <div>404 Not Found</div>;
+    return (
+      <>
+        <NavigationBar />
+        <div className="main-container">
+          {/* Modal Start */}
+          <MeetingCardModal isOpen={isOpen} selector="modal-root" />
+          {/* Modal End */}
+          <MainBannerCarousel />
+          <CategoryList />
+          {meetingApi.map((meeting: TypeMeetingData, idx: number) => (
+            <div className="meetingList" key={idx}>
+              <p className="list-title">{meeting.title}</p>
+              <MeetingCarousel list={meeting.list} currentTime={currentTime} />
+            </div>
+          ))}
+        </div>
+        <FooterDescription />
+        <FooterMenus />
+      </>
+    );
   }
 
   return (
