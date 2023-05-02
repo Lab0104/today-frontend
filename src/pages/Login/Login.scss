@@ -1,3 +1,5 @@
+@import "../../utils/utils.scss";
+
 $login-font-size: 8px;
 $flex-gap: 10px;
 $form-size: 45px;
@@ -15,7 +17,7 @@ $form-size: 45px;
   .title {
     font-size: 30px;
     font-weight: 700;
-    color: #000;
+    color: $color-basic-black;
     margin-bottom: 10px;
   }
 
@@ -32,7 +34,7 @@ $form-size: 45px;
 
     .errorMessage {
       font-size: 10px;
-      color: red;
+      color: $color-basic-red;
       text-align: left;
       margin: 0;
       transform: translateY(-5px);
@@ -69,7 +71,7 @@ $form-size: 45px;
     hr {
       display: inline-block;
       width: 42%;
-      border-top: 1px solid #000;
+      border-top: 1px solid $color-basic-black;
       outline: none;
     }
     span {
@@ -91,7 +93,7 @@ $form-size: 45px;
     height: 52.5px;
     background-color: #03c75a;
     border-radius: 6px;
-    color: white;
+    color: $color-basic-white;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;

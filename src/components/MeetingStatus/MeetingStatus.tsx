@@ -54,7 +54,7 @@ export default function MeetingStatus({
 const Status = styled.span<{
   status: string;
 }>`
-  padding: 0 10px;
+  padding: 5px 10px;
   border-radius: 15px;
   font-size: 12px;
   font-weight: 700;

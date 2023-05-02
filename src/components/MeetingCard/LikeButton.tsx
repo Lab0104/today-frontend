@@ -1,12 +1,10 @@
-/** @jsxImportSource @emotion/react */
 import { useState } from "react";
-import { css } from "@emotion/react";
 import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 
-const heartStyle = css`
-  font-size: 20px;
-  cursor: pointer;
-`;
+const ICON_STYLE = {
+  fontSize: "20px",
+  cursor: "pointer",
+};
 
 function LikeButton({ likeProp }: { likeProp: boolean | undefined }) {
   const [like, setLike] = useState(likeProp);
@@ -21,9 +19,9 @@ function LikeButton({ likeProp }: { likeProp: boolean | undefined }) {
   return (
     <>
       {like ? (
-        <HiHeart css={heartStyle} onClick={handleLikeClick} />
+        <HiHeart style={ICON_STYLE} onClick={handleLikeClick} />
       ) : (
-        <HiOutlineHeart css={heartStyle} onClick={handleLikeClick} />
+        <HiOutlineHeart style={ICON_STYLE} onClick={handleLikeClick} />
       )}
     </>
   );

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -21,8 +21,9 @@ type FormValues = {
 };
 
 export default function Signup() {
-  const [verifyNumber, setVerifyNumber] = useState(0);
-  const [isGetVerifyButtonClick, setIsGetVerifyButtonClick] = useState(false);
+  const emailButton = useRef<HTMLButtonElement>(null);
+  const verifyNumber = useRef<number>(0);
+  const emailVerifyForm = useRef<HTMLDivElement>(null);
   const [isVerify, setIsVerify] = useState(false);
   const navigate = useNavigate();
   const {
@@ -101,6 +102,9 @@ export default function Signup() {
   };
 
   const onEmailVerifyClick = async () => {
+    if (emailButton.current) {
+      emailButton.current.innerHTML = "재전송";
+    }
     const email = getValues("email");
     if (emailCheck(email)) {
       try {
@@ -111,8 +115,10 @@ export default function Signup() {
         });
         const isValid = await req.json();
         console.log(isValid);
-        setVerifyNumber(isValid?.authNumber);
-        setIsGetVerifyButtonClick(true);
+        verifyNumber.current = isValid?.authNumber;
+        if (emailVerifyForm.current) {
+          emailVerifyForm.current.style.display = "flex";
+        }
         clearErrors("email");
       } catch (err) {
         console.log(err);
@@ -129,7 +135,7 @@ export default function Signup() {
     if (isVerify) return;
     console.log("인증번호 확인 버튼 누름");
     const inputValue = Number(getValues("inputVerifyNum"));
-    if (inputValue !== verifyNumber) {
+    if (inputValue !== verifyNumber.current) {
       setError("inputVerifyNum", {
         type: "invalid verify number",
         message: "인증번호가 일치하지 않습니다.",
@@ -173,7 +179,7 @@ export default function Signup() {
               },
             })}
           />
-          <button type="button" onClick={onEmailVerifyClick}>
+          <button type="button" onClick={onEmailVerifyClick} ref={emailButton}>
             인증번호
             <br />
             받기
@@ -182,7 +188,11 @@ export default function Signup() {
         {errors?.email && (
           <p className="errorMessage">{errors?.email?.message}</p>
         )}
-        {isGetVerifyButtonClick && (
+        <div
+          className="email-verify-form"
+          ref={emailVerifyForm}
+          style={{ display: "none" }}
+        >
           <div className="buttonForm">
             <input
               type="text"
@@ -215,10 +225,10 @@ export default function Signup() {
               )}
             </button>
           </div>
-        )}
-        {errors?.inputVerifyNum && (
-          <p className="errorMessage">{errors?.inputVerifyNum?.message}</p>
-        )}
+          {errors?.inputVerifyNum && (
+            <p className="errorMessage">{errors?.inputVerifyNum?.message}</p>
+          )}
+        </div>
         <input
           type="password"
           placeholder="비밀번호"

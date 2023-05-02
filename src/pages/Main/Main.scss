@@ -1,12 +1,15 @@
 @import "../../utils/utils.scss";
 
+$padding-top-main-container: 120px;
+
 .main-container {
-  max-width: $app-max-width;
-  min-width: $app-min-width;
+  max-width: $max-width-app;
+  min-width: $min-width-app;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  padding: 120px 30px 30px 30px;
+  padding: $padding-top-main-container $padding-main-page $padding-main-page
+    $padding-main-page;
   margin: 0 auto;
   box-sizing: border-box;
 
@@ -15,7 +18,7 @@
     flex-direction: column;
     gap: 20px;
 
-    .title {
+    .list-title {
       text-align: left;
       font-size: 20px;
       font-weight: 700;
@@ -26,7 +29,7 @@
   .modalBody {
     border-radius: 8px;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: $color-basic-white;
     max-height: calc(100vh - 16px);
     overflow: hidden auto;
     position: relative;
@@ -35,8 +38,8 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: $reactive-width-navigation) {
   .main-container {
-    padding-top: 160px;
+    padding-top: calc($padding-top-main-container + $height-navigation-item);
   }
 }

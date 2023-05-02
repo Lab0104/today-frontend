@@ -3,8 +3,8 @@ import ChatInModal from "./ChatInModal";
 import ProfileModal from "./ProfileModal";
 import InfoModal from "./InfoModal";
 import NavModal from "./NavModal";
-import AddModal from "./AddModal";
-import FilterModal from "./FilterModal";
+import AddModal from "./AddModal/AddModal";
+import FilterModal from "./FilterModal/FilterModal";
 import { useAppSelector } from "../../hooks";
 
 const modals = [

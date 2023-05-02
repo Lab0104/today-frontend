@@ -1,3 +1,5 @@
+@import "../../utils/utils.scss";
+
 .categoryList-container {
   display: flex;
   flex-direction: column;
@@ -11,10 +13,10 @@
     flex-wrap: wrap;
   }
 
-  .largeCategoryList {
+  .large-category {
     @include categoryList;
 
-    .itemList {
+    .large-item {
       width: 100px;
       height: 110px;
       display: flex;
@@ -23,17 +25,16 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      transition: transform 0.3s linear;
       &:hover {
-        color: #9747ff;
+        transform: translateY(-5px);
+        color: $color-theme-primary;
         .itemIcon {
-          border: 2px solid #9747ff;
-        }
-        .itemName {
-          color: #9747ff;
+          border: 2px solid $color-theme-primary;
         }
       }
 
-      .itemIcon {
+      .item-icon {
         width: 60px;
         height: 60px;
         box-shadow: 2px 2px 6px 3px rgba(151, 151, 151, 0.5);
@@ -41,20 +42,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 25px;
       }
-      .itemName {
+      .item-name {
         font-size: 12px;
         font-weight: 700;
-        color: black;
+        color: $color-basic-black;
       }
     }
   }
 
-  .subCategoryList {
+  .sub-category {
     @include categoryList;
     gap: 15px;
 
-    .subCategoryItem {
+    .sub-item {
       width: 200px;
       height: 35px;
       display: flex;
@@ -62,17 +64,39 @@
       justify-content: center;
       font-size: 12px;
       font-weight: 700;
-      color: #474747;
+      color: $color-gray-brightness02;
       box-shadow: 2px 2px 6px 3px rgba(151, 151, 151, 0.5);
-      border: 1px solid #979797;
+      border: 1px solid $color-gray-brightness04;
       border-radius: 10px;
       cursor: pointer;
 
       &:hover {
         text-decoration: underline;
-        color: #9747ff;
-        border: 2px solid #9747ff;
+        color: $color-theme-primary;
+        border: 2px solid $color-theme-primary;
+        transform: scale(1.02);
       }
     }
   }
+  .sub-category-open {
+    display: flex;
+  }
+  .sub-category-close {
+    display: none;
+  }
+}
+
+.sub-list-enter {
+  transform: translateY(-30px);
+}
+.sub-list-enter-active {
+  transform: translateY(0%);
+  transition: transform 0.5s;
+}
+.sub-list-exit {
+  transform: translateY(0%);
+}
+.sub-list-exit-active {
+  transform: translateY(-30px);
+  transition: transform 0.5s;
 }
