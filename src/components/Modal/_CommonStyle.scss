@@ -1,3 +1,5 @@
+@use "/src/utils/utils";
+
 .container {
   position: absolute;
   // width: ${({ width }) => width || "465px"};
@@ -65,4 +67,10 @@
   font-size: 30px;
   top: 50%;
   transform: translate(0%, -50%);
+}
+@media (max-width: utils.$reactive-width-navigation) {
+  .container {
+    left: 70px;
+    top: 0;
+  }
 }

@@ -1,0 +1,13 @@
+@use "../CommonStyle";
+
+.container-box {
+  @extend .container;
+}
+
+.content-box {
+  @extend .content;
+}
+
+.icon {
+  @extend .icon;
+}

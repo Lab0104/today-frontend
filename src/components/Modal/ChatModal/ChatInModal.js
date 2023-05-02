@@ -4,9 +4,10 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { openModal } from "../../reducer/ModalSlice.ts";
-import { Container, Content, ExitButton, Icon } from "./CommonStyles";
-import { messagesData } from "./ModalData";
+import { openModal } from "../../../reducer/ModalSlice";
+import { messagesData } from "../ModalData.js";
+
+import "./ChatModal.scss";
 
 const ChatModal = () => {
   const dispatch = useDispatch();
@@ -21,14 +22,14 @@ const ChatModal = () => {
     );
 
   return (
-    <Container>
+    <div className="container-box">
       <div className="modalTitle">
         <h4>채팅</h4>
-        <ExitButton onClick={handleOpenChat}>
+        <button className="exit-button" onClick={handleOpenChat}>
           <i className="bi bi-caret-left"></i>
-        </ExitButton>
+        </button>
       </div>
-      <Content>
+      <div className="content-box">
         <div>2023년 1월 13일</div>
         {message.map((data, idx) => {
           return (
@@ -40,7 +41,7 @@ const ChatModal = () => {
                 </div>
               ) : (
                 <div className="chatBox">
-                  <Icon className="bi bi-person"></Icon>
+                  <i className="bi bi-person icon"></i>
                   <p className="name">{data.userName}</p>
                   <div className="row">
                     <p className="text">{data.text}</p>
@@ -51,12 +52,12 @@ const ChatModal = () => {
             </ChatBox>
           );
         })}
-      </Content>
+      </div>
       <InputBox>
         <input />
         <button>전송</button>
       </InputBox>
-    </Container>
+    </div>
   );
 };
 

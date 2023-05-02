@@ -4,10 +4,12 @@ import styled from "@emotion/styled";
 
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { closeModal, openModal } from "../../reducer/ModalSlice.ts";
-import { toggleButtons } from "../../reducer/ToggleSlice";
-import { Container, Content, ExitButton, Icon } from "./CommonStyles";
-import { chatsData } from "./ModalData";
+import { closeModal, openModal } from "../../../reducer/ModalSlice";
+import { toggleButtons } from "../../../reducer/ToggleSlice";
+import { Container, Content, ExitButton, Icon } from "../CommonStyles.js";
+import { chatsData } from "../ModalData.js";
+
+import "./ChatModal.scss";
 
 const ChatModal = () => {
   const dispatch = useDispatch();
@@ -22,23 +24,24 @@ const ChatModal = () => {
     );
 
   return (
-    <Container>
+    <div className="container-box">
       <div className="modalTitle">
         <h4>채팅</h4>
-        <ExitButton
+        <button
+          className="exit-button"
           onClick={() => {
             dispatch(closeModal());
             dispatch(toggleButtons({ idx: 1 }));
           }}
         >
           <i className="bi bi-x-lg"></i>
-        </ExitButton>
+        </button>
       </div>
-      <Content>
+      <div className="content-box">
         {chat.map((data, idx) => {
           return (
             <ChatBox key={idx} onClick={handleOpenChat}>
-              <Icon className="bi bi-person"></Icon>
+              <i className="bi bi-person icon"></i>
               <div className="row">
                 <p className="title">
                   {data.title}({data.current}/{data.max})
@@ -52,8 +55,8 @@ const ChatModal = () => {
             </ChatBox>
           );
         })}
-      </Content>
-    </Container>
+      </div>
+    </div>
   );
 };
 

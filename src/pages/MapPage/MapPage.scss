@@ -1,3 +1,5 @@
+@use "/src/utils/utils";
+
 .main {
   display: flex;
   width: 100%;
@@ -187,4 +189,34 @@
 
 .icons .bi:hover {
   opacity: 40%;
+}
+
+@media (max-width: utils.$reactive-width-navigation) {
+  .main {
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .searchTab {
+    width: 100%;
+    height: fit-content;
+  }
+  .dashBoard {
+    display: none;
+  }
+  .mapComponent {
+    width: 100%;
+  }
+  .icons {
+    height: fit-content;
+  }
+  .modals {
+    position: fixed;
+    left: 20px;
+    bottom: 30px;
+  }
+  .zoom {
+    position: fixed;
+    right: 20px;
+    bottom: 30px;
+  }
 }
