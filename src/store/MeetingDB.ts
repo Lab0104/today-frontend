@@ -31,6 +31,84 @@ export type ReceiveMeetingData = {
   user_id: string;
 };
 
+const meetingList = [
+  {
+    meet_id: 1,
+    title: "스터디 모임",
+    sub_title: "서브 타이틀",
+    content: `자바스터디 모집합니다.\n\n같이 백준 문제풀이 진행하면서 기초 문법 및 실습 진행 할 예정입니다.\n\n 스터디룸에 PC가 있기에 따로 개인 노트북 없어도 참가 가능합니다.\n\n따로 궁금하신 내용 있으면 언제든지 채팅주세요.\n\n지각하시는 분들은 사절합니다!`,
+    hits_count: 4,
+    date_created: "2023-02-21T16:43",
+    writer: "문지혜",
+    maximum_participants: 2,
+    registered_participants_count: 0,
+    address: "경기 용인시 기흥구 강남서로 9",
+    deadline: "2023-05-29T12:00",
+    date: "2023-01-18T15:00",
+    category: { "학문/스터디": ["프로그래밍 언어 스터디"] },
+  },
+  {
+    meet_id: 2,
+    title: "제목",
+    sub_title: "서브 타이틀",
+    content: `자바스터디 모집합니다.\n\n같이 백준 문제풀이 진행하면서 기초 문법 및 실습 진행 할 예정입니다.\n\n 스터디룸에 PC가 있기에 따로 개인 노트북 없어도 참가 가능합니다.\n\n따로 궁금하신 내용 있으면 언제든지 채팅주세요.\n\n지각하시는 분들은 사절합니다!`,
+    hits_count: 4,
+    date_created: "2023-02-21T16:43",
+    writer: "문지혜",
+    maximum_participants: 2,
+    registered_participants_count: 0,
+    address: "경기 용인시 기흥구 강남서로 9",
+    deadline: "2023-04-07T12:00",
+    date: "2023-01-18T15:00",
+    category: { "학문/스터디": ["프로그래밍 언어 스터디"] },
+  },
+  {
+    meet_id: 3,
+    title: "제목",
+    sub_title: "서브 타이틀",
+    content: `자바스터디 모집합니다.\n\n같이 백준 문제풀이 진행하면서 기초 문법 및 실습 진행 할 예정입니다.\n\n 스터디룸에 PC가 있기에 따로 개인 노트북 없어도 참가 가능합니다.\n\n따로 궁금하신 내용 있으면 언제든지 채팅주세요.\n\n지각하시는 분들은 사절합니다!`,
+    hits_count: 4,
+    date_created: "2023-02-21T16:43",
+    writer: "문지혜",
+    maximum_participants: 3,
+    registered_participants_count: 0,
+    address: "경기 용인시 기흥구 강남서로 9",
+    deadline: "2022-12-29T12:00",
+    date: "2023-01-18T15:00",
+    category: { "학문/스터디": ["프로그래밍 언어 스터디"] },
+  },
+  {
+    meet_id: 4,
+    title: "제목",
+    sub_title: "서브 타이틀",
+    content: `자바스터디 모집합니다.\n\n같이 백준 문제풀이 진행하면서 기초 문법 및 실습 진행 할 예정입니다.\n\n 스터디룸에 PC가 있기에 따로 개인 노트북 없어도 참가 가능합니다.\n\n따로 궁금하신 내용 있으면 언제든지 채팅주세요.\n\n지각하시는 분들은 사절합니다!`,
+    hits_count: 4,
+    date_created: "2023-02-21T16:43",
+    writer: "문지혜",
+    maximum_participants: 4,
+    registered_participants_count: 3,
+    address: "경기 용인시 기흥구 강남서로 9",
+    deadline: "2023-12-29T12:00",
+    date: "2023-01-18T15:00",
+    category: { "학문/스터디": ["프로그래밍 언어 스터디"] },
+  },
+];
+
+export const meetingApi: any = [
+  {
+    title: "Editor's Pick",
+    list: [...meetingList],
+  },
+  {
+    title: "광고 탭",
+    list: [...meetingList, ...meetingList],
+  },
+  {
+    title: "이런 모임은 어때요?",
+    list: [...meetingList, ...meetingList, ...meetingList],
+  },
+];
+
 export const meetingListDB: ReceiveMeetingData[] = [
   {
     meet_id: "",
