@@ -6,7 +6,7 @@ const MIN = 10;
 const MAX = 100;
 
 export default class ReactRange extends React.Component {
-  state = { values: [50] };
+  state = { values: [100] };
   render() {
     return (
       <div>

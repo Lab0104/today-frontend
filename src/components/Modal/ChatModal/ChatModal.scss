@@ -1,13 +1,69 @@
-@use "../CommonStyle";
+@use "../CommonStyle.scss";
+@use "/src/utils/utils.scss";
 
 .container-box {
-  @extend .container;
+  @extend %container;
 }
 
-.content-box {
-  @extend .content;
+.content-box_chat {
+  @extend %content;
+  gap: 0;
 }
 
-.icon {
-  @extend .icon;
+.chat-box {
+  position: relative;
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 10px;
+
+  &:hover {
+    background: #eff7ff;
+    cursor: pointer;
+  }
+
+  p {
+    margin: 5px 0;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 65px;
+    align-items: center;
+  }
+  .title {
+    font-weight: bold;
+  }
+  .chat {
+    font-size: 14px;
+  }
+  .time {
+    color: gray;
+    font-size: 12px;
+  }
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: utils.$color-theme-primary;
+  color: #fff;
+  font-size: 14px;
+}
+
+.chat-box .icon {
+  @extend %icon;
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  line-height: 48px;
+
+  border: 2px solid utils.$color-theme-primary;
+
+  background-color: #eee;
+  border-radius: 50%;
 }

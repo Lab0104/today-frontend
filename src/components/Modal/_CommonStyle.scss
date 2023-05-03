@@ -1,6 +1,6 @@
 @use "/src/utils/utils";
 
-.container {
+%container {
   position: absolute;
   // width: ${({ width }) => width || "465px"};
   height: auto;
@@ -45,7 +45,7 @@
   }
 }
 
-.content {
+%content {
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -61,7 +61,7 @@
   }
 }
 
-.icon {
+%icon {
   position: absolute;
   left: 10px;
   font-size: 30px;

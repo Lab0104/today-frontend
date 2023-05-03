@@ -2,8 +2,9 @@
 import { css } from "@emotion/react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../../reducer/ModalSlice.ts";
-import { ExitButton } from "./CommonStyles";
+import { closeModal } from "../../../reducer/ModalSlice";
+
+import "./InfoModal.scss";
 
 function InfoModal() {
   const dispatch = useDispatch();
@@ -22,9 +23,9 @@ function InfoModal() {
             <h4>{meetingData.title}</h4>
             <p>{meetingData.subTitle}</p>
           </div>
-          <ExitButton onClick={handleCloseModal}>
+          <button className="exit-button" onClick={handleCloseModal}>
             <i className="bi bi-x-lg"></i>
-          </ExitButton>
+          </button>
         </div>
         {/* 제목 & 종료 버튼 종료*/}
 
