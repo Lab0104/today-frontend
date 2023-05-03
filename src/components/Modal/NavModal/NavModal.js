@@ -2,8 +2,7 @@
 import { css } from "@emotion/react";
 
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../reducer/ModalSlice.ts";
-import { ExitButton } from "./CommonStyles";
+import { closeModal } from "../../../reducer/ModalSlice";
 
 function NavModal() {
   const dispatch = useDispatch();
@@ -16,9 +15,9 @@ function NavModal() {
       <div css={tab}>
         <div className="wrapper">
           <h4>오늘 하루</h4>
-          <ExitButton onClick={handleClose}>
+          <div className="exit-button" onClick={handleClose}>
             <i className="bi bi-x-lg"></i>
-          </ExitButton>
+          </div>
         </div>
         <div className="row">
           <i className="bi bi-megaphone"></i>

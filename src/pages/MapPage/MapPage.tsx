@@ -3,7 +3,6 @@ import { useEffect, useState, KeyboardEvent, ChangeEvent } from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
-import "./MapPage.css";
 import Map from "./KakaoMapApi";
 import { openModal } from "../../reducer/ModalSlice";
 import {
@@ -16,6 +15,8 @@ import { changeData } from "../../reducer/DisplayMeetingSlice";
 import { setMeetingCard } from "../../reducer/MeetingCardSlice";
 import { toggleButtons, toggleSorts } from "../../reducer/ToggleSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
+
+import "./MapPage.scss";
 
 const filters = [
   "모두",
@@ -233,23 +234,6 @@ function MapPage() {
             모임명 <span>{text}</span> 검색결과
           </div>
           <hr />
-          {/* 
-          <div
-            className="meetingCard"
-            onClick={() =>
-              handleOpenMeeting(
-                "InfoModal",
-                meetingListDB.address,
-                meetingListDB.sub_title,
-                meetingListDB.title,
-                meetingListDB.category,
-                "광고 예제"
-              )
-            }
-          >
-            { <AdMeetingCard /> }
-          </div> 
-          */}
 
           {/* 모임 수, 정렬 값 */}
           <div className="smallBox">
@@ -322,7 +306,7 @@ function MapPage() {
 
       {/* 버튼 아이콘 */}
       <div className="icons">
-        <div>
+        <div className="modals">
           {buttonItems.map((data, idx) => {
             return (
               <button
@@ -347,7 +331,7 @@ function MapPage() {
             <i className="bi bi-geo-alt-fill"></i>
           </button>
         </div>
-        <div>
+        <div className="zoom">
           <button
             onClick={() => {
               handleZoom("zoomIn");

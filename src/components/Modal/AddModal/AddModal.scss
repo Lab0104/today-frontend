@@ -1,7 +1,7 @@
 @use "../CommonStyle.scss";
 
-.content-box {
-  @extend .content;
+.content-box_add {
+  @extend %content;
 
   position: relative;
   height: 100%;
@@ -136,7 +136,7 @@
 }
 
 .container-box {
-  @extend .container;
+  @extend %container;
   width: 465px;
 }
 

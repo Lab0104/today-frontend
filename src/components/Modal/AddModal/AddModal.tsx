@@ -109,7 +109,7 @@ const AddModal = () => {
           <i className="bi bi-x-lg"></i>
         </button>
       </div>
-      <div className="content-box">
+      <div className="content-box_add">
         <div className="input-box">
           <div className="input-title">
             <input placeholder="모임 제목"></input>

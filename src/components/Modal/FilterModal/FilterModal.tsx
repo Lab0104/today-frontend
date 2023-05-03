@@ -26,7 +26,7 @@ const FilterModal = () => {
           <i className="bi bi-x-lg"></i>
         </button>
       </div>
-      <div className="content-box">
+      <div className="content-box_filter">
         <div className="content-category">
           <h3>카테고리</h3>
           <div className="category">

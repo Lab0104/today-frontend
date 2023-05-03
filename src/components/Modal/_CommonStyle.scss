@@ -1,4 +1,6 @@
-.container {
+@use "/src/utils/utils";
+
+%container {
   position: absolute;
   // width: ${({ width }) => width || "465px"};
   height: auto;
@@ -43,7 +45,7 @@
   }
 }
 
-.content {
+%content {
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -59,10 +61,16 @@
   }
 }
 
-.icon {
+%icon {
   position: absolute;
   left: 10px;
   font-size: 30px;
   top: 50%;
   transform: translate(0%, -50%);
+}
+@media (max-width: utils.$reactive-width-navigation) {
+  .container {
+    left: 70px;
+    top: 0;
+  }
 }
