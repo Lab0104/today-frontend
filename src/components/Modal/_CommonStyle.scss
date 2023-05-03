@@ -1,12 +1,10 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
+@use "/src/utils/utils";
 
-export const Container = styled.div`
+%container {
   position: absolute;
-  width: ${({ width }) => width || "465px"};
-  height: auto;
-  max-height: 710px;
+  width: 465px;
+  height: fit-content;
+  max-height: 650px;
   right: 102px;
   top: 20px;
   z-index: 10;
@@ -18,7 +16,7 @@ export const Container = styled.div`
   box-shadow: 4px 5px 4px rgba(0, 0, 0, 0.3);
   padding-bottom: 20px;
 
-  & .modalTitle {
+  .modalTitle {
     background: #fff;
     display: flex;
     justify-content: space-between;
@@ -33,22 +31,21 @@ export const Container = styled.div`
     border-radius: 10px 10px 0px 0px;
   }
 
-  & .modalTitle h4 {
+  .modalTitle h4 {
     margin: 0;
     font-size: 20px;
     font-weight: bold;
   }
-`;
+  .exit-button {
+    height: 24px;
+    font-size: 24px;
 
-export const ExitButton = styled.button`
-  height: 24px;
-  font-size: 24px;
+    background: none;
+    color: black;
+  }
+}
 
-  background: none;
-  color: black;
-`;
-
-export const Content = styled.div`
+%content {
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -62,12 +59,25 @@ export const Content = styled.div`
   &::-webkit-scrollbar {
     display: none; /* 크롬, 사파리, 오페라, 엣지 */
   }
-`;
+}
 
-export const Icon = styled.i`
+%icon {
   position: absolute;
   left: 10px;
   font-size: 30px;
   top: 50%;
   transform: translate(0%, -50%);
-`;
+}
+@media (max-width: utils.$reactive-width-navigation) {
+  %container {
+    position: fixed;
+    width: 100%;
+    max-width: 456px;
+    left: 0;
+    top: 0;
+  }
+
+  %content {
+    width: auto;
+  }
+}

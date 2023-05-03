@@ -1,0 +1,6 @@
+@use "../CommonStyle";
+
+.container-box {
+  @extend %container;
+  // width: 600px;
+}

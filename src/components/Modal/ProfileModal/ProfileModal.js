@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../reducer/ModalSlice.ts";
-import { toggleButtons } from "../../reducer/ToggleSlice";
+import { closeModal } from "../../../reducer/ModalSlice";
+import { toggleButtons } from "../../../reducer/ToggleSlice";
 
-import { Container, ExitButton } from "./CommonStyles";
-import { interestData, reviewData, userData } from "./ModalData";
+import { interestData, reviewData, userData } from "../ModalData.js";
+
+import "./ProfileModal.scss";
 
 const ProfileModal = () => {
   const dispatch = useDispatch();
@@ -23,10 +24,11 @@ const ProfileModal = () => {
   };
 
   return (
-    <Container width="600px" css={container}>
+    <div className="container-box" width="600px" css={container}>
       <div>
         <div className="backGround" css={backGround}>
-          <ExitButton
+          <button
+            className="exit-button"
             css={exitButton}
             onClick={() => {
               dispatch(closeModal());
@@ -34,7 +36,7 @@ const ProfileModal = () => {
             }}
           >
             <i className="bi bi-x-lg"></i>
-          </ExitButton>
+          </button>
         </div>
         <div className="userDataProfile" css={userDataProfile}>
           <div className="icon">
@@ -100,7 +102,7 @@ const ProfileModal = () => {
           <div className="graph"></div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 const container = css`

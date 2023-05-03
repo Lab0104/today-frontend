@@ -1,0 +1,193 @@
+@use "../CommonStyle.scss";
+@use "/src/utils/utils.scss";
+
+.content-box_filter {
+  @extend %content;
+  position: relative;
+  height: 100%;
+  justify-content: space-between;
+  color: #000000;
+  gap: 30px;
+  letter-spacing: -0.03em;
+
+  h3 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 32px;
+    margin: 10px 0;
+  }
+}
+
+.content-category {
+  .category {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 110px 110px;
+    grid-gap: 10px;
+    background-color: #eee;
+    padding: 0;
+  }
+  .category-item {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    text-align: center;
+  }
+  .item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 80px;
+    height: 80px;
+
+    background: #ffffff;
+
+    box-shadow: 2px 2px 6px 3px rgba(151, 151, 151, 0.5);
+    border-radius: 50%;
+
+    font-size: 44px;
+  }
+  .item-name {
+    width: fit-content;
+
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+}
+
+.content-box_filter .content-date {
+  p {
+    width: 30px;
+    height: 30px;
+
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 30px;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  input {
+    width: 150px;
+    height: 30px;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 30px;
+
+    text-align: center;
+  }
+  input:hover {
+    cursor: pointer;
+  }
+
+  .date {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+  }
+  .date .react-datepicker-wrapper {
+    width: 150px;
+  }
+}
+
+.number {
+  .number-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  button {
+    width: 63.33px;
+    height: 40px;
+
+    background-color: #fff;
+    color: #000000;
+
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 32px;
+  }
+  button.clicked {
+    color: #fff;
+    background-color: utils.$color-theme-primary;
+  }
+}
+
+.options {
+  padding-bottom: 70px;
+  input {
+    width: 20px;
+    height: 20px;
+  }
+
+  .check-boxs > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 32px;
+  }
+}
+
+.bottom-box {
+  position: absolute;
+  bottom: 0;
+  border-radius: 0px 0px 10px 10px;
+  width: 100%;
+  height: 70px;
+  background-color: #fff;
+
+  div {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 20px;
+  }
+  p {
+    text-decoration: underline;
+
+    font-family: "Noto Sans KR";
+
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 32px;
+    letter-spacing: -0.03em;
+  }
+
+  button {
+    font-family: "Noto Sans KR";
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 23px;
+    width: 200px;
+    height: 50px;
+  }
+}
+
+.container-box {
+  @extend %container;
+}
+
+@media (max-width: utils.$reactive-width-navigation) {
+  .category-item .item-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 38px;
+  }
+  .category-item .item-name {
+    font-size: 12px;
+  }
+  .number-buttons button:nth-child(1) {
+    font-size: 16px;
+  }
+}

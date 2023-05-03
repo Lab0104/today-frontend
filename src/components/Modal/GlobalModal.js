@@ -1,10 +1,10 @@
-import ChatModal from "./ChatModal";
-import ChatInModal from "./ChatInModal";
-import ProfileModal from "./ProfileModal";
-import InfoModal from "./InfoModal";
-import NavModal from "./NavModal";
-import AddModal from "./AddModal";
-import FilterModal from "./FilterModal";
+import ChatModal from "./ChatModal/ChatModal";
+import ChatInModal from "./ChatModal/ChatInModal";
+import ProfileModal from "./ProfileModal/ProfileModal";
+import InfoModal from "./InfoModal/InfoModal";
+import NavModal from "./NavModal/NavModal";
+import AddModal from "./AddModal/AddModal";
+import FilterModal from "./FilterModal/FilterModal";
 import { useAppSelector } from "../../hooks";
 
 const modals = [
