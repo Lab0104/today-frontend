@@ -50,6 +50,7 @@ interface modalProps {
 }
 
 export default function MeetingCardModal({ isOpen, selector }: modalProps) {
+  console.log("meeting modal");
   const dispatch = useDispatch();
   return (
     <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>

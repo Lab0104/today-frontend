@@ -1,4 +1,4 @@
-@import "../../utils/utils.scss";
+@import "../../utils/_utils.scss";
 
 .navigation-nav {
   position: fixed;
@@ -204,12 +204,6 @@
               font-weight: 700;
             }
           }
-        }
-        .contents-open {
-          display: flex;
-        }
-        .contents-close {
-          display: none;
         }
       }
     }

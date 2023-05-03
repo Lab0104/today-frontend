@@ -6,8 +6,7 @@ import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import MainBannerCarousel from "components/Carousel/MainBannerCarousel";
 import CategoryList from "components/CategoryList/CategoryList";
 import MeetingCarousel from "../../components/Carousel/MeetingCarousel";
-import FooterDescription from "../../components/Footer/FooterDescription";
-import FooterMenus from "../../components/Footer/FooterMenus";
+import Footer from "components/Footer/Footer";
 
 import { getCurrentTimeToNumber } from "utils/time";
 import { useGetPostQuery } from "services/postApi";
@@ -60,8 +59,7 @@ export default function Main() {
             </div>
           ))}
       </div>
-      <FooterDescription />
-      <FooterMenus />
+      <Footer loginStatus={isLogged} />
     </>
   );
 }
