@@ -6,13 +6,14 @@ import styled from "@emotion/styled";
 
 const DatePicker = (props: any): any => {
   const [startDate, setStartDate] = useState(null);
+  const [startDateNow, setStartDateNow] = useState(new Date());
 
   return (
     <>
       {props.includeTime ? (
         <CustomDatePicker
-          selected={new Date()}
-          onChange={(date: any) => setStartDate(date)}
+          selected={startDateNow}
+          onChange={(date: any) => setStartDateNow(date)}
           locale={ko}
           dateFormat={props.time ? props.time : "yyyy. M. d h:mm aa"}
           // dateFormat="yyyy. M. d h:mm aa"

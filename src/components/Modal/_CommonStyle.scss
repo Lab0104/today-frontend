@@ -2,9 +2,9 @@
 
 %container {
   position: absolute;
-  // width: ${({ width }) => width || "465px"};
-  height: auto;
-  max-height: 710px;
+  width: 465px;
+  height: fit-content;
+  max-height: 650px;
   right: 102px;
   top: 20px;
   z-index: 10;
@@ -69,8 +69,15 @@
   transform: translate(0%, -50%);
 }
 @media (max-width: utils.$reactive-width-navigation) {
-  .container {
-    left: 70px;
+  %container {
+    position: fixed;
+    width: 100%;
+    max-width: 456px;
+    left: 0;
     top: 0;
+  }
+
+  %content {
+    width: auto;
   }
 }
