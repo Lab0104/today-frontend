@@ -17,6 +17,8 @@ import { toggleButtons, toggleSorts } from "../../reducer/ToggleSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import "./MapPage.scss";
+import { BsFillBellFill } from "react-icons/bs";
+import { TbCurrentLocation } from "react-icons/tb";
 
 const filters = [
   "모두",
@@ -30,9 +32,10 @@ const filters = [
 ];
 const buttonItems = [
   { type: "ProfileModal", className: "person" },
-  { type: "ChatModal", className: "chat-dots" },
+  { type: "BellModal", className: "bell" },
+  { type: "ChatModal", className: "chat-text" },
   { type: "AddModal", className: "plus-circle" },
-  { type: "LayersModal", className: "layers" },
+  { type: "LayersModal", className: "funnel" },
 ];
 
 const sortItems = ["거리순", "조회순", "인기도순", "모임날짜순"];
@@ -321,6 +324,13 @@ function MapPage() {
               </button>
             );
           })}
+        </div>
+        <div className="exit">
+          <button>
+            <i className="bi bi-box-arrow-right"></i>
+          </button>
+        </div>
+        <div className="zoom">
           <button
             className={toggleLocation ? "selected" : ""}
             onClick={() => {
@@ -328,10 +338,8 @@ function MapPage() {
               setToggleLocation(!toggleLocation);
             }}
           >
-            <i className="bi bi-geo-alt-fill"></i>
+            <TbCurrentLocation></TbCurrentLocation>
           </button>
-        </div>
-        <div className="zoom">
           <button
             onClick={() => {
               handleZoom("zoomIn");

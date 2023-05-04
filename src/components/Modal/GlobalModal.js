@@ -6,6 +6,7 @@ import NavModal from "./NavModal/NavModal";
 import AddModal from "./AddModal/AddModal";
 import FilterModal from "./FilterModal/FilterModal";
 import { useAppSelector } from "../../hooks";
+import NotificationModal from "./NotificationModal";
 
 const modals = [
   {
@@ -36,6 +37,10 @@ const modals = [
     type: "LayersModal",
     component: <FilterModal />,
   },
+  {
+    type: "NotificationModal",
+    component: <NotificationModal />,
+  },
 ];
 
 function GlobalModal() {
@@ -43,7 +48,7 @@ function GlobalModal() {
   const { modalType, isOpen } = useAppSelector((state) => state.modal);
   if (!isOpen) return <></>; //isOpen이 false일때 모달을 닫아줌
 
-  /** modal type에 해당하는 모달 component 반환 */
+  /* modal type에 해당하는 모달 component 반환 */
   const renderModal = () => {
     const findModal = modals.find((modal) => {
       return modal.type === modalType;

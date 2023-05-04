@@ -86,30 +86,31 @@
 
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
-}
-.dashBoard .meetingCard {
-  padding: 0 20px;
-}
-.dashBoard .meetingCard:hover {
-  cursor: pointer;
-  background: #eff7ff;
-}
 
-.dashBoard::-webkit-scrollbar {
-  display: none; /* 크롬, 사파리, 오페라, 엣지 */
-}
+  .meetingCard {
+    padding: 0 20px;
+  }
+  .meetingCard:hover {
+    cursor: pointer;
+    background: #eff7ff;
+  }
 
-.dashBoard .searchResult {
-  margin: auto 20px;
-  text-align: left;
-  height: 45px;
-  line-height: 45px;
-}
-.dashBoard hr {
-  margin: 0;
-}
-.dashBoard .searchResult span {
-  color: #1f8cff;
+  &::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+  }
+
+  .searchResult {
+    margin: auto 20px;
+    text-align: left;
+    height: 45px;
+    line-height: 45px;
+  }
+  hr {
+    margin: 0;
+  }
+  .searchResult span {
+    color: #1f8cff;
+  }
 }
 .smallBox {
   margin: 0 20px;
@@ -158,11 +159,12 @@
 }
 .icons {
   position: fixed;
-  height: 95%;
-  top: 20px;
-  right: 30px;
+  width: 66px;
+  height: 100%;
+  top: 0;
+  right: 0;
   z-index: 9;
-  background: none;
+  background-color: #fff;
   justify-content: center;
 
   display: flex;
@@ -170,25 +172,47 @@
 
   justify-content: space-between;
   white-space: nowrap;
-}
-.icons button {
-  margin: 6px 0;
-  width: 42px;
-  height: 42px;
-  color: #666;
-  font-size: 21px;
-  background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-}
 
-.icons .selected {
-  background: #1f8cff;
-  color: #fff;
-}
+  button {
+    margin: 0 auto;
+    width: 66px;
+    height: 66px;
+    color: #666;
+    font-size: 26px;
+    background: #ffffff;
+    // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    // border-radius: 10px;
+    padding: 0;
+  }
+  .modals button {
+    // width: 26px;
+    // height: 26px;
+  }
+  .zoom {
+    position: absolute;
+    right: 80px;
+    bottom: 0;
+    padding: 30px 0;
+  }
+  .zoom button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 4px 5px 4px rgba(0, 0, 0, 0.3);
+  }
 
-.icons .bi:hover {
-  opacity: 40%;
+  .selected {
+    background: #1f8cff;
+    color: #fff;
+  }
+
+  .bi:hover {
+    opacity: 40%;
+  }
 }
 
 @media (max-width: utils.$reactive-width-navigation) {
