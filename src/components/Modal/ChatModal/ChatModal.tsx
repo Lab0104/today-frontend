@@ -26,7 +26,7 @@ const ChatModal = () => {
           className="exit-button"
           onClick={() => {
             dispatch(closeModal());
-            dispatch(toggleButtons({ idx: 1 }));
+            dispatch(toggleButtons({ idx: 2 }));
           }}
         >
           <i className="bi bi-x-lg"></i>

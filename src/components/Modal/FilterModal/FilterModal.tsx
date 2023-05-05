@@ -20,7 +20,7 @@ const FilterModal = () => {
           className="exit-button"
           onClick={() => {
             dispatch(closeModal());
-            dispatch(toggleButtons({ idx: 3 }));
+            dispatch(toggleButtons({ idx: 4 }));
           }}
         >
           <i className="bi bi-x-lg"></i>

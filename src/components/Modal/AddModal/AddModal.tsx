@@ -103,7 +103,7 @@ const AddModal = () => {
           className="exit-button"
           onClick={() => {
             dispatch(closeModal());
-            dispatch(toggleButtons({ idx: 2 }));
+            dispatch(toggleButtons({ idx: 3 }));
           }}
         >
           <i className="bi bi-x-lg"></i>
@@ -174,7 +174,7 @@ const AddModal = () => {
           className="add"
           onClick={() => {
             dispatch(closeModal());
-            dispatch(toggleButtons({ idx: 2 }));
+            dispatch(toggleButtons({ idx: 3 }));
           }}
         >
           개설 하기

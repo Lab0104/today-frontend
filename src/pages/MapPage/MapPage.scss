@@ -280,6 +280,9 @@ hr {
 
     color: utils.$color-theme-primary;
   }
+  .search-box .title i {
+    display: none;
+  }
 
   a:-webkit-any-link {
     color: utils.$color-theme-primary;

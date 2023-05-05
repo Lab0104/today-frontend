@@ -6,7 +6,7 @@ import NavModal from "./NavModal/NavModal";
 import AddModal from "./AddModal/AddModal";
 import FilterModal from "./FilterModal/FilterModal";
 import { useAppSelector } from "../../hooks";
-import NotificationModal from "./NotificationModal";
+import NotificationModal from "./NotificationModal/NotificationModal";
 
 const modals = [
   {

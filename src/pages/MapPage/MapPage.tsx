@@ -185,17 +185,18 @@ function MapPage() {
             <div className="toggle-icons">
               {toggleIcon ? (
                 <i
-                  className="bi-map"
+                  className="bi bi-map"
                   onClick={() => setToggleIcon(!toggleIcon)}
                 ></i>
               ) : (
                 <i
-                  className="bi-list"
+                  className="bi bi-list-ul"
                   onClick={() => setToggleIcon(!toggleIcon)}
                 ></i>
               )}
               {toggleIcon ? <p>지도</p> : <p>목록</p>}
             </div>
+
             <div className="inputBox">
               <div className="title">
                 <i
