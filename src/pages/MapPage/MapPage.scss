@@ -1,17 +1,20 @@
 @use "/src/utils/utils";
 
+a:-webkit-any-link {
+  color: #fff;
+}
 .main {
   display: flex;
   width: 100%;
   height: 100vh;
 }
-.searchTab {
+.search-tab {
   position: relative;
   width: 465px;
   height: 100%;
 }
 
-.searchBox {
+.search-box {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,11 +23,20 @@
   padding: 0 20px;
   background-color: #9747ff;
 }
-.searchBox .navIcon:hover {
+.search-box .navIcon:hover {
   cursor: pointer;
 }
-.searchBox .title {
+.search-box .inputBox {
   display: flex;
+  margin-top: 30px;
+
+  height: 30px;
+}
+.search-box .title {
+  display: flex;
+  position: absolute;
+  top: 20px;
+
   align-items: center;
   gap: 10px;
   color: #fff;
@@ -32,19 +44,18 @@
   font-weight: 700;
 }
 
-.searchBox .inputBox {
-  display: flex;
-  height: 30px;
+.search-box_wrapper .toggle-icons {
+  display: none;
 }
 
-.searchBox .inputBox input {
+.search-box .inputBox input {
   width: 100%;
   height: inherit;
   opacity: 70%;
   border-radius: 5px;
   border: none;
 }
-.searchBox .inputBox button {
+.search-box .inputBox button {
   position: absolute;
   background: none;
   right: 25px;
@@ -52,7 +63,7 @@
   height: inherit;
 }
 
-.searchBox .fliter {
+.search-box .fliter {
   display: flex;
   gap: 6px;
   overflow: scroll;
@@ -61,10 +72,10 @@
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
 }
-.searchBox .fliter::-webkit-scrollbar {
+.search-box .fliter::-webkit-scrollbar {
   display: none;
 }
-.searchBox .fliter button {
+.search-box .fliter button {
   height: 30px;
   line-height: 1;
   padding: 10px;
@@ -73,45 +84,11 @@
   color: black;
   opacity: 76%;
 }
-.searchBox button.selected {
+.search-box button.selected {
   background-color: #005fb8;
   color: #fff;
 }
 
-.dashBoard {
-  position: relative;
-  height: calc(100% - 150px);
-  background-color: #fff;
-  overflow-y: scroll;
-
-  -ms-overflow-style: none; /* 인터넷 익스플로러 */
-  scrollbar-width: none; /* 파이어폭스 */
-
-  .meetingCard {
-    padding: 0 20px;
-  }
-  .meetingCard:hover {
-    cursor: pointer;
-    background: #eff7ff;
-  }
-
-  &::-webkit-scrollbar {
-    display: none; /* 크롬, 사파리, 오페라, 엣지 */
-  }
-
-  .searchResult {
-    margin: auto 20px;
-    text-align: left;
-    height: 45px;
-    line-height: 45px;
-  }
-  hr {
-    margin: 0;
-  }
-  .searchResult span {
-    color: #1f8cff;
-  }
-}
 .smallBox {
   margin: 0 20px;
   display: flex;
@@ -132,6 +109,47 @@
 .smallBox span.selected {
   font-weight: 600;
   color: #005fb8;
+}
+
+.searchResult {
+  margin: 0 20px;
+  padding: 0;
+  text-align: left;
+  height: 45px;
+  line-height: 45px;
+}
+
+hr {
+  margin: 0;
+}
+.searchResult span {
+  color: #1f8cff;
+}
+.search-option {
+  height: 90px;
+}
+
+.dashBoard {
+  position: relative;
+  height: calc(100vh - 240px - 10px);
+  background-color: #fff;
+  overflow-y: scroll;
+  padding-bottom: 10px;
+
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+
+  .meetingCard {
+    padding: 0 20px;
+  }
+  .meetingCard:hover {
+    cursor: pointer;
+    background: #eff7ff;
+  }
+
+  &::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+  }
 }
 
 .listBox {
@@ -184,10 +202,7 @@
     // border-radius: 10px;
     padding: 0;
   }
-  .modals button {
-    // width: 26px;
-    // height: 26px;
-  }
+
   .zoom {
     position: absolute;
     right: 80px;
@@ -220,27 +235,113 @@
     flex-direction: column;
     overflow: hidden;
   }
-  .searchTab {
+  .search-tab {
     width: 100%;
-    height: fit-content;
   }
+  .search-box {
+    width: 100%;
+    height: 80px;
+
+    box-sizing: border-box;
+    padding: 20px;
+    padding-bottom: 10px;
+    background: none;
+    // position: absolute;
+    z-index: 20;
+
+    color: utils.$color-theme-primary;
+  }
+
+  .search-box_wrapper {
+    display: flex;
+  }
+  .search-box_wrapper .toggle-icons {
+    display: block;
+    font-size: 28px;
+    margin-right: 10px;
+  }
+
+  .search-box_wrapper .toggle-icons p {
+    padding: 0;
+    margin: 0;
+    font-family: "Noto Sans KR";
+    font-weight: 900;
+    font-size: 12px;
+    line-height: 10px;
+  }
+
+  .search-box .title {
+    position: relative;
+    top: 0;
+    margin: 0 10px;
+    font-family: "Noto Sans KR";
+    font-weight: 900;
+    font-size: 18px;
+
+    color: utils.$color-theme-primary;
+  }
+
+  a:-webkit-any-link {
+    color: utils.$color-theme-primary;
+  }
+
+  .search-box .inputBox {
+    width: 100%;
+    height: 40px;
+
+    background: #fff;
+    margin: 0;
+
+    border: 3px solid utils.$color-theme-primary;
+
+    box-shadow: 1px 3px 5px 2px rgba(151, 151, 151, 0.5);
+    border-radius: 10px;
+
+    input:focus {
+      outline: none;
+    }
+  }
+
   .dashBoard {
+    height: calc(100vh - 170px - 60px);
+    padding-bottom: 60px;
+  }
+
+  .search-box .fliter {
     display: none;
   }
+  .search-option {
+    font-size: 14px;
+  }
+
   .mapComponent {
     width: 100%;
   }
+
   .icons {
     height: fit-content;
   }
-  .modals {
-    position: fixed;
-    left: 20px;
-    bottom: 30px;
+  .icons .zoom button {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    margin-top: 10px;
   }
-  .zoom {
+  .icons .modals {
+    z-index: 12;
+    position: fixed;
+    display: flex;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }
+  .icons .zoom {
     position: fixed;
     right: 20px;
-    bottom: 30px;
+    top: 140px;
+  }
+  .icons .exit {
+    display: none;
   }
 }

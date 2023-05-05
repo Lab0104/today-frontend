@@ -70,9 +70,9 @@
 }
 @media (max-width: utils.$reactive-width-navigation) {
   %container {
-    position: fixed;
     width: 100%;
-    max-width: 456px;
+    height: calc(100vh - 66px);
+    max-height: none;
     left: 0;
     top: 0;
   }

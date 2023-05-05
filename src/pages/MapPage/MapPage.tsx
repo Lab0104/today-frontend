@@ -1,8 +1,6 @@
-/** @jsxImportSource @emotion/react */
 import { useEffect, useState, KeyboardEvent, ChangeEvent } from "react";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
-import { css } from "@emotion/react";
 import Map from "./KakaoMapApi";
 import { openModal } from "../../reducer/ModalSlice";
 import {
@@ -17,7 +15,6 @@ import { toggleButtons, toggleSorts } from "../../reducer/ToggleSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import "./MapPage.scss";
-import { BsFillBellFill } from "react-icons/bs";
 import { TbCurrentLocation } from "react-icons/tb";
 
 const filters = [
@@ -32,7 +29,7 @@ const filters = [
 ];
 const buttonItems = [
   { type: "ProfileModal", className: "person" },
-  { type: "BellModal", className: "bell" },
+  { type: "NotificationModal", className: "bell" },
   { type: "ChatModal", className: "chat-text" },
   { type: "AddModal", className: "plus-circle" },
   { type: "LayersModal", className: "funnel" },
@@ -40,18 +37,12 @@ const buttonItems = [
 
 const sortItems = ["거리순", "조회순", "인기도순", "모임날짜순"];
 
-const title = css`
-  color: #fff;
-  font-size: 20px;
-  font-weight: 700;
-`;
-
 function MapPage() {
   /** 검색 텍스트(검색 결과 반영) */
   const location = useLocation();
   const searchContext = location.state;
   const [text, setText] = useState(searchContext ? searchContext : "");
-
+  const [toggleIcon, setToggleIcon] = useState(true);
   useEffect(() => {
     dispatch(searchMap({ searchKeyword: text }));
   }, [searchContext]);
@@ -187,30 +178,44 @@ function MapPage() {
 
   return (
     <div className="main">
-      <div className="searchTab">
+      <div className="search-tab">
         {/* 검색 창 */}
-        <div className="searchBox">
-          <div className="title" css={title}>
-            <i
-              className="bi bi-list navIcon"
-              onClick={() => {
-                handleOpenModal("NavModal");
-              }}
-            ></i>
-            <Link to="/" css={title}>
-              오늘 하루
-            </Link>
-          </div>
-
-          <div className="inputBox">
-            <input
-              onChange={handleChange}
-              value={text}
-              onKeyDown={handleOnKeyDown}
-            ></input>
-            <button onClick={handleSearch}>
-              <i className="bi bi-search"></i>
-            </button>
+        <div className="search-box">
+          <div className="search-box_wrapper">
+            <div className="toggle-icons">
+              {toggleIcon ? (
+                <i
+                  className="bi-map"
+                  onClick={() => setToggleIcon(!toggleIcon)}
+                ></i>
+              ) : (
+                <i
+                  className="bi-list"
+                  onClick={() => setToggleIcon(!toggleIcon)}
+                ></i>
+              )}
+              {toggleIcon ? <p>지도</p> : <p>목록</p>}
+            </div>
+            <div className="inputBox">
+              <div className="title">
+                <i
+                  className="bi bi-list navIcon"
+                  onClick={() => {
+                    handleOpenModal("NavModal");
+                  }}
+                ></i>
+                <Link to="/">LOGO</Link>
+              </div>
+              <input
+                onChange={handleChange}
+                value={text}
+                onKeyDown={handleOnKeyDown}
+                placeholder="장소, 모임 검색"
+              ></input>
+              <button onClick={handleSearch}>
+                <i className="bi bi-search"></i>
+              </button>
+            </div>
           </div>
 
           <div className="fliter">
@@ -231,11 +236,10 @@ function MapPage() {
         </div>
         {/* 검색 창 종료 */}
 
-        {/* 대쉬 보드 */}
-        <div className="dashBoard">
-          <div className="searchResult">
+        <div className="search-option">
+          <p className="searchResult">
             모임명 <span>{text}</span> 검색결과
-          </div>
+          </p>
           <hr />
 
           {/* 모임 수, 정렬 값 */}
@@ -258,46 +262,54 @@ function MapPage() {
               );
             })}
           </div>
-          {/* 모임 수, 정렬 값 종료 */}
+          <hr />
 
-          {/* 검색 결과 창 */}
-          {displayMeetings.length !== 0 ? (
-            displayMeetings.map((data, idx) => {
-              return (
-                <div
-                  className="listBox"
-                  key={idx}
-                  onClick={() => {
-                    handleOpenMeeting(
-                      data.address,
-                      data.sub_title,
-                      data.title,
-                      data.category,
-                      data.content
-                    );
-                  }}
-                  onMouseOver={() => {
-                    handleMouseOver(data.title);
-                  }}
-                >
-                  {idx === 0 ? <hr /> : ""}
-                  <h4>{data.title}</h4>
-                  <p>{data.sub_title}</p>
-                  <p>{data.category}</p>
-                  <p>{data.address}</p>
-                  <p>조회수 : {data.hits}</p>
-                  <hr />
-                </div>
-              );
-            })
-          ) : (
-            <>
-              <h3>검색어: {searchKeyword}</h3>
-              <h4>검색 결과가 존재하지 않습니다.</h4>
-            </>
-          )}
-          {/* 검색 결과 창 종료*/}
+          {/* 모임 수, 정렬 값 종료 */}
         </div>
+        {/* 대쉬 보드 */}
+        {toggleIcon ? (
+          <div className="dashBoard">
+            {/* 검색 결과 창 */}
+            {displayMeetings.length !== 0 ? (
+              displayMeetings.map((data, idx) => {
+                return (
+                  <div
+                    className="listBox"
+                    key={idx}
+                    onClick={() => {
+                      handleOpenMeeting(
+                        data.address,
+                        data.sub_title,
+                        data.title,
+                        data.category,
+                        data.content
+                      );
+                    }}
+                    onMouseOver={() => {
+                      handleMouseOver(data.title);
+                    }}
+                  >
+                    <h4>{data.title}</h4>
+                    <p>{data.sub_title}</p>
+                    <p>{data.category}</p>
+                    <p>{data.address}</p>
+                    <p>조회수 : {data.hits}</p>
+                    <hr />
+                  </div>
+                );
+              })
+            ) : (
+              <>
+                <h3>검색어: {searchKeyword}</h3>
+                <h4>검색 결과가 존재하지 않습니다.</h4>
+              </>
+            )}
+            {/* 검색 결과 창 종료*/}
+          </div>
+        ) : (
+          <></>
+        )}
+
         {/* 대시보드 종료*/}
       </div>
 
@@ -330,31 +342,35 @@ function MapPage() {
             <i className="bi bi-box-arrow-right"></i>
           </button>
         </div>
-        <div className="zoom">
-          <button
-            className={toggleLocation ? "selected" : ""}
-            onClick={() => {
-              handleCurrentLocation();
-              setToggleLocation(!toggleLocation);
-            }}
-          >
-            <TbCurrentLocation></TbCurrentLocation>
-          </button>
-          <button
-            onClick={() => {
-              handleZoom("zoomIn");
-            }}
-          >
-            <i className="bi bi-zoom-in"></i>
-          </button>
-          <button
-            onClick={() => {
-              handleZoom("zoomOut");
-            }}
-          >
-            <i className="bi bi-zoom-out"></i>
-          </button>
-        </div>
+        {toggleIcon ? (
+          <></>
+        ) : (
+          <div className="zoom">
+            <button
+              className={toggleLocation ? "selected" : ""}
+              onClick={() => {
+                handleCurrentLocation();
+                setToggleLocation(!toggleLocation);
+              }}
+            >
+              <TbCurrentLocation></TbCurrentLocation>
+            </button>
+            <button
+              onClick={() => {
+                handleZoom("zoomIn");
+              }}
+            >
+              <i className="bi bi-zoom-in"></i>
+            </button>
+            <button
+              onClick={() => {
+                handleZoom("zoomOut");
+              }}
+            >
+              <i className="bi bi-zoom-out"></i>
+            </button>
+          </div>
+        )}
       </div>
       {/* 버튼 아이콘 종료 */}
     </div>
