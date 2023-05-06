@@ -1,6 +1,209 @@
 @use "../CommonStyle";
+@use "/src/utils/utils";
 
-.container-box {
+.container-box-profile {
   @extend %container;
-  // width: 600px;
+
+  background-color: #fff;
+
+  p {
+    margin: 0;
+  }
+
+  .exit-button {
+    color: #fff;
+    top: -30px;
+  }
+}
+
+.profile-header {
+  background-color: #fff;
+  flex: 0 0 auto;
+  height: 270px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.background {
+  height: 170px;
+
+  border-radius: 10px 10px 0px 0px;
+  margin-bottom: 10px;
+  background: #ff9896;
+  background-image: url("https://images.unsplash.com/photo-1554147090-e1221a04a025?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1148&q=80");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.background .exit-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.profile-header .userDataProfile {
+  position: absolute;
+  top: 100px;
+  left: 10%;
+
+  width: 80%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+
+  box-shadow: 1px 3px 5px 2px rgba(151, 151, 151, 0.5);
+  border-radius: 10px;
+
+  padding: 55px 40px 0px;
+  box-sizing: border-box;
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    left: 20px;
+    top: -45px;
+    background: utils.$color-gray-brightness06;
+    border: 4px solid utils.$color-theme-primary;
+
+    font-size: 48px;
+  }
+  .title {
+    display: flex;
+    align-items: center;
+  }
+  .title h4 {
+    font-size: 20px;
+    margin: 0;
+  }
+  .title span {
+    margin: 0 0 0 10px;
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+  }
+  .buttons {
+    position: absolute;
+    display: flex;
+    top: 20px;
+    right: 20px;
+    gap: 10px;
+  }
+
+  button {
+    width: 42px;
+    height: 42px;
+
+    background: utils.$color-theme-primary;
+    color: #fff;
+    font-size: 24px;
+
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+}
+
+.content-box-profile {
+  @extend %content;
+  flex: 1 1 auto;
+  background-color: #fff;
+}
+
+.interestDataed {
+  margin: 5px 0;
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .interestDatas {
+    display: flex;
+    padding: 0px;
+    gap: 25px;
+    overflow: scroll;
+    overflow-x: auto;
+
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+  }
+
+  .interestDatas::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+  }
+
+  .interestData img {
+    height: 128px;
+    width: 192px;
+    border-radius: 20px;
+  }
+}
+.review-box {
+}
+.review-box .review {
+  display: flex;
+
+  h4 {
+    margin: 0;
+  }
+
+  p {
+    margin-top: 5px;
+  }
+
+  .icon {
+    display: flex;
+    width: 45px;
+    height: 45px;
+
+    font-size: 28px;
+    border-radius: 50%;
+    background: #e8e8e8;
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid utils.$color-theme-primary;
+  }
+
+  .leftTab {
+    width: 30%;
+  }
+  .rightTab {
+    width: 70%;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.review-box .border {
+  margin: 20px 0;
+}
+
+.recent {
+  .graph {
+    height: 140px;
+    background: #efefef;
+  }
+}
+
+@media (min-width: utils.$reactive-width-navigation) {
+  .container-box-profile {
+    width: 600px;
+  }
+}
+
+@media (max-width: utils.$reactive-width-navigation) {
+  .background {
+    border-radius: 0;
+  }
 }

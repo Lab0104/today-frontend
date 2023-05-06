@@ -29,12 +29,23 @@
   }
   .category-item {
     display: flex;
+    cursor: pointer;
 
     align-items: center;
     justify-content: center;
     flex-direction: column;
 
     text-align: center;
+  }
+  .category-item:hover .item-icon {
+    color: utils.$color-theme-primary;
+  }
+  .selected:hover .item-icon {
+    color: #fff;
+  }
+  .selected .item-icon {
+    color: #fff;
+    background-color: utils.$color-theme-primary;
   }
   .item-icon {
     display: flex;
@@ -74,7 +85,7 @@
   }
 
   input {
-    width: 150px;
+    width: 100%;
     height: 30px;
 
     border-radius: 10px;
@@ -97,7 +108,7 @@
     text-align: center;
   }
   .date .react-datepicker-wrapper {
-    width: 150px;
+    width: 40%;
   }
 }
 
@@ -107,7 +118,7 @@
     gap: 10px;
   }
   button {
-    width: 63.33px;
+    flex: 1;
     height: 40px;
 
     background-color: #fff;
@@ -154,6 +165,7 @@
     margin: 0 20px;
   }
   p {
+    cursor: pointer;
     text-decoration: underline;
 
     font-family: "Noto Sans KR";

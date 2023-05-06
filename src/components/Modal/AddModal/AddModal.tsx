@@ -103,7 +103,7 @@ const AddModal = () => {
           className="exit-button"
           onClick={() => {
             dispatch(closeModal());
-            dispatch(toggleButtons({ idx: 2 }));
+            dispatch(toggleButtons({ idx: 3 }));
           }}
         >
           <i className="bi bi-x-lg"></i>
@@ -142,7 +142,6 @@ const AddModal = () => {
                 <BsCalendar2 />
               </div>
               <DatePicker text="모임 시작시간" />
-              <p>~</p>
               <DatePicker text="모임 종료시간" />
             </div>
             <div className="place info-box">
@@ -174,7 +173,7 @@ const AddModal = () => {
           className="add"
           onClick={() => {
             dispatch(closeModal());
-            dispatch(toggleButtons({ idx: 2 }));
+            dispatch(toggleButtons({ idx: 3 }));
           }}
         >
           개설 하기
