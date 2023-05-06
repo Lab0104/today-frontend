@@ -3,6 +3,7 @@
 
 .container-box-profile {
   @extend %container;
+
   background-color: #fff;
 
   span {
@@ -24,6 +25,7 @@
 
 .profile-header {
   background-color: #fff;
+  flex: 0 0 auto;
   height: 270px;
   border-radius: 10px 10px 0px 0px;
 }
@@ -34,7 +36,7 @@
   border-radius: 10px 10px 0px 0px;
   margin-bottom: 10px;
   background: #ff9896;
-  // background-image: url(${userData.backgroundImage});
+  background-image: url("https://images.unsplash.com/photo-1554147090-e1221a04a025?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1148&q=80");
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -117,6 +119,7 @@
 
 .content-box-profile {
   @extend %content;
+  flex: 1 1 auto;
   background-color: #fff;
 }
 
@@ -149,9 +152,9 @@
     border-radius: 20px;
   }
 }
-
+.review-box {
+}
 .review-box .review {
-  position: relative;
   display: flex;
 
   h4 {
@@ -162,17 +165,10 @@
     margin-top: 5px;
   }
 
-  p.time {
-    margin: 0;
-  }
-
   .icon {
     display: flex;
-    position: absolute;
     width: 45px;
     height: 45px;
-    left: -60px;
-    top: 0;
 
     font-size: 28px;
     border-radius: 50%;
@@ -184,26 +180,37 @@
   }
 
   .leftTab {
-    margin-right: 40px;
-    white-space: nowrap;
+    width: 30%;
+  }
+  .rightTab {
+    width: 70%;
   }
 
   .row {
     display: flex;
-    gap: 20px;
-  }
-
-  .rate i {
-    margin-right: 5px;
+    justify-content: space-between;
   }
 }
+
 .review-box .border {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .recent {
   .graph {
     height: 140px;
     background: #efefef;
+  }
+}
+
+@media (min-width: utils.$reactive-width-navigation) {
+  .container-box-profile {
+    width: 600px;
+  }
+}
+
+@media (max-width: utils.$reactive-width-navigation) {
+  .background {
+    border-radius: 0;
   }
 }

@@ -14,7 +14,7 @@ const NotificationModal = () => {
           className="exit-button"
           onClick={() => {
             dispatch(closeModal());
-            dispatch(toggleButtons({ idx: 2 }));
+            dispatch(toggleButtons({ idx: 1 }));
           }}
         >
           <i className="bi bi-x-lg"></i>

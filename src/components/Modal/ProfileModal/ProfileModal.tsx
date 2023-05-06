@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../../reducer/ModalSlice";
 import { toggleButtons } from "../../../reducer/ToggleSlice";
@@ -83,30 +81,32 @@ const ProfileModal = () => {
         </div>
         <hr />
 
-        {/* <p>모임 후기</p>
-        {reviewData.map((data, idx) => {
-          return (
-            <div key={idx} className="review-box">
-              <div className="review">
-                <div className="icon">
-                  <i className="bi bi-person"></i>
-                </div>
-                <div className="leftTab">
-                  <h4>{data.name}</h4>
-                  <p>총 참여 횟수 {data.totalCount}</p>
-                </div>
-                <div className="rightTab">
-                  <div className="row">
-                    <div className="rate">{handleRate(data.rate)}</div>
-                    <p className="time">{data.date}</p>
+        <p>모임 후기</p>
+        <div className="review-box">
+          {reviewData.map((data, idx) => {
+            return (
+              <div key={idx}>
+                <div className="review">
+                  <div className="leftTab">
+                    <div className="icon">
+                      <i className="bi bi-person"></i>
+                    </div>
+                    <h4>{data.name}</h4>
+                    <p>총 참여 횟수 {data.totalCount}</p>
                   </div>
-                  <p className="reviewText">{data.comment}</p>
+                  <div className="rightTab">
+                    <div className="row">
+                      <div className="rate">{handleRate(data.rate)}</div>
+                      <p className="time">{data.date}</p>
+                    </div>
+                    <p className="reviewText">{data.comment}</p>
+                  </div>
                 </div>
+                <hr className="border" />
               </div>
-              <hr className="border" />
-            </div>
-          );
-        })} */}
+            );
+          })}
+        </div>
 
         <div className="recent">
           <p>최근 3개월간 모임 참여 내역</p>

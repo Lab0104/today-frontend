@@ -11,11 +11,16 @@ import {
 } from "../../reducer/KakaoMapSlice";
 import { changeData } from "../../reducer/DisplayMeetingSlice";
 import { setMeetingCard } from "../../reducer/MeetingCardSlice";
-import { toggleButtons, toggleSorts } from "../../reducer/ToggleSlice";
+import {
+  toggleButtons,
+  toggleClose,
+  toggleSorts,
+} from "../../reducer/ToggleSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import "./MapPage.scss";
 import { TbCurrentLocation } from "react-icons/tb";
+import { closeModal } from "reducer/ModalSlice";
 
 const filters = [
   "모두",
@@ -46,6 +51,18 @@ function MapPage() {
   useEffect(() => {
     dispatch(searchMap({ searchKeyword: text }));
   }, [searchContext]);
+
+  const [vhSize, setVhSize] = useState(window.innerWidth);
+
+  useEffect(() => {
+    // 브라우저의 크기가 변할 때마다 vh 크기를 업데이트
+    const handleResize = () => setVhSize(window.innerWidth);
+
+    window.addEventListener("resize", handleResize);
+
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // 토글 배열
   const [toggleLocation, setToggleLocation] = useState(false);
@@ -205,7 +222,18 @@ function MapPage() {
                     handleOpenModal("NavModal");
                   }}
                 ></i>
-                <Link to="/">LOGO</Link>
+                <div
+                  onClick={() => {
+                    dispatch(closeModal());
+                    dispatch(toggleClose());
+                    if (toggleLocation) {
+                      handleCurrentLocation();
+                      setToggleLocation(!toggleLocation);
+                    }
+                  }}
+                >
+                  <Link to="/">LOGO</Link>
+                </div>
               </div>
               <input
                 onChange={handleChange}
@@ -268,7 +296,7 @@ function MapPage() {
           {/* 모임 수, 정렬 값 종료 */}
         </div>
         {/* 대쉬 보드 */}
-        {toggleIcon ? (
+        {toggleIcon || vhSize > 768 ? (
           <div className="dashBoard">
             {/* 검색 결과 창 */}
             {displayMeetings.length !== 0 ? (
@@ -338,14 +366,24 @@ function MapPage() {
             );
           })}
         </div>
-        <div className="exit">
-          <button>
-            <i className="bi bi-box-arrow-right"></i>
-          </button>
+        <div
+          className="exit"
+          onClick={() => {
+            dispatch(closeModal());
+            dispatch(toggleClose());
+            if (toggleLocation) {
+              handleCurrentLocation();
+              setToggleLocation(!toggleLocation);
+            }
+          }}
+        >
+          <Link to="/">
+            <button>
+              <i className="bi bi-box-arrow-right"></i>
+            </button>
+          </Link>
         </div>
-        {toggleIcon ? (
-          <></>
-        ) : (
+        {!toggleIcon || vhSize > 768 ? (
           <div className="zoom">
             <button
               className={toggleLocation ? "selected" : ""}
@@ -371,6 +409,8 @@ function MapPage() {
               <i className="bi bi-zoom-out"></i>
             </button>
           </div>
+        ) : (
+          <></>
         )}
       </div>
       {/* 버튼 아이콘 종료 */}
