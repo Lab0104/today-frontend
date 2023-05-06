@@ -1,7 +1,7 @@
-import React from "react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "reducer/ModalSlice";
 import { toggleButtons } from "reducer/ToggleSlice";
+import { useState } from "react";
 
 import "./FilterModal.scss";
 
@@ -9,8 +9,42 @@ import DatePicker from "components/Assest/DataPIcker";
 import ReactRange from "components/Assest/ReactRange";
 import { categories } from "components/CategoryList/CategoryList";
 
+const BtnList = ["모두", "2", "3", "4", "5", "6+"];
 const FilterModal = () => {
   const dispatch = useDispatch();
+  const [categorySelect, setCategorySelect] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [BtnSelect, setBtnSelect] = useState("모두");
+
+  const handleCategoryClick = (idx: number) => {
+    let list = categorySelect;
+    list[idx] = !list[idx];
+    setCategorySelect([...list]);
+  };
+
+  const handleButtonClick = (text: string) => {
+    setBtnSelect(text);
+  };
+
+  const handleResetClick = () => {
+    setCategorySelect([false, false, false, false, false, false, false, false]);
+    setBtnSelect("모두");
+  };
+
+  const handleDisplayClick = () => {
+    dispatch(closeModal());
+    dispatch(toggleButtons({ idx: 4 }));
+  };
 
   return (
     <div className="container-box">
@@ -34,10 +68,12 @@ const FilterModal = () => {
               categories.map((category, idx) => (
                 <div
                   key={idx}
-                  className="category-item"
-                  onClick={() => {
-                    // handleItemClick(idx);
-                  }}
+                  className={
+                    categorySelect[idx]
+                      ? "category-item selected"
+                      : "category-item"
+                  }
+                  onClick={() => handleCategoryClick(idx)}
                 >
                   <div className="item-icon">{category.icon}</div>
                   <span className="item-name">{category.name}</span>
@@ -68,12 +104,16 @@ const FilterModal = () => {
         <div className="number">
           <h3>모임 인원</h3>
           <div className="number-buttons">
-            <button className="clicked">모두</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6+</button>
+            {BtnList.map((data) => {
+              return (
+                <button
+                  onClick={() => handleButtonClick(data)}
+                  className={BtnSelect === data ? "clicked" : ""}
+                >
+                  {data}
+                </button>
+              );
+            })}
           </div>
         </div>
         <div className="options">
@@ -100,8 +140,8 @@ const FilterModal = () => {
       </div>
       <div className="bottom-box">
         <div>
-          <p>초기화</p>
-          <button>모임 표시</button>
+          <p onClick={handleResetClick}>초기화</p>
+          <button onClick={handleDisplayClick}>모임 표시</button>
         </div>
       </div>
     </div>

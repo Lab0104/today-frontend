@@ -5,6 +5,7 @@ import { toggleButtons } from "../../../reducer/ToggleSlice";
 import { interestData, reviewData, userData } from "../ModalData.js";
 
 import "./ProfileModal.scss";
+import { openModal } from "reducer/ModalSlice";
 
 const ProfileModal = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,6 @@ const ProfileModal = () => {
           </div>
           <div className="title">
             <h4>{userData.name}</h4>
-            <span>프로필 수정</span>
           </div>
           <div className="row">
             <i className="bi bi-hand-thumbs-up-fill"></i>
@@ -53,7 +53,13 @@ const ProfileModal = () => {
             <p>{userData.address}</p>
           </div>
           <div className="buttons">
-            <button>
+            <button
+              onClick={() => {
+                dispatch(openModal({ modalType: "ChatInModal" }));
+                dispatch(toggleButtons({ idx: 0 }));
+                dispatch(toggleButtons({ idx: 2 }));
+              }}
+            >
               <i className="bi bi-chat-dots-fill"></i>
             </button>
             <button>

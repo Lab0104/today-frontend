@@ -29,12 +29,23 @@
   }
   .category-item {
     display: flex;
+    cursor: pointer;
 
     align-items: center;
     justify-content: center;
     flex-direction: column;
 
     text-align: center;
+  }
+  .category-item:hover .item-icon {
+    color: utils.$color-theme-primary;
+  }
+  .selected:hover .item-icon {
+    color: #fff;
+  }
+  .selected .item-icon {
+    color: #fff;
+    background-color: utils.$color-theme-primary;
   }
   .item-icon {
     display: flex;
@@ -154,6 +165,7 @@
     margin: 0 20px;
   }
   p {
+    cursor: pointer;
     text-decoration: underline;
 
     font-family: "Noto Sans KR";
