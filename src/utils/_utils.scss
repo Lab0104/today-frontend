@@ -3,7 +3,8 @@ $min-width-app: 375px;
 $max-width-search: 450px;
 $form-items-height: 45px;
 
-$height-navigation-item: 40px;
+$height-navigation: 120px;
+$height-navigation-item: 45px;
 
 $color-theme-primary: #9747ff;
 $color-theme-secondary: #faab07;
@@ -12,6 +13,7 @@ $color-theme-primary-blur: rgba(151, 71, 255, 0.2);
 $color-basic-black: #000;
 $color-basic-white: #fff;
 $color-basic-red: #f01919;
+$color-basic-filter: #0645ad;
 
 $color-gray-brightness01: #2c2c2c;
 $color-gray-brightness02: #474747;
@@ -19,6 +21,8 @@ $color-gray-brightness03: #707070;
 $color-gray-brightness04: #979797;
 $color-gray-brightness05: #cccccc;
 $color-gray-brightness06: #eeeeee;
+
+$color-mouseover-background: #eff7ff;
 
 $padding-main-page: 30px;
 

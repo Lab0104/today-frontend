@@ -8,7 +8,7 @@ import { BsFillPeopleFill, BsMap, BsChatDots } from "react-icons/bs";
 import { MdDateRange } from "react-icons/md";
 import { CiTimer } from "react-icons/ci";
 
-import { closeModal } from "reducer/MainModalSlice";
+import { closeModal } from "../../../reducer/ModalSlice";
 import LikeButton from "components/MeetingCard/LikeButton";
 import { TypeModalState } from "mainPageTypes";
 import { TypeUser } from "userTypes";
@@ -36,7 +36,7 @@ export default function ModalMeeting() {
             </BackButton>
             <Title>
               <h3>{modalContent.title}</h3>
-              <span>{modalContent.sub_title}</span>
+              <span>{Object.keys(modalContent.category)[0]}</span>
             </Title>
             <UserIcon />
           </Header>
@@ -54,9 +54,12 @@ export default function ModalMeeting() {
             <span>
               <BsMap /> {modalContent.address}
             </span>
-            <span>
-              <CiTimer /> {modalContent.deadline.split("T").join(" ")}
-            </span>
+            <Date>
+              <CiTimer />
+              <span>모집중</span>
+              <span> · </span>
+              <span>{modalContent.deadline.split("T").join(" ")} 까지</span>
+            </Date>
           </MeetingOptions>
           <Content>
             {modalContent.content?.split("\n\n").map((item, idx) => (
@@ -144,6 +147,12 @@ const PeopleAndDate = styled.div`
   justify-content: space-between;
 `;
 
+const Date = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+`;
+
 const Content = styled.div`
   max-height: 150px;
   overflow: auto;
@@ -152,6 +161,14 @@ const Content = styled.div`
   gap: 10px;
   padding: 20px 0;
   font-size: 14px;
+  overflow-y: scroll;
+
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+
+  &::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+  }
 `;
 
 const Footer = styled.div<{ isLogged: boolean }>`

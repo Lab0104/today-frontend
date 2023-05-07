@@ -1,4 +1,4 @@
-@import "../../utils/utils.scss";
+@import "../../utils/_utils.scss";
 
 $login-font-size: 8px;
 $flex-gap: 10px;
@@ -54,6 +54,10 @@ $form-size: 45px;
     align-items: center;
     gap: $flex-gap;
     font-size: $login-font-size;
+
+    a {
+      color: $color-basic-filter;
+    }
 
     a:hover {
       text-decoration: underline;

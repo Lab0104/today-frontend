@@ -3,11 +3,11 @@ import styled from "@emotion/styled";
 import { CSSTransition } from "react-transition-group";
 
 import { useDispatch } from "react-redux";
-import { closeModal } from "reducer/MainModalSlice";
+import { closeModal } from "../../../reducer/ModalSlice";
 
-import Portal from "./Portal";
-import "./Modal.scss";
-import ModalMeeting from "components/ModalContents/ModalMeeting";
+import Portal from "../Portal";
+import "../Modal.scss";
+import ModalMeeting from "components/Modal/MeetingModal/ModalMeeting";
 
 const Overlay = styled.div`
   position: fixed;

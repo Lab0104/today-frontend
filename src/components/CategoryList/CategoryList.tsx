@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { CSSTransition } from "react-transition-group";
 import { css } from "@emotion/react";
 import { BsBook, BsPeople } from "react-icons/bs";
 import { TbMovie } from "react-icons/tb";
@@ -162,31 +161,22 @@ const CategoryList = React.memo(() => {
             </div>
           ))}
       </div>
-      <CSSTransition
-        in={subCategoryToggle}
-        timeout={300}
-        classNames="sub-list"
-        unmountOnExit
+      <div
+        className={
+          subCategoryToggle ? "sub-category" : "sub-category sub-category-close"
+        }
       >
-        <div
-          className={
-            subCategoryToggle
-              ? "sub-category sub-category-open"
-              : "sub-category sub-category-close"
-          }
-        >
-          {index &&
-            categories[index].list.map((item, idx) => (
-              <div
-                key={idx}
-                className="sub-item"
-                onClick={() => handleSubItemClick(item)}
-              >
-                {item}
-              </div>
-            ))}
-        </div>
-      </CSSTransition>
+        {(index || index === 0) &&
+          categories[index].list.map((item, idx) => (
+            <div
+              key={idx}
+              className="sub-item"
+              onClick={() => handleSubItemClick(item)}
+            >
+              {item}
+            </div>
+          ))}
+      </div>
     </div>
   );
 });
