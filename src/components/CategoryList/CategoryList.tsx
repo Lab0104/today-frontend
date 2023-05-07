@@ -166,7 +166,7 @@ const CategoryList = React.memo(() => {
           subCategoryToggle ? "sub-category" : "sub-category sub-category-close"
         }
       >
-        {index &&
+        {(index || index === 0) &&
           categories[index].list.map((item, idx) => (
             <div
               key={idx}

@@ -23,7 +23,7 @@ export const loginNavigationMenus = [
     { name: "이용안내", href: "/" },
   ],
   [
-    { name: "회원정보 수정", href: "/" },
+    { name: "회원정보 수정", href: "/profile" },
     { name: "고객센터", href: "/" },
     { name: "설정", href: "/" },
   ],

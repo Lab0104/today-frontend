@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
+import { DAY_TO_MILLISECOND } from "../../utils/time";
 
 interface propsType {
   total: number | undefined;
@@ -9,7 +10,7 @@ interface propsType {
   currentTime: number;
 }
 
-const DAY_TO_MILLISECONDS = (day: number) => 86400000 * day;
+const DAY_TO_MILLISECONDS = (day: number) => DAY_TO_MILLISECOND * day;
 
 export default function MeetingStatus({
   total,

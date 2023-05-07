@@ -44,6 +44,7 @@ const title = css`
 `;
 
 function MapPage() {
+  console.log("map");
   /** 검색 텍스트(검색 결과 반영) */
   const location = useLocation();
   const searchContext = location.state;

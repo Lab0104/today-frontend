@@ -1,0 +1,113 @@
+@import "../../utils/_utils.scss";
+
+.profile-container {
+  max-width: $max-width-app;
+  min-width: $min-width-app;
+  padding: $height-navigation $padding-main-page $padding-main-page
+    $padding-main-page;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  margin: 0 auto;
+  cursor: default;
+  box-sizing: border-box;
+
+  h3 {
+    font-size: 32px;
+    color: $color-basic-black;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+
+  h4 {
+    display: inline-block;
+    font-size: 24px;
+    color: $color-basic-black;
+    margin: 0;
+  }
+
+  hr {
+    width: 100%;
+    border-top: 1px solid $color-gray-brightness05;
+  }
+
+  .profile-header {
+    height: 240px;
+    border-radius: 10px;
+    border: 3px solid $color-theme-primary;
+    display: flex;
+    gap: 50px;
+    padding: 20px;
+    align-items: center;
+    box-shadow: 1px 3px 5px 2px rgba(151, 151, 151, 0.5);
+
+    .image-icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      color: $color-theme-primary;
+      background-color: $color-basic-white;
+      border-radius: 50%;
+      box-shadow: 1px 1px 1px 1px rgba(151, 151, 151, 0.5);
+      cursor: pointer;
+    }
+    .profile-content {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+  }
+
+  .info-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    svg {
+      font-size: 25px;
+      cursor: pointer;
+    }
+  }
+
+  .profile-info {
+    display: flex;
+
+    .info-category {
+      flex-grow: 2;
+      text-align: center;
+    }
+    .info-content {
+      flex-grow: 8;
+    }
+  }
+
+  .profile-submit {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    color: $color-basic-white;
+
+    button {
+      width: 150px;
+      height: 50px;
+      background-color: $color-theme-primary;
+
+      &:first-of-type {
+        background-color: $color-gray-brightness03;
+      }
+    }
+  }
+}
+
+@media (max-width: $reactive-width-navigation) {
+  .profile-container {
+    padding-top: calc($height-navigation + $height-navigation-item);
+  }
+}

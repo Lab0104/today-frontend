@@ -2,12 +2,15 @@ import React from "react";
 import MeetingStatus from "components/MeetingStatus/MeetingStatus";
 import LikeButton from "./LikeButton";
 
-import { useDispatch, useSelector } from "react-redux";
-import { openModal, setModalContent } from "reducer/MainModalSlice";
+import { useSelector } from "react-redux";
+import { setModalContent } from "reducer/MainModalSlice";
 
 import { TypeUser } from "userTypes";
 import { TypeMeetingList } from "mainPageTypes";
 import "./MeetingCard.scss";
+
+import { useAppDispatch } from "../../hooks";
+import { openModal } from "../../reducer/ModalSlice";
 
 interface meetingProps {
   list: TypeMeetingList;
@@ -15,7 +18,7 @@ interface meetingProps {
 }
 
 const MeetingCard = React.memo(({ list, currentTime }: meetingProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isLogged } = useSelector((state: { user: TypeUser }) => state.user);
   console.log("meetingCard");
   const {

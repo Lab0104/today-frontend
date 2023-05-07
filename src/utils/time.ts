@@ -7,3 +7,5 @@ export const getCurrentTimeToNumber = (): number => {
   const now = getCurrentTimeToDatetime();
   return new Date(now).getTime();
 };
+
+export const DAY_TO_MILLISECOND = 86400000;

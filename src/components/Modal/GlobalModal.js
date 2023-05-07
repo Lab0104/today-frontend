@@ -5,42 +5,53 @@ import InfoModal from "./InfoModal/InfoModal";
 import NavModal from "./NavModal/NavModal";
 import AddModal from "./AddModal/AddModal";
 import FilterModal from "./FilterModal/FilterModal";
+import MeetingCardModal from "./MeetingModal/MeetingCardModal";
+import SideNavModal from "./SideNavModal/SideNavModal";
 import { useAppSelector } from "../../hooks";
-
-const modals = [
-  {
-    type: "ChatModal",
-    component: <ChatModal />,
-  },
-  {
-    type: "ChatInModal",
-    component: <ChatInModal />,
-  },
-  {
-    type: "ProfileModal",
-    component: <ProfileModal />,
-  },
-  {
-    type: "AddModal",
-    component: <AddModal />,
-  },
-  {
-    type: "NavModal",
-    component: <NavModal />,
-  },
-  {
-    type: "InfoModal",
-    component: <InfoModal />,
-  },
-  {
-    type: "LayersModal",
-    component: <FilterModal />,
-  },
-];
 
 function GlobalModal() {
   // modal type을 string으로 받는다.
   const { modalType, isOpen } = useAppSelector((state) => state.modal);
+
+  const modals = [
+    {
+      type: "ChatModal",
+      component: <ChatModal />,
+    },
+    {
+      type: "ChatInModal",
+      component: <ChatInModal />,
+    },
+    {
+      type: "ProfileModal",
+      component: <ProfileModal />,
+    },
+    {
+      type: "AddModal",
+      component: <AddModal />,
+    },
+    {
+      type: "NavModal",
+      component: <NavModal />,
+    },
+    {
+      type: "InfoModal",
+      component: <InfoModal />,
+    },
+    {
+      type: "LayersModal",
+      component: <FilterModal />,
+    },
+    {
+      type: "meetingModal",
+      component: <MeetingCardModal isOpen={isOpen} selector="modal-root" />,
+    },
+    {
+      type: "SideNavModal",
+      component: <SideNavModal isOpen={isOpen} selector="modal-root" />,
+    },
+  ];
+
   if (!isOpen) return <></>; //isOpen이 false일때 모달을 닫아줌
 
   /** modal type에 해당하는 모달 component 반환 */
