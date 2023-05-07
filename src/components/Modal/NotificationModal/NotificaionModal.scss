@@ -1,0 +1,5 @@
+@use "../CommonStyle";
+
+.container-box {
+  @extend %container;
+}

@@ -25,7 +25,11 @@ export const toggleSlice = createSlice({
       list[actions.payload.idx] = true;
       state.toggleSort = [...list];
     },
+    toggleClose: (state) => {
+      const list = [false, false, false, false];
+      state.toggleButton = [...list];
+    },
   },
 });
-export const { toggleButtons, toggleSorts } = toggleSlice.actions;
+export const { toggleButtons, toggleSorts, toggleClose } = toggleSlice.actions;
 export default toggleSlice.reducer;

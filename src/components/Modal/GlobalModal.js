@@ -8,6 +8,7 @@ import FilterModal from "./FilterModal/FilterModal";
 import MeetingCardModal from "./MeetingModal/MeetingCardModal";
 import SideNavModal from "./SideNavModal/SideNavModal";
 import { useAppSelector } from "../../hooks";
+import NotificationModal from "./NotificationModal/NotificationModal";
 
 function GlobalModal() {
   // modal type을 string으로 받는다.
@@ -43,6 +44,10 @@ function GlobalModal() {
       component: <FilterModal />,
     },
     {
+      type: "NotificationModal",
+      component: <NotificationModal />,
+    },
+    {
       type: "meetingModal",
       component: <MeetingCardModal isOpen={isOpen} selector="modal-root" />,
     },
@@ -54,7 +59,7 @@ function GlobalModal() {
 
   if (!isOpen) return <></>; //isOpen이 false일때 모달을 닫아줌
 
-  /** modal type에 해당하는 모달 component 반환 */
+  /* modal type에 해당하는 모달 component 반환 */
   const renderModal = () => {
     const findModal = modals.find((modal) => {
       return modal.type === modalType;

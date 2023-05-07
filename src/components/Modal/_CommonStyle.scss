@@ -4,8 +4,8 @@
   position: absolute;
   width: 465px;
   height: fit-content;
-  max-height: 650px;
-  right: 102px;
+  max-height: 680px;
+  right: 100px;
   top: 20px;
   z-index: 10;
   border-radius: 10px;
@@ -70,11 +70,16 @@
 }
 @media (max-width: utils.$reactive-width-navigation) {
   %container {
-    position: fixed;
     width: 100%;
-    max-width: 456px;
+    height: calc(100vh - 66px);
+    max-height: none;
     left: 0;
     top: 0;
+
+    padding-bottom: 0;
+
+    border-radius: 0;
+    box-shadow: none;
   }
 
   %content {

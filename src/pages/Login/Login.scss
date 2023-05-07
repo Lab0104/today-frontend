@@ -55,6 +55,10 @@ $form-size: 45px;
     gap: $flex-gap;
     font-size: $login-font-size;
 
+    a {
+      color: $color-basic-filter;
+    }
+
     a:hover {
       text-decoration: underline;
     }
