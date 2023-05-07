@@ -1,12 +1,12 @@
 import ChatModal from "./ChatModal/ChatModal";
 import ChatInModal from "./ChatModal/ChatInModal";
 import ProfileModal from "./ProfileModal/ProfileModal";
-import InfoModal from "./InfoModal/InfoModal";
 import NavModal from "./NavModal/NavModal";
 import AddModal from "./AddModal/AddModal";
 import FilterModal from "./FilterModal/FilterModal";
 import { useAppSelector } from "../../hooks";
 import NotificationModal from "./NotificationModal/NotificationModal";
+import ModalMeeting from "components/ModalContents/ModalMeeting";
 
 const modals = [
   {
@@ -30,8 +30,8 @@ const modals = [
     component: <NavModal />,
   },
   {
-    type: "InfoModal",
-    component: <InfoModal />,
+    type: "meetingModal",
+    component: <ModalMeeting />,
   },
   {
     type: "LayersModal",
