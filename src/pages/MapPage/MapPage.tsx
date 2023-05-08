@@ -22,6 +22,8 @@ import "./MapPage.scss";
 import { TbCurrentLocation } from "react-icons/tb";
 import { closeModal } from "reducer/ModalSlice";
 import { setModalContent } from "reducer/MainModalSlice";
+import { AiOutlineHeart } from "react-icons/ai";
+import { BsHeart } from "react-icons/bs";
 
 const filters = [
   "모두",
@@ -304,29 +306,45 @@ function MapPage() {
             })}
           </div>
           <hr />
-
           {/* 모임 수, 정렬 값 종료 */}
         </div>
+
         {/* 대쉬 보드 */}
         {toggleIcon || vhSize > 768 ? (
           <div className="dashBoard">
-            {/* 검색 결과 창 */}
             {displayMeetings.length !== 0 ? (
               displayMeetings.map((data, idx) => {
                 return (
-                  <div
-                    className="listBox"
-                    key={idx}
-                    onClick={openModalOnClick}
-                    onMouseOver={() => {
-                      handleMouseOver(data.title);
-                    }}
-                  >
-                    <h4>{data.title}</h4>
-                    <p>{data.sub_title}</p>
-                    <p>{data.category}</p>
-                    <p>{data.address}</p>
-                    <p>조회수 : {data.hits}</p>
+                  <div key={idx}>
+                    <div
+                      className="listBox"
+                      onClick={openModalOnClick}
+                      onMouseOver={() => {
+                        handleMouseOver(data.title);
+                      }}
+                    >
+                      <div className="listBox-row">
+                        <h4>{idx + 1}</h4>
+                        <h4>{data.title}</h4>
+                        <p>{data.category}</p>
+                      </div>
+                      {/* BsHeartFill */}
+                      <BsHeart className="like" />
+                      <div className="listBox-row">
+                        <span>모집중</span>
+                        <p>·</p>
+                        <p>2022-12-29까지</p>
+                      </div>
+                      <p>{data.address}</p>
+                      <div className="listBox-row">
+                        <p>23.12.29. 13:00 ~ 18:00</p>
+                      </div>
+                      <div className="listBox-row">
+                        <button>준비물 없음</button>
+                        <button>초보자 환영</button>
+                        <button>모임시간 준수</button>
+                      </div>
+                    </div>
                     <hr />
                   </div>
                 );
@@ -337,12 +355,10 @@ function MapPage() {
                 <h4>검색 결과가 존재하지 않습니다.</h4>
               </>
             )}
-            {/* 검색 결과 창 종료*/}
           </div>
         ) : (
           <></>
         )}
-
         {/* 대시보드 종료*/}
       </div>
 
