@@ -10,7 +10,7 @@ import { BsBellFill, BsFillChatTextFill } from "react-icons/bs";
 import { IoAddCircle, IoLogOutOutline } from "react-icons/io5";
 
 import { useSelector, useDispatch } from "react-redux";
-import { openModal } from "../../reducer/ModalSlice";
+import { closeModal, openModal } from "../../reducer/ModalSlice";
 import { logout } from "../../reducer/UserSlice";
 
 import _ from "lodash";
@@ -90,25 +90,27 @@ const NavigationBar = React.memo(() => {
     setDropdownToggle((prev) => !prev);
   };
   const searchOnClick = () => {
+    dispatch(closeModal());
     navigate("/map", { state: searchContext });
   };
   const dropdownOnClick: Event<"div", "onClick"> = (e) => {
     const value = e.currentTarget.children[1].innerHTML;
     switch (value) {
       case "프로필":
+        dispatch(closeModal());
         navigate("/profile");
         break;
       case "알림":
-        alert("알림");
+        dispatch(openModal({ modalType: "NotificationModal" }));
         break;
       case "채팅":
-        alert("채팅");
+        dispatch(openModal({ modalType: "ChatModal" }));
         break;
       case "모임추가":
-        alert("모임추가");
+        dispatch(openModal({ modalType: "AddModal" }));
         break;
       case "필터":
-        alert("필터");
+        dispatch(openModal({ modalType: "FilterModal" }));
         break;
       case "로그아웃":
         alert("로그아웃");
@@ -120,6 +122,7 @@ const NavigationBar = React.memo(() => {
   };
   const keywordOnClick: Event<"span", "onClick"> = (e) => {
     const value = e.currentTarget.innerHTML;
+    dispatch(closeModal());
     navigate("/map", { state: value });
   };
 
@@ -129,6 +132,7 @@ const NavigationBar = React.memo(() => {
   };
   const handleOnKeyDown: Event<"input", "onKeyDown"> = (e) => {
     if (e.key === "Enter") {
+      dispatch(closeModal());
       navigate("/map", { state: searchContext });
     }
   };
