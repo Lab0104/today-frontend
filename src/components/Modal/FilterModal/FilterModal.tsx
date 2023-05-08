@@ -86,13 +86,13 @@ const FilterModal = () => {
           <div className="date">
             <DatePicker
               time="yyyy. M. d"
-              text="시작 날짜"
+              placeholder="시작 날짜"
               includeTime
             ></DatePicker>
             <p>~</p>
             <DatePicker
               time="yyyy. M. d"
-              text="시작 날짜"
+              placeholder="종료 날짜"
               includeTime
             ></DatePicker>
           </div>

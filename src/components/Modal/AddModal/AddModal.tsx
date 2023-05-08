@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../../reducer/ModalSlice";
 import { toggleButtons } from "../../../reducer/ToggleSlice";
@@ -17,13 +17,42 @@ import {
 import DatePicker from "components/Assest/DataPIcker";
 
 import { categories } from "components/CategoryList/CategoryList";
+import { Controller, useForm } from "react-hook-form";
+import DatePickerForm from "components/Assest/DatePickerForm";
+import { Geocoder } from "components/Assest/Geocoder";
+
+type FormValues = {
+  user_nicname: string; //작성자 닉네임
+  date: string; //모임 날짜
+  deadline: string; //모임 마감 날짜
+  maximum_participants: number; //모집 정원
+  address: string; //주소
+  address_latitude: number; //주소(위도)
+  address_longitude: number; //주소(경도)
+  large_category: string; //대분류
+  category: string; //소분류 카테고리
+  title: string; //제목
+  sub_title: string; //소제목
+  contnets: string; //모임 소개
+};
 
 const AddModal = () => {
   const dispatch = useDispatch();
 
   const [address, setAddress] = useState("주소");
-  const [category, setCategory] = useState(["모임 카테고리", ">", ""]);
+  const [category, setCategory] = useState("모임 카테고리");
   const [view, setView] = useState(false);
+
+  const {
+    register,
+    control,
+    setValue,
+    setError,
+    getValues,
+    clearErrors,
+    formState: { isSubmitting, errors },
+    handleSubmit,
+  } = useForm<FormValues>();
 
   const Dropdown = (): JSX.Element => {
     return (
@@ -41,7 +70,7 @@ const AddModal = () => {
                       <li
                         key={idx2}
                         onClick={() => {
-                          setCategory([data.name, " > ", list]);
+                          setCategory(data.name + " > " + list);
                         }}
                       >
                         {list}
@@ -95,6 +124,17 @@ const AddModal = () => {
     });
   };
 
+  const onSubmit = async (data: FormValues) => {
+    console.log(data);
+
+    dispatch(closeModal());
+    dispatch(toggleButtons({ idx: 3 }));
+
+    Geocoder(data.address)
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+  };
+
   return (
     <div className="container-box">
       <div className="modalTitle">
@@ -109,76 +149,109 @@ const AddModal = () => {
           <i className="bi bi-x-lg"></i>
         </button>
       </div>
-      <div className="content-box_add">
-        <div className="input-box">
-          <div className="input-title">
-            <input placeholder="모임 제목"></input>
-          </div>
-          <div
-            className="category"
-            onClick={() => {
-              setView(!view);
-            }}
-          >
-            <p>{category[2] === "" ? category[0] : category}</p>
-            {view ? (
-              <div className="drop-down">
-                <BsChevronUp />
-              </div>
-            ) : (
-              <div className="drop-down">
-                <BsChevronDown />
-              </div>
-            )}
-            {view && <Dropdown></Dropdown>}
-          </div>
-          <div className="input-info">
-            <div className="people info-box">
-              <BsPeopleFill />
-              <input placeholder="인원 수" type="number" min="2"></input>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="content-box_add">
+          <div className="input-box">
+            <div className="input-title">
+              <input placeholder="모임 제목" {...register("title")}></input>
             </div>
-            <div className="date info-box">
-              <div>
-                <BsCalendar2 />
-              </div>
-              <DatePicker text="모임 시작시간" />
-              <DatePicker text="모임 종료시간" />
-            </div>
-            <div className="place info-box">
-              <BsMap />
+            <div
+              className="category"
+              onClick={() => {
+                setView(!view);
+              }}
+            >
+              {view ? (
+                <div className="drop-down">
+                  <BsChevronUp />
+                </div>
+              ) : (
+                <div className="drop-down">
+                  <BsChevronDown />
+                </div>
+              )}
+              {view && <Dropdown></Dropdown>}
               <input
                 type="text"
-                placeholder={address}
-                readOnly
-                onClick={onAddressClick}
-              />
-              {/* <input type="text" placeholder="상세주소" /> */}
+                // readOnly
+                value={category}
+                {...register("category")}
+              ></input>
             </div>
-            <div className="deadline info-box">
-              <BsAlarm />
-              <DatePicker text="모집 마감 날짜" />
+
+            <div className="input-info">
+              <div className="people info-box">
+                <BsPeopleFill />
+                <input
+                  placeholder="인원 수"
+                  type="number"
+                  min="2"
+                  {...register("maximum_participants")}
+                ></input>
+              </div>
+              <div className="date info-box">
+                <div>
+                  <BsCalendar2 />
+                </div>
+                <DatePickerForm
+                  control={control}
+                  name="date"
+                  placeholder="모임 시작시간"
+                  includeTime="true"
+                />
+                <DatePickerForm
+                  control={control}
+                  name="endDate"
+                  placeholder="모임 종료시간"
+                  includeTime="true"
+                />
+              </div>
+              <div className="place info-box">
+                <BsMap />
+                <input
+                  type="text"
+                  onClick={onAddressClick}
+                  value={address}
+                  readOnly
+                  {...register("address")}
+                />
+                {/* <input type="text" placeholder="상세주소" /> */}
+              </div>
+              <div className="deadline info-box">
+                <BsAlarm />
+                <DatePickerForm
+                  control={control}
+                  name="deadLine"
+                  placeholder="모집 마감날짜"
+                  includeTime="false"
+                />
+              </div>
+            </div>
+            <div className="input-content">
+              <textarea
+                placeholder="모임 내용"
+                {...register("contnets")}
+              ></textarea>
+              <div className="tag">
+                <input placeholder="#태그" />
+                <input placeholder="#태그" />
+                <input placeholder="#태그" />
+                <input placeholder="#태그" />
+              </div>
             </div>
           </div>
-          <div className="input-content">
-            <textarea placeholder="모임 내용"></textarea>
-            <div className="tag">
-              <input placeholder="#태그" />
-              <input placeholder="#태그" />
-              <input placeholder="#태그" />
-              <input placeholder="#태그" />
-            </div>
-          </div>
+          <button
+            type="submit"
+            className="add"
+            // onClick={() => {
+            //
+            // }}
+            disabled={isSubmitting}
+          >
+            개설 하기
+          </button>
         </div>
-        <button
-          className="add"
-          onClick={() => {
-            dispatch(closeModal());
-            dispatch(toggleButtons({ idx: 3 }));
-          }}
-        >
-          개설 하기
-        </button>
-      </div>
+      </form>
     </div>
   );
 };
