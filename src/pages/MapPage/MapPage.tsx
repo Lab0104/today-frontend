@@ -43,7 +43,6 @@ const buttonItems = [
 const sortItems = ["거리순", "조회순", "인기도순", "모임날짜순"];
 
 function MapPage() {
-  console.log("map");
   /** 검색 텍스트(검색 결과 반영) */
   const location = useLocation();
   const searchContext = location.state;
