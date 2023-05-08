@@ -1,7 +1,6 @@
 import ChatModal from "./ChatModal/ChatModal";
 import ChatInModal from "./ChatModal/ChatInModal";
 import ProfileModal from "./ProfileModal/ProfileModal";
-import InfoModal from "./InfoModal/InfoModal";
 import NavModal from "./NavModal/NavModal";
 import AddModal from "./AddModal/AddModal";
 import FilterModal from "./FilterModal/FilterModal";
@@ -35,10 +34,7 @@ function GlobalModal() {
       type: "NavModal",
       component: <NavModal />,
     },
-    {
-      type: "InfoModal",
-      component: <InfoModal />,
-    },
+
     {
       type: "LayersModal",
       component: <FilterModal />,

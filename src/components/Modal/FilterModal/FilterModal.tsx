@@ -86,13 +86,13 @@ const FilterModal = () => {
           <div className="date">
             <DatePicker
               time="yyyy. M. d"
-              text="시작 날짜"
+              placeholder="시작 날짜"
               includeTime
             ></DatePicker>
             <p>~</p>
             <DatePicker
               time="yyyy. M. d"
-              text="시작 날짜"
+              placeholder="종료 날짜"
               includeTime
             ></DatePicker>
           </div>
@@ -104,9 +104,10 @@ const FilterModal = () => {
         <div className="number">
           <h3>모임 인원</h3>
           <div className="number-buttons">
-            {BtnList.map((data) => {
+            {BtnList.map((data, idx) => {
               return (
                 <button
+                  key={idx}
                   onClick={() => handleButtonClick(data)}
                   className={BtnSelect === data ? "clicked" : ""}
                 >
