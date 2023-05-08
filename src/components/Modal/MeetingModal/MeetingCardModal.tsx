@@ -5,9 +5,8 @@ import { CSSTransition } from "react-transition-group";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../../reducer/ModalSlice";
 
-import Portal from "../Portal";
 import "../Modal.scss";
-import ModalMeeting from "components/Modal/MeetingModal/ModalMeeting";
+import MeetingModalContent from "components/Modal/MeetingModal/MeetingModalContent";
 
 const Overlay = styled.div`
   position: fixed;
@@ -49,18 +48,16 @@ interface modalProps {
   selector?: string;
 }
 
-export default function MeetingCardModal({ isOpen, selector }: modalProps) {
+export default function MeetingCardModal({ isOpen }: modalProps) {
   const dispatch = useDispatch();
   return (
     <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
-      <Portal selector={selector}>
-        <Overlay>
-          <Dim onClick={() => dispatch(closeModal())} />
-          <Container>
-            <ModalMeeting />
-          </Container>
-        </Overlay>
-      </Portal>
+      <Overlay>
+        <Dim onClick={() => dispatch(closeModal())} />
+        <Container>
+          <MeetingModalContent />
+        </Container>
+      </Overlay>
     </CSSTransition>
   );
 }

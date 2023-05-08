@@ -6,7 +6,7 @@
   min-width: $min-width-app;
   padding: 0 30px;
   height: 120px;
-  z-index: 9;
+  z-index: 2;
   background-color: $color-basic-white;
   box-sizing: border-box;
 
@@ -221,6 +221,16 @@
     @media (max-width: $reactive-width-navigation) {
       display: flex;
     }
+  }
+}
+
+@media (max-width: $reactive-width-navigation) {
+  .searchContainer {
+    display: none;
+  }
+
+  .hidden {
+    display: flex;
   }
 }
 

@@ -4,6 +4,7 @@ import MainPlaceHolder from "components/Skeleton/placeholders/MainPlaceHolder";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import MainBannerCarousel from "components/Carousel/MainBannerCarousel";
 import CategoryList from "components/CategoryList/CategoryList";
+import Advertisement from "components/Advertisement/Advertisement";
 import MeetingCarousel from "../../components/Carousel/MeetingCarousel";
 import Footer from "components/Footer/Footer";
 
@@ -14,6 +15,7 @@ import { TypeMeetingData } from "mainPageTypes";
 import { TypeUser } from "userTypes";
 import "./Main.scss";
 import { meetingApi } from "store/MeetingDB";
+import Article from "components/Article/Article";
 
 export default function Main() {
   console.log("main");
@@ -42,6 +44,8 @@ export default function Main() {
         <div className="main-container">
           <MainBannerCarousel />
           <CategoryList />
+          <Article />
+          <Advertisement />
           {meetingApi.map((meeting: TypeMeetingData, idx: number) => (
             <div className="meetingList" key={idx}>
               <p className="list-title">{meeting.title}</p>
@@ -60,6 +64,8 @@ export default function Main() {
       <div className="main-container">
         <MainBannerCarousel />
         <CategoryList />
+        <Article />
+        <Advertisement />
         {meetingData &&
           meetingData.map((meeting: TypeMeetingData, idx: number) => (
             <div className="meetingList" key={idx}>

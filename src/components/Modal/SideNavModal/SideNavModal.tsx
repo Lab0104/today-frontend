@@ -7,15 +7,14 @@ import { closeModal } from "../../../reducer/ModalSlice";
 import { AiOutlineClose } from "react-icons/ai";
 import { loginNavigationMenus, navigationMenus } from "utils/navigationMenus";
 import { TypeUser } from "userTypes";
-import Portal from "../Portal";
-import "../Modal.scss";
+import "./SideNavModal.scss";
 
 interface modalProps {
   isOpen: boolean;
   selector?: string;
 }
 
-export default function SideNavModal({ isOpen, selector }: modalProps) {
+export default function SideNavModal({ isOpen }: modalProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLogged } = useSelector((state: { user: TypeUser }) => state.user);
@@ -31,8 +30,13 @@ export default function SideNavModal({ isOpen, selector }: modalProps) {
   };
 
   return (
-    <CSSTransition in={isOpen} timeout={300} classNames="modal" unmountOnExit>
-      <Portal selector={selector}>
+    <>
+      <CSSTransition
+        in={isOpen}
+        timeout={300}
+        classNames="side-nav"
+        unmountOnExit
+      >
         <Overlay>
           <SideNav isOpen={isOpen}>
             <Header>
@@ -58,8 +62,8 @@ export default function SideNavModal({ isOpen, selector }: modalProps) {
           </SideNav>
           <Dim isOpen={isOpen} onClick={() => dispatch(closeModal())} />
         </Overlay>
-      </Portal>
-    </CSSTransition>
+      </CSSTransition>
+    </>
   );
 }
 
@@ -77,19 +81,24 @@ const Overlay = styled.div`
 const SideNav = styled.div<{ isOpen: boolean }>`
   box-sizing: border-box;
   position: absolute;
+  z-index: 1;
   top: 0;
   left: -10px;
-  width: 296px;
+  width: 60%;
+  max-width: 296px;
   height: 100%;
   padding: 30px;
-  z-index: 9;
   background-color: #fff;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  transform: translateX(-${({ isOpen }) => (isOpen ? 0 : 306)}px);
-  transition: transform 0.5s ease-in-out;
   box-shadow: 4px 5px 4px rgba(0, 0, 0, 0.3);
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   & span {
     cursor: pointer;
@@ -114,14 +123,27 @@ const MenuList = styled.div`
   flex-direction: column;
   gap: 20px;
 
+  & span {
+    width: fit-content;
+    color: #474747;
+  }
+
+  & span:hover {
+    text-decoration: underline;
+  }
+
+  &:last-of-type span {
+    color: #707070;
+    font-size: 14px;
+  }
+
   &:not(&:last-of-type)::after {
     content: "";
-    border-top: 1px solid black;
+    border-top: 1px solid #979797;
   }
 `;
 
 const Dim = styled.div<{ isOpen: boolean }>`
-  z-index: 1;
   height: 1440px;
   position: absolute;
   top: 0;

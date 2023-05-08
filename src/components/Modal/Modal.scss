@@ -3,12 +3,12 @@
 }
 .modal-enter-active {
   opacity: 1;
-  transition: opacity 500ms ease-in-out;
+  transition: opacity 500ms linear;
 }
 .modal-exit {
   opacity: 1;
 }
 .modal-exit-active {
   opacity: 0;
-  transition: opacity 300ms linear;
+  transition: opacity 500ms linear;
 }

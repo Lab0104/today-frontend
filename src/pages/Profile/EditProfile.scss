@@ -1,0 +1,67 @@
+@import "../../utils/_utils.scss";
+
+.edit-container {
+  max-width: $max-width-app;
+  min-width: $min-width-app;
+  padding: $height-navigation $padding-main-page $padding-main-page
+    $padding-main-page;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  margin: 0 auto;
+  cursor: default;
+  box-sizing: border-box;
+
+  .title {
+    cursor: default;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $color-gray-brightness04;
+  }
+
+  .signupForm {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    gap: 15px;
+
+    input {
+      outline: none;
+    }
+
+    .errorMessage {
+      font-size: 10px;
+      color: $color-basic-red;
+      text-align: left;
+      margin: -10px 0 0 0;
+    }
+    .email-verify-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .buttonForm {
+      display: flex;
+      gap: 10px;
+
+      input {
+        width: calc(80% - 5px);
+        outline: none;
+      }
+
+      button {
+        width: calc(20% - 5px);
+        transition: all 0.2s linear;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: $reactive-width-navigation) {
+  .edit-container {
+    padding-top: calc($height-navigation + $height-navigation-item);
+  }
+}

@@ -49,22 +49,20 @@ function GlobalModal() {
     },
     {
       type: "meetingModal",
-      component: <MeetingCardModal isOpen={isOpen} selector="modal-root" />,
+      component: <MeetingCardModal isOpen={isOpen} />,
     },
     {
       type: "SideNavModal",
-      component: <SideNavModal isOpen={isOpen} selector="modal-root" />,
+      component: <SideNavModal isOpen={isOpen} />,
     },
   ];
-
-  if (!isOpen) return <></>; //isOpen이 false일때 모달을 닫아줌
 
   /* modal type에 해당하는 모달 component 반환 */
   const renderModal = () => {
     const findModal = modals.find((modal) => {
       return modal.type === modalType;
     });
-    return findModal.component;
+    return isOpen && findModal ? findModal.component : "";
   };
 
   return <div>{renderModal()}</div>;
