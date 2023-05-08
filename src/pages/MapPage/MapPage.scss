@@ -1,8 +1,5 @@
 @use "/src/utils/utils";
 
-a:-webkit-any-link {
-  color: #fff;
-}
 .main {
   display: flex;
   width: 100%;
@@ -42,6 +39,10 @@ a:-webkit-any-link {
   color: #fff;
   font-size: 20px;
   font-weight: 700;
+}
+
+.inputBox .title a:-webkit-any-link {
+  color: #fff;
 }
 
 .search-box_wrapper .toggle-icons {
