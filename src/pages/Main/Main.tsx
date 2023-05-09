@@ -15,7 +15,7 @@ import { TypeMeetingData } from "mainPageTypes";
 import { TypeUser } from "userTypes";
 import "./Main.scss";
 import { meetingApi } from "store/MeetingDB";
-import Article from "components/Article/Article";
+import EditorPick from "components/EditorPick/EditorPick";
 
 export default function Main() {
   console.log("main");
@@ -44,7 +44,7 @@ export default function Main() {
         <div className="main-container">
           <MainBannerCarousel />
           <CategoryList />
-          <Article />
+          <EditorPick />
           <Advertisement />
           {meetingApi.map((meeting: TypeMeetingData, idx: number) => (
             <div className="meetingList" key={idx}>
@@ -64,7 +64,7 @@ export default function Main() {
       <div className="main-container">
         <MainBannerCarousel />
         <CategoryList />
-        <Article />
+        <EditorPick />
         <Advertisement />
         {meetingData &&
           meetingData.map((meeting: TypeMeetingData, idx: number) => (

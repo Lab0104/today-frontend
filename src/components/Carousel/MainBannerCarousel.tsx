@@ -10,12 +10,10 @@ import "./Carousel.scss";
 const colors = ["#e4e4e4", "red", "green", "yellow", "black", "white"];
 
 const banners = [
-  "images/kakao_login_buttons/kakao_login_large_wide.png",
-  "images/kakao_login_buttons/kakao_login_large_wide.png",
-  "images/kakao_login_buttons/kakao_login_large_wide.png",
-  "images/kakao_login_buttons/kakao_login_large_wide.png",
-  "images/kakao_login_buttons/kakao_login_large_wide.png",
-  "images/kakao_login_buttons/kakao_login_large_wide.png",
+  "images/banner/banner1.png",
+  "images/banner/banner2.png",
+  "images/banner/banner3.png",
+  "images/banner/banner4.png",
 ];
 
 const MainBannerCarousel = React.memo(() => {
@@ -116,13 +114,16 @@ const navStyle = css`
 `;
 const CarouselListItem = styled.li<{ activeIndex: number; src: string }>`
   position: relative;
-  width: 100%;
-  height: 300px;
+  padding-top: 35%;
   background-color: ${({ activeIndex }) => colors[activeIndex]};
   background-repeat: no-repeat;
   flex: 1 0 100%;
   transform: translateX(-${({ activeIndex }) => activeIndex * 100}%);
   transition: 500ms ease;
+  background-image: url(${({ src }) => src});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   > img {
     width: 100%;
     height: fit-content;
@@ -130,12 +131,25 @@ const CarouselListItem = styled.li<{ activeIndex: number; src: string }>`
 `;
 const Item = styled.div`
   position: absolute;
-  left: 100px;
-  top: 140px;
+  left: 15%;
+  bottom: 12%;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  font-size: 12px;
+  font-size: 6px;
+
+  @media (min-width: 400px) {
+    font-size: 8px;
+  }
+  @media (min-width: 600px) {
+    font-size: 11px;
+  }
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
+  @media (min-width: 1024px) {
+    font-size: 15px;
+  }
 `;
 
 const NavButton = styled.button<{ isActive: boolean }>`

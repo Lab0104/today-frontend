@@ -1,14 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  meetingListDB,
-  ReceiveMeetingData,
-  showMeeting,
-} from "../store/MeetingDB";
+import { meetingListDB, ReceiveMeetingData } from "../store/MeetingDB";
 
 const initialState: DisplayState = {
   displayMeetings: [],
   meetingDB: meetingListDB,
-  showMeeting: showMeeting,
+  showMeeting: meetingListDB[0],
 };
 
 type DisplayState = {
@@ -27,6 +23,11 @@ export const DisplayMeetingSlice = createSlice({
       actions: PayloadAction<{ displayMeetings: ReceiveMeetingData[] }>
     ) {
       state.displayMeetings = actions.payload.displayMeetings;
+      if (actions.payload.displayMeetings.length !== 0)
+        state.showMeeting = actions.payload.displayMeetings[0];
+      else {
+        state.showMeeting.error = true;
+      }
     },
     addData(state, actions: PayloadAction<{ data: ReceiveMeetingData }>) {
       state.meetingDB.push(actions.payload.data);

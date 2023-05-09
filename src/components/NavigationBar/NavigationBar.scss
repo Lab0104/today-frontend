@@ -98,10 +98,18 @@
       font-weight: 900;
       color: $color-theme-primary;
 
+      .hambuger {
+        font-size: 40px;
+      }
+
       a {
-        color: $color-theme-primary;
-        font-weight: 700;
-        font-size: 32px;
+        height: 40px;
+      }
+
+      img {
+        width: 100px;
+        height: 40px;
+        object-fit: contain;
       }
     }
 

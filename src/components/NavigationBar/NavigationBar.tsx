@@ -18,6 +18,7 @@ import _ from "lodash";
 import { Event } from "eventType";
 import { TypeUser } from "userTypes";
 import "./NavigationBar.scss";
+import { toggleButtons } from "reducer/ToggleSlice";
 
 type dropdownList = {
   name: string;
@@ -87,6 +88,7 @@ const NavigationBar = React.memo(() => {
     dispatch(openModal({ modalType: "SideNavModal" }));
   };
   const userOnClick = () => {
+    dispatch(closeModal());
     setDropdownToggle((prev) => !prev);
   };
   const searchOnClick = () => {
@@ -94,6 +96,8 @@ const NavigationBar = React.memo(() => {
     navigate("/map", { state: searchContext });
   };
   const dropdownOnClick: Event<"div", "onClick"> = (e) => {
+    e.stopPropagation();
+    setDropdownToggle((prev) => !prev);
     const value = e.currentTarget.children[1].innerHTML;
     switch (value) {
       case "프로필":
@@ -102,15 +106,23 @@ const NavigationBar = React.memo(() => {
         break;
       case "알림":
         dispatch(openModal({ modalType: "NotificationModal" }));
+        dispatch(toggleButtons({ idx: 1 }));
+
         break;
       case "채팅":
         dispatch(openModal({ modalType: "ChatModal" }));
+        dispatch(toggleButtons({ idx: 2 }));
+
         break;
       case "모임추가":
         dispatch(openModal({ modalType: "AddModal" }));
+        dispatch(toggleButtons({ idx: 3 }));
+
         break;
       case "필터":
         dispatch(openModal({ modalType: "FilterModal" }));
+        dispatch(toggleButtons({ idx: 4 }));
+
         break;
       case "로그아웃":
         alert("로그아웃");
@@ -141,8 +153,10 @@ const NavigationBar = React.memo(() => {
     <nav className="navigation-nav">
       <div className="header">
         <div className="logo">
-          <RxHamburgerMenu onClick={sideNavOnClick} />
-          <Link to="/">Today</Link>
+          <RxHamburgerMenu onClick={sideNavOnClick} className="hambuger" />
+          <Link to="/">
+            <img src="/images/logo/logo.png" alt="logo" />
+          </Link>
         </div>
         <div className="searchContainer">
           <div className="searchKeyword">
