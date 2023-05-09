@@ -22,8 +22,7 @@ import "./MapPage.scss";
 import { TbCurrentLocation } from "react-icons/tb";
 import { closeModal } from "reducer/ModalSlice";
 import { setModalContent } from "reducer/MainModalSlice";
-import { AiOutlineHeart } from "react-icons/ai";
-import { BsHeart } from "react-icons/bs";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 const filters = [
   "모두",
@@ -88,6 +87,9 @@ function MapPage() {
   /** 표시중인 모임들 */
   const { displayMeetings } = useAppSelector((state) => state.display);
 
+  // 클릭한 모임
+  const { showMeeting } = useAppSelector((state) => state.display);
+
   /** 버튼 아이콘 Toggle 설정 -> Modal 창에서 접근 필요 -> RTK */
   const { toggleButton, toggleSort } = useAppSelector((state) => state.toggle);
 
@@ -104,15 +106,6 @@ function MapPage() {
       })
     );
   };
-
-  // const {
-  //   title,
-  //   maximum_participants,
-  //   registered_participants_count,
-  //   address,
-  //   deadline,
-  //   category,
-  // } = list;
 
   const list: any = {
     meet_id: 1,
@@ -192,8 +185,8 @@ function MapPage() {
         break;
 
       case 1: // 조회순
-        sortList.sort((a, b) => (a.hits > b.hits ? -1 : 1));
-        dispatch(changeData({ displayMeetings: [...sortList] }));
+        // sortList.sort((a, b) => (a.hits > b.hits ? -1 : 1));
+        // dispatch(changeData({ displayMeetings: [...sortList] }));
         break;
 
       case 2: //인기도순
@@ -323,26 +316,35 @@ function MapPage() {
                         handleMouseOver(data.title);
                       }}
                     >
-                      <div className="listBox-row">
-                        <h4>{idx + 1}</h4>
+                      <div className="listBox-row title">
+                        <h3>{idx + 1}.</h3>
                         <h4>{data.title}</h4>
-                        <p>{data.category}</p>
+                        <p>
+                          {data.large_category}
+                          <br />
+                          {data.category}
+                        </p>
                       </div>
-                      {/* BsHeartFill */}
-                      <BsHeart className="like" />
+                      {data.like ? (
+                        <BsHeartFill className="like fill" />
+                      ) : (
+                        <BsHeart className="like" />
+                      )}
                       <div className="listBox-row">
-                        <span>모집중</span>
+                        <span>{data.status}</span>
                         <p>·</p>
-                        <p>2022-12-29까지</p>
+                        <p>{data.deadLine}</p>
                       </div>
                       <p>{data.address}</p>
                       <div className="listBox-row">
-                        <p>23.12.29. 13:00 ~ 18:00</p>
+                        <p>
+                          {data.startDate} ~ {data.endDate}
+                        </p>
                       </div>
                       <div className="listBox-row">
-                        <button>준비물 없음</button>
-                        <button>초보자 환영</button>
-                        <button>모임시간 준수</button>
+                        {data.tag.map((value: string, i: number) => {
+                          return <button key={i}>{value}</button>;
+                        })}
                       </div>
                     </div>
                     <hr />
@@ -350,10 +352,10 @@ function MapPage() {
                 );
               })
             ) : (
-              <>
+              <div className="listBox">
                 <h3>검색어: {searchKeyword}</h3>
                 <h4>검색 결과가 존재하지 않습니다.</h4>
-              </>
+              </div>
             )}
           </div>
         ) : (
@@ -361,13 +363,11 @@ function MapPage() {
         )}
         {/* 대시보드 종료*/}
       </div>
-
       {/* 지도 */}
       <div className="mapComponent">
         <Map />
       </div>
       {/* 지도 종료*/}
-
       {/* 버튼 아이콘 */}
       <div className="icons">
         <div className="modals">

@@ -38,12 +38,14 @@ export const KakaoMapSlice = createSlice({
     searchMap: (state, actions: PayloadAction<{ searchKeyword: string }>) => {
       state.searchKeyword = actions.payload.searchKeyword;
       state.mapActions = "search";
+
       state.checkOrder = !state.checkOrder;
     },
     /**마커로 이동 */
     moveMap: (state, actions: PayloadAction<{ markerTitle: string }>) => {
       state.markerTitle = actions.payload.markerTitle;
       state.mapActions = "move";
+
       state.checkOrder = !state.checkOrder;
     },
     /**줌 */
@@ -53,6 +55,7 @@ export const KakaoMapSlice = createSlice({
     ) => {
       state.mapActions = "zoom";
       state.zoomActions = actions.payload.zoomActions;
+
       state.checkOrder = !state.checkOrder;
     },
     /**현재위치 표시 */

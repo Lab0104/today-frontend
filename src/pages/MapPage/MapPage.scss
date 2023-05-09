@@ -167,7 +167,7 @@ hr {
 
   p {
     font-family: "Noto Sans KR";
-    line-height: 20px;
+    line-height: 29px;
     letter-spacing: -0.04em;
 
     margin: 0;
@@ -175,9 +175,12 @@ hr {
   span {
     font-family: "Noto Sans KR";
     font-weight: 500;
-    line-height: 20px;
+    line-height: 29px;
     letter-spacing: -0.04em;
     color: utils.$color-theme-primary;
+  }
+  h3 {
+    margin: 0;
   }
   h4 {
     margin: 0;
@@ -190,13 +193,26 @@ hr {
   }
   .listBox-row {
     display: flex;
-    align-items: center;
     gap: 10px;
+  }
+  .title {
+    h3 {
+      flex: 1;
+    }
+    h4 {
+      flex: 6;
+    }
+    p {
+      flex: 6;
+    }
   }
   .like {
     position: absolute;
     right: 20px;
     font-size: 24px;
+  }
+  .fill {
+    color: #f01919;
   }
   hr {
     width: 100%;
