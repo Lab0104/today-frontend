@@ -1,4 +1,4 @@
-@import "../../utils/utils.scss";
+@import "../../utils/_utils.scss";
 
 .navigation-nav {
   position: fixed;
@@ -6,7 +6,7 @@
   min-width: $min-width-app;
   padding: 0 30px;
   height: 120px;
-  z-index: 10;
+  z-index: 2;
   background-color: $color-basic-white;
   box-sizing: border-box;
 
@@ -101,7 +101,7 @@
       a {
         color: $color-theme-primary;
         font-weight: 700;
-        font-size: 30px;
+        font-size: 32px;
       }
     }
 
@@ -134,8 +134,6 @@
         gap: 15px;
 
         button {
-          display: inline;
-          height: auto;
           background: transparent;
           color: $color-basic-black;
           padding: 0;
@@ -205,12 +203,6 @@
             }
           }
         }
-        .contents-open {
-          display: flex;
-        }
-        .contents-close {
-          display: none;
-        }
       }
     }
   }
@@ -229,6 +221,16 @@
     @media (max-width: $reactive-width-navigation) {
       display: flex;
     }
+  }
+}
+
+@media (max-width: $reactive-width-navigation) {
+  .searchContainer {
+    display: none;
+  }
+
+  .hidden {
+    display: flex;
   }
 }
 

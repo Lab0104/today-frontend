@@ -11,8 +11,11 @@ import Signup from "./pages/Signup/Signup";
 import SignupCategory from "./pages/Signup/SignupCategory";
 import IdSearch from "./pages/IdSearch/IdSearch";
 import PasswordSearch from "./pages/PasswordSearch/PasswordSearch";
+import Profile from "pages/Profile/Profile";
 import MapPage from "./pages/MapPage/MapPage";
 import Notice from "pages/Notice/Notice";
+import CheckPassword from "pages/Profile/CheckPassword";
+import EditProfile from "pages/Profile/EditProfile";
 
 const App: React.FC = () => {
   return (
@@ -27,6 +30,9 @@ const App: React.FC = () => {
         <Route path="/signup/category" element={<SignupCategory />} />
         <Route path="/search/id" element={<IdSearch />} />
         <Route path="/search/password" element={<PasswordSearch />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/check_password" element={<CheckPassword />} />
+        <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/notice" element={<Notice />} />
       </Routes>

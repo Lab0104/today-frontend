@@ -8,10 +8,12 @@ import { BsFillPeopleFill, BsMap, BsChatDots } from "react-icons/bs";
 import { MdDateRange } from "react-icons/md";
 import { CiTimer } from "react-icons/ci";
 
-import { closeModal } from "reducer/MainModalSlice";
+import { closeModal } from "../../../reducer/ModalSlice";
 import LikeButton from "components/MeetingCard/LikeButton";
 import { TypeModalState } from "mainPageTypes";
 import { TypeUser } from "userTypes";
+
+import { getCurrentTimeToNumber, DAY_TO_MILLISECOND } from "utils/time";
 
 const backButtonStyle = css`
   cursor: pointer;
@@ -23,6 +25,40 @@ export default function ModalMeeting() {
   const { modalContent } = useSelector(
     (state: { mainModal: TypeModalState }) => state.mainModal
   );
+
+  const currentTime = getCurrentTimeToNumber();
+
+  const meetingStatus = () => {
+    if (modalContent) {
+      const { maximum_participants, registered_participants_count, deadline } =
+        modalContent;
+
+      if (
+        maximum_participants === undefined ||
+        registered_participants_count === undefined ||
+        deadline === undefined ||
+        currentTime === undefined
+      )
+        return "Error";
+
+      const deadlineToNumber = new Date(deadline).getTime();
+
+      if (
+        maximum_participants <= registered_participants_count ||
+        currentTime >= deadlineToNumber
+      ) {
+        return "모집마감";
+      } else if (
+        maximum_participants - registered_participants_count === 1 ||
+        deadlineToNumber - currentTime <= DAY_TO_MILLISECOND
+      ) {
+        return "마감임박";
+      } else {
+        return `모집중`;
+      }
+    }
+    return "Error";
+  };
   return (
     <>
       {modalContent ? (
@@ -36,7 +72,7 @@ export default function ModalMeeting() {
             </BackButton>
             <Title>
               <h3>{modalContent.title}</h3>
-              <span>{modalContent.sub_title}</span>
+              <span>{Object.keys(modalContent.category)[0]}</span>
             </Title>
             <UserIcon />
           </Header>
@@ -54,9 +90,12 @@ export default function ModalMeeting() {
             <span>
               <BsMap /> {modalContent.address}
             </span>
-            <span>
-              <CiTimer /> {modalContent.deadline.split("T").join(" ")}
-            </span>
+            <MeetingDate value={meetingStatus()}>
+              <CiTimer />
+              <span>{meetingStatus()}</span>
+              <span> · </span>
+              <span>{modalContent.deadline.split("T").join(" ")} 까지</span>
+            </MeetingDate>
           </MeetingOptions>
           <Content>
             {modalContent.content?.split("\n\n").map((item, idx) => (
@@ -78,7 +117,7 @@ export default function ModalMeeting() {
           </Footer>
         </Container>
       ) : (
-        ""
+        <h1>Not Found 404</h1>
       )}
     </>
   );
@@ -144,6 +183,27 @@ const PeopleAndDate = styled.div`
   justify-content: space-between;
 `;
 
+const MeetingDate = styled.div<{ value: string }>`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  & span:first-of-type {
+    color: ${({ value }) => {
+      switch (value) {
+        case "모집중":
+          return "#9747ff";
+        case "마감임박":
+          return "#faab07";
+        case "모집마감":
+          return "#707070";
+        default:
+          return "#000000";
+      }
+    }};
+  }
+`;
+
 const Content = styled.div`
   max-height: 150px;
   overflow: auto;
@@ -151,7 +211,15 @@ const Content = styled.div`
   flex-direction: column;
   gap: 10px;
   padding: 20px 0;
+  border-top: 2px solid #9747ff;
   font-size: 14px;
+
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+  &::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+  }
 `;
 
 const Footer = styled.div<{ isLogged: boolean }>`

@@ -6,6 +6,11 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+
+export const persistor = persistStore(store);
+
 // import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
 // const queryClient = new QueryClient({
 //   queryCache: new QueryCache(),
@@ -19,10 +24,9 @@ root.render(
   // <React.StrictMode>
   <Provider store={store}>
     <BrowserRouter>
-      <App />
-      {/* <QueryClientProvider client={queryClient}>
+      <PersistGate loading={null} persistor={persistor}>
         <App />
-      </QueryClientProvider> */}
+      </PersistGate>
     </BrowserRouter>
   </Provider>
   // </React.StrictMode>

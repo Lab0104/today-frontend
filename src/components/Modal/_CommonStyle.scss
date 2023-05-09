@@ -1,7 +1,7 @@
 @use "/src/utils/utils";
 
 %container {
-  position: absolute;
+  position: fixed;
   width: 465px;
   height: fit-content;
   max-height: 680px;
@@ -50,8 +50,8 @@
   gap: 10px;
   flex-direction: column;
   background: #eee;
-  overflow-y: scroll;
   padding: 10px 22.5px 0;
+  overflow-y: scroll;
 
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */

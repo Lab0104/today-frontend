@@ -1,21 +1,29 @@
 @import "../../utils/_utils.scss";
 
-.signup-container {
+.edit-container {
+  max-width: $max-width-app;
+  min-width: $min-width-app;
+  padding: $height-navigation $padding-main-page $padding-main-page
+    $padding-main-page;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 50px 0;
-  gap: 20px;
+  gap: 30px;
+  margin: 0 auto;
+  cursor: default;
+  box-sizing: border-box;
 
   .title {
     cursor: default;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $color-gray-brightness04;
   }
 
   .signupForm {
     width: 350px;
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
     gap: 15px;
 
     input {
@@ -49,5 +57,11 @@
         font-size: 12px;
       }
     }
+  }
+}
+
+@media (max-width: $reactive-width-navigation) {
+  .edit-container {
+    padding-top: calc($height-navigation + $height-navigation-item);
   }
 }

@@ -43,6 +43,10 @@ export default function Login() {
           login({
             user_id: res.user_id,
             email: res.email,
+            address: res.address,
+            score: res.score,
+            profile_image: res.profile_image,
+            background_image: res.background_image,
             isSaved: res.isSaved,
             login_method: res.login_method,
             isLogged: res.isSuccess,

@@ -1,0 +1,189 @@
+@import "../../utils/_utils.scss";
+
+.profile-container {
+  max-width: $max-width-app;
+  min-width: $min-width-app;
+  padding: $height-navigation $padding-main-page $padding-main-page
+    $padding-main-page;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  margin: 0 auto;
+  cursor: default;
+  box-sizing: border-box;
+
+  @mixin image-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    width: 35px;
+    height: 35px;
+    color: $color-theme-primary;
+    background-color: $color-basic-white;
+    border-radius: 50%;
+    box-shadow: 1px 1px 1px 1px rgba(151, 151, 151, 0.5);
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  h3 {
+    font-size: 28px;
+    color: $color-basic-black;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+
+  h4 {
+    display: inline-block;
+    font-size: 24px;
+    color: $color-basic-black;
+    margin: 0;
+  }
+
+  hr {
+    width: 100%;
+    border-top: 1px solid $color-gray-brightness05;
+  }
+
+  .headers {
+    display: flex;
+    gap: 50px;
+
+    @media (max-width: 1024px) {
+      flex-direction: column;
+    }
+
+    .profile-header {
+      position: relative;
+      flex-grow: 1;
+      height: 240px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 30px;
+      padding: 20px;
+      align-items: center;
+
+      .background-icon {
+        @include image-icon;
+        top: 10px;
+        right: 10px;
+        color: $color-gray-brightness03;
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+      }
+
+      .profile-icon {
+        @include image-icon;
+        bottom: 0;
+        right: 0;
+
+        @media (max-width: 768px) {
+          width: 30px;
+          height: 30px;
+          font-size: 16px;
+        }
+      }
+      .profile-content {
+        position: absolute;
+        width: 80%;
+        height: 40%;
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 0;
+        background-color: $color-basic-white;
+        box-shadow: 1px 3px 5px 2px rgba(151, 151, 151, 0.5);
+        border-radius: 10px;
+
+        & span {
+          position: absolute;
+          right: 50%;
+          transform: translateX(50%);
+          bottom: 15%;
+
+          @media (max-width: $reactive-width-navigation) {
+            bottom: 30%;
+          }
+        }
+      }
+    }
+
+    .profile-info {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      .info-header {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        svg {
+          font-size: 25px;
+          cursor: pointer;
+        }
+      }
+
+      .info-user {
+        display: flex;
+
+        .info-category {
+          flex-grow: 2;
+          text-align: center;
+
+          & div {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+          }
+        }
+        .info-content {
+          flex-grow: 8;
+
+          & div {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  .user-activity {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .profile-submit {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    color: $color-basic-white;
+
+    button {
+      width: 150px;
+      height: 50px;
+      background-color: $color-theme-primary;
+
+      &:first-of-type {
+        background-color: $color-gray-brightness03;
+      }
+    }
+  }
+}
+
+@media (max-width: $reactive-width-navigation) {
+  .profile-container {
+    padding-top: calc($height-navigation + $height-navigation-item);
+  }
+}

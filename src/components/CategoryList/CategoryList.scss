@@ -1,4 +1,4 @@
-@import "../../utils/utils.scss";
+@import "../../utils/_utils.scss";
 
 .categoryList-container {
   display: flex;
@@ -11,6 +11,7 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    box-sizing: border-box;
   }
 
   .large-category {
@@ -25,9 +26,8 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 0.3s linear;
       &:hover {
-        transform: translateY(-5px);
+        animation: mouseover-slide 1.5s ease-in infinite;
         color: $color-theme-primary;
         .itemIcon {
           border: 2px solid $color-theme-primary;
@@ -55,6 +55,7 @@
   .sub-category {
     @include categoryList;
     gap: 15px;
+    animation: slide-on 0.5s;
 
     .sub-item {
       width: 200px;
@@ -78,25 +79,39 @@
       }
     }
   }
-  .sub-category-open {
-    display: flex;
-  }
   .sub-category-close {
     display: none;
   }
 }
 
-.sub-list-enter {
-  transform: translateY(-30px);
+@keyframes slide-on {
+  from {
+    transform: translateY(-30px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
-.sub-list-enter-active {
-  transform: translateY(0%);
-  transition: transform 0.5s;
+@keyframes slide-off {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-30px);
+  }
 }
-.sub-list-exit {
-  transform: translateY(0%);
-}
-.sub-list-exit-active {
-  transform: translateY(-30px);
-  transition: transform 0.5s;
+
+@keyframes mouseover-slide {
+  from {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(5px);
+  }
+  75% {
+    transform: translateY(-5px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

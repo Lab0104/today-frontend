@@ -1,0 +1,14 @@
+.side-nav-enter {
+  opacity: 0;
+}
+.side-nav-enter-active {
+  opacity: 1;
+  transition: all 500ms ease-in-out;
+}
+.side-nav-exit {
+  opacity: 1;
+}
+.side-nav-exit-active {
+  opacity: 0;
+  transition: all 500ms ease-in-out;
+}

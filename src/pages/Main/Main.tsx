@@ -1,21 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import { useSelector } from "react-redux";
-import MeetingCardModal from "components/Modal/MeetingCardModal";
 import MainPlaceHolder from "components/Skeleton/placeholders/MainPlaceHolder";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import MainBannerCarousel from "components/Carousel/MainBannerCarousel";
 import CategoryList from "components/CategoryList/CategoryList";
+import Advertisement from "components/Advertisement/Advertisement";
 import MeetingCarousel from "../../components/Carousel/MeetingCarousel";
-import FooterDescription from "../../components/Footer/FooterDescription";
-import FooterMenus from "../../components/Footer/FooterMenus";
+import Footer from "components/Footer/Footer";
 
 import { getCurrentTimeToNumber } from "utils/time";
 import { useGetPostQuery } from "services/postApi";
 
-import { TypeMeetingData, TypeModalState } from "mainPageTypes";
+import { TypeMeetingData } from "mainPageTypes";
 import { TypeUser } from "userTypes";
 import "./Main.scss";
 import { meetingApi } from "store/MeetingDB";
+import Article from "components/Article/Article";
 
 export default function Main() {
   console.log("main");
@@ -23,9 +23,6 @@ export default function Main() {
   const currentTime = getCurrentTimeToNumber();
   const { user_id: userId, isLogged } = useSelector(
     (state: { user: TypeUser }) => state.user
-  );
-  const { isOpen } = useSelector(
-    (state: { mainModal: TypeModalState }) => state.mainModal
   );
   const {
     data: meetingData,
@@ -45,11 +42,10 @@ export default function Main() {
       <>
         <NavigationBar />
         <div className="main-container">
-          {/* Modal Start */}
-          <MeetingCardModal isOpen={isOpen} selector="modal-root" />
-          {/* Modal End */}
           <MainBannerCarousel />
           <CategoryList />
+          <Article />
+          <Advertisement />
           {meetingApi.map((meeting: TypeMeetingData, idx: number) => (
             <div className="meetingList" key={idx}>
               <p className="list-title">{meeting.title}</p>
@@ -57,8 +53,7 @@ export default function Main() {
             </div>
           ))}
         </div>
-        <FooterDescription />
-        <FooterMenus />
+        <Footer />
       </>
     );
   }
@@ -67,11 +62,10 @@ export default function Main() {
     <>
       <NavigationBar />
       <div className="main-container">
-        {/* Modal Start */}
-        <MeetingCardModal isOpen={isOpen} selector="modal-root" />
-        {/* Modal End */}
         <MainBannerCarousel />
         <CategoryList />
+        <Article />
+        <Advertisement />
         {meetingData &&
           meetingData.map((meeting: TypeMeetingData, idx: number) => (
             <div className="meetingList" key={idx}>
@@ -80,8 +74,7 @@ export default function Main() {
             </div>
           ))}
       </div>
-      <FooterDescription />
-      <FooterMenus />
+      <Footer loginStatus={isLogged} />
     </>
   );
 }

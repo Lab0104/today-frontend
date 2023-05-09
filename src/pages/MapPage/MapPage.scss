@@ -1,8 +1,5 @@
 @use "/src/utils/utils";
 
-a:-webkit-any-link {
-  color: #fff;
-}
 .main {
   display: flex;
   width: 100%;
@@ -42,6 +39,10 @@ a:-webkit-any-link {
   color: #fff;
   font-size: 20px;
   font-weight: 700;
+}
+
+.inputBox .title a:-webkit-any-link {
+  color: #fff;
 }
 
 .search-box_wrapper .toggle-icons {
@@ -153,11 +154,75 @@ hr {
 }
 
 .listBox {
-  padding: 0 20px;
-}
-.listBox h4 {
-  margin: auto;
-  padding: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+
+  .listBox-row:nth-child(1) {
+    width: 400px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-family: "Noto Sans KR";
+    line-height: 29px;
+    letter-spacing: -0.04em;
+
+    margin: 0;
+  }
+  span {
+    font-family: "Noto Sans KR";
+    font-weight: 500;
+    line-height: 29px;
+    letter-spacing: -0.04em;
+    color: utils.$color-theme-primary;
+  }
+  h3 {
+    margin: 0;
+  }
+  h4 {
+    margin: 0;
+
+    font-family: "Noto Sans KR";
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 29px;
+    letter-spacing: -0.04em;
+  }
+  .listBox-row {
+    display: flex;
+    gap: 10px;
+  }
+  .title {
+    h3 {
+      flex: 1;
+    }
+    h4 {
+      flex: 6;
+    }
+    p {
+      flex: 6;
+    }
+  }
+  .like {
+    position: absolute;
+    right: 20px;
+    font-size: 24px;
+  }
+  .fill {
+    color: #f01919;
+  }
+  hr {
+    width: 100%;
+  }
+  button {
+    background-color: #eee;
+    color: black;
+    padding: 4px 15px;
+    height: 30px;
+  }
 }
 .listBox:hover {
   background-color: #eff7ff;
@@ -288,7 +353,7 @@ hr {
     display: none;
   }
 
-  a:-webkit-any-link {
+  .inputBox .title a:-webkit-any-link {
     color: utils.$color-theme-primary;
   }
 
@@ -306,6 +371,21 @@ hr {
 
     input:focus {
       outline: none;
+    }
+  }
+
+  .listBox {
+    .listBox-row:nth-child(1) {
+      width: 300px;
+    }
+    h4 {
+      font-size: 16px;
+    }
+    p {
+      font-size: 14px;
+    }
+    span {
+      font-size: 14px;
     }
   }
 

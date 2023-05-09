@@ -1,6 +1,4 @@
-@import "../../utils/utils.scss";
-
-$padding-top-main-container: 120px;
+@import "../../utils/_utils.scss";
 
 .main-container {
   max-width: $max-width-app;
@@ -8,7 +6,7 @@ $padding-top-main-container: 120px;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  padding: $padding-top-main-container $padding-main-page $padding-main-page
+  padding: $height-navigation $padding-main-page $padding-main-page
     $padding-main-page;
   margin: 0 auto;
   box-sizing: border-box;
@@ -22,6 +20,7 @@ $padding-top-main-container: 120px;
       text-align: left;
       font-size: 20px;
       font-weight: 700;
+      margin-top: 0;
       cursor: default;
     }
   }
@@ -40,6 +39,6 @@ $padding-top-main-container: 120px;
 
 @media (max-width: $reactive-width-navigation) {
   .main-container {
-    padding-top: calc($padding-top-main-container + $height-navigation-item);
+    padding-top: calc($height-navigation + $height-navigation-item);
   }
 }

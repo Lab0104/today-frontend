@@ -21,6 +21,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import "./MapPage.scss";
 import { TbCurrentLocation } from "react-icons/tb";
 import { closeModal } from "reducer/ModalSlice";
+import { setModalContent } from "reducer/MainModalSlice";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 const filters = [
   "모두",
@@ -85,6 +87,9 @@ function MapPage() {
   /** 표시중인 모임들 */
   const { displayMeetings } = useAppSelector((state) => state.display);
 
+  // 클릭한 모임
+  const { showMeeting } = useAppSelector((state) => state.display);
+
   /** 버튼 아이콘 Toggle 설정 -> Modal 창에서 접근 필요 -> RTK */
   const { toggleButton, toggleSort } = useAppSelector((state) => state.toggle);
 
@@ -102,23 +107,25 @@ function MapPage() {
     );
   };
 
-  const handleOpenMeeting = (
-    address: string,
-    sub_title: string,
-    title: string,
-    category: string,
-    content: string
-  ) => {
-    dispatch(openModal({ modalType: "infoModal" }));
-    dispatch(
-      setMeetingCard({
-        title: title,
-        subTitle: sub_title,
-        address: address,
-        category: category,
-        content: content,
-      })
-    );
+  const list: any = {
+    meet_id: 1,
+    title: "스터디 모임",
+    sub_title: "서브 타이틀",
+    content: `자바스터디 모집합니다.\n\n같이 백준 문제풀이 진행하면서 기초 문법 및 실습 진행 할 예정입니다.\n\n 스터디룸에 PC가 있기에 따로 개인 노트북 없어도 참가 가능합니다.\n\n따로 궁금하신 내용 있으면 언제든지 채팅주세요.\n\n지각하시는 분들은 사절합니다!`,
+    hits_count: 4,
+    date_created: "2023-02-21T16:43",
+    writer: "문지혜",
+    maximum_participants: 2,
+    registered_participants_count: 0,
+    address: "경기 용인시 기흥구 강남서로 9",
+    deadline: "2023-05-29T12:00",
+    date: "2023-01-18T15:00",
+    category: { "학문/스터디": "프로그래밍 언어 스터디" },
+  };
+
+  const openModalOnClick = () => {
+    dispatch(openModal({ modalType: "meetingModal" }));
+    dispatch(setModalContent({ modalContent: { ...list } }));
   };
 
   /** 모임창 마우스 오버 시 지도 이동 */
@@ -178,8 +185,8 @@ function MapPage() {
         break;
 
       case 1: // 조회순
-        sortList.sort((a, b) => (a.hits > b.hits ? -1 : 1));
-        dispatch(changeData({ displayMeetings: [...sortList] }));
+        // sortList.sort((a, b) => (a.hits > b.hits ? -1 : 1));
+        // dispatch(changeData({ displayMeetings: [...sortList] }));
         break;
 
       case 2: //인기도순
@@ -292,62 +299,75 @@ function MapPage() {
             })}
           </div>
           <hr />
-
           {/* 모임 수, 정렬 값 종료 */}
         </div>
+
         {/* 대쉬 보드 */}
         {toggleIcon || vhSize > 768 ? (
           <div className="dashBoard">
-            {/* 검색 결과 창 */}
             {displayMeetings.length !== 0 ? (
               displayMeetings.map((data, idx) => {
                 return (
-                  <div
-                    className="listBox"
-                    key={idx}
-                    onClick={() => {
-                      handleOpenMeeting(
-                        data.address,
-                        data.sub_title,
-                        data.title,
-                        data.category,
-                        data.content
-                      );
-                    }}
-                    onMouseOver={() => {
-                      handleMouseOver(data.title);
-                    }}
-                  >
-                    <h4>{data.title}</h4>
-                    <p>{data.sub_title}</p>
-                    <p>{data.category}</p>
-                    <p>{data.address}</p>
-                    <p>조회수 : {data.hits}</p>
+                  <div key={idx}>
+                    <div
+                      className="listBox"
+                      onClick={openModalOnClick}
+                      onMouseOver={() => {
+                        handleMouseOver(data.title);
+                      }}
+                    >
+                      <div className="listBox-row title">
+                        <h3>{idx + 1}.</h3>
+                        <h4>{data.title}</h4>
+                        <p>
+                          {data.large_category}
+                          <br />
+                          {data.category}
+                        </p>
+                      </div>
+                      {data.like ? (
+                        <BsHeartFill className="like fill" />
+                      ) : (
+                        <BsHeart className="like" />
+                      )}
+                      <div className="listBox-row">
+                        <span>{data.status}</span>
+                        <p>·</p>
+                        <p>{data.deadLine}</p>
+                      </div>
+                      <p>{data.address}</p>
+                      <div className="listBox-row">
+                        <p>
+                          {data.startDate} ~ {data.endDate}
+                        </p>
+                      </div>
+                      <div className="listBox-row">
+                        {data.tag.map((value: string, i: number) => {
+                          return <button key={i}>{value}</button>;
+                        })}
+                      </div>
+                    </div>
                     <hr />
                   </div>
                 );
               })
             ) : (
-              <>
+              <div className="listBox">
                 <h3>검색어: {searchKeyword}</h3>
                 <h4>검색 결과가 존재하지 않습니다.</h4>
-              </>
+              </div>
             )}
-            {/* 검색 결과 창 종료*/}
           </div>
         ) : (
           <></>
         )}
-
         {/* 대시보드 종료*/}
       </div>
-
       {/* 지도 */}
       <div className="mapComponent">
         <Map />
       </div>
       {/* 지도 종료*/}
-
       {/* 버튼 아이콘 */}
       <div className="icons">
         <div className="modals">
