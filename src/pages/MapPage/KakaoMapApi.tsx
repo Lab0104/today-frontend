@@ -2,9 +2,10 @@
 import { css } from "@emotion/react";
 
 import { useEffect, useRef, useState } from "react";
-import { changeData } from "../../reducer/DisplayMeetingSlice";
+import { changeData, setShowContent } from "../../reducer/DisplayMeetingSlice";
 import { toggleSorts } from "../../reducer/ToggleSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
+import { showMeeting } from "store/MeetingDB";
 
 declare global {
   interface Window {
@@ -28,6 +29,8 @@ function KakaoMapApi() {
   const [userMarker, setUserMarker] = useState(new kakao.maps.Marker());
   /** 마커 클릭시 출력되는 창 */
   const [infowindow] = useState(new kakao.maps.InfoWindow({ zIndex: 1 }));
+
+  // 카카오 맵이 불러와 졌는지 체크
   const [asyncCheck, setAsyncCheck] = useState(false);
 
   const {
@@ -170,9 +173,10 @@ function KakaoMapApi() {
     const meeting = meetingList.filter((e) => {
       if (
         e.title.includes(searchKeyword) ||
-        e.sub_title.includes(searchKeyword) ||
-        e.content.includes(searchKeyword) ||
-        e.address.includes(searchKeyword)
+        e.address.includes(searchKeyword) ||
+        e.category.includes(searchKeyword) ||
+        e.large_category.includes(searchKeyword) ||
+        e.tag.includes(searchKeyword)
       ) {
         return true;
       }
@@ -219,8 +223,12 @@ function KakaoMapApi() {
                 infowindow.setContent(content(data.title));
                 infowindow.open(kakaoMap, marker);
               });
+
+              kakao.maps.event.addListener(marker, "click", () => {
+                dispatch(setShowContent({ id: data.meeting_id }));
+              });
             } else {
-              alert("ERROR");
+              alert("ERROR" + data.address);
             }
             resolve();
           });

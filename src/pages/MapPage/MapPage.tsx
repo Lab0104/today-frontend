@@ -22,6 +22,7 @@ import "./MapPage.scss";
 import { TbCurrentLocation } from "react-icons/tb";
 import { closeModal } from "reducer/ModalSlice";
 import { setModalContent } from "reducer/MainModalSlice";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 const filters = [
   "모두",
@@ -86,6 +87,9 @@ function MapPage() {
   /** 표시중인 모임들 */
   const { displayMeetings } = useAppSelector((state) => state.display);
 
+  // 클릭한 모임
+  const { showMeeting } = useAppSelector((state) => state.display);
+
   /** 버튼 아이콘 Toggle 설정 -> Modal 창에서 접근 필요 -> RTK */
   const { toggleButton, toggleSort } = useAppSelector((state) => state.toggle);
 
@@ -102,15 +106,6 @@ function MapPage() {
       })
     );
   };
-
-  // const {
-  //   title,
-  //   maximum_participants,
-  //   registered_participants_count,
-  //   address,
-  //   deadline,
-  //   category,
-  // } = list;
 
   const list: any = {
     meet_id: 1,
@@ -190,8 +185,8 @@ function MapPage() {
         break;
 
       case 1: // 조회순
-        sortList.sort((a, b) => (a.hits > b.hits ? -1 : 1));
-        dispatch(changeData({ displayMeetings: [...sortList] }));
+        // sortList.sort((a, b) => (a.hits > b.hits ? -1 : 1));
+        // dispatch(changeData({ displayMeetings: [...sortList] }));
         break;
 
       case 2: //인기도순
@@ -304,54 +299,75 @@ function MapPage() {
             })}
           </div>
           <hr />
-
           {/* 모임 수, 정렬 값 종료 */}
         </div>
+
         {/* 대쉬 보드 */}
         {toggleIcon || vhSize > 768 ? (
           <div className="dashBoard">
-            {/* 검색 결과 창 */}
             {displayMeetings.length !== 0 ? (
               displayMeetings.map((data, idx) => {
                 return (
-                  <div
-                    className="listBox"
-                    key={idx}
-                    onClick={openModalOnClick}
-                    onMouseOver={() => {
-                      handleMouseOver(data.title);
-                    }}
-                  >
-                    <h4>{data.title}</h4>
-                    <p>{data.sub_title}</p>
-                    <p>{data.category}</p>
-                    <p>{data.address}</p>
-                    <p>조회수 : {data.hits}</p>
+                  <div key={idx}>
+                    <div
+                      className="listBox"
+                      onClick={openModalOnClick}
+                      onMouseOver={() => {
+                        handleMouseOver(data.title);
+                      }}
+                    >
+                      <div className="listBox-row title">
+                        <h3>{idx + 1}.</h3>
+                        <h4>{data.title}</h4>
+                        <p>
+                          {data.large_category}
+                          <br />
+                          {data.category}
+                        </p>
+                      </div>
+                      {data.like ? (
+                        <BsHeartFill className="like fill" />
+                      ) : (
+                        <BsHeart className="like" />
+                      )}
+                      <div className="listBox-row">
+                        <span>{data.status}</span>
+                        <p>·</p>
+                        <p>{data.deadLine}</p>
+                      </div>
+                      <p>{data.address}</p>
+                      <div className="listBox-row">
+                        <p>
+                          {data.startDate} ~ {data.endDate}
+                        </p>
+                      </div>
+                      <div className="listBox-row">
+                        {data.tag.map((value: string, i: number) => {
+                          return <button key={i}>{value}</button>;
+                        })}
+                      </div>
+                    </div>
                     <hr />
                   </div>
                 );
               })
             ) : (
-              <>
+              <div className="listBox">
                 <h3>검색어: {searchKeyword}</h3>
                 <h4>검색 결과가 존재하지 않습니다.</h4>
-              </>
+              </div>
             )}
-            {/* 검색 결과 창 종료*/}
           </div>
         ) : (
           <></>
         )}
-
         {/* 대시보드 종료*/}
       </div>
-
       {/* 지도 */}
       <div className="mapComponent">
         <Map />
       </div>
       {/* 지도 종료*/}
-
       {/* 버튼 아이콘 */}
       <div className="icons">
         <div className="modals">
