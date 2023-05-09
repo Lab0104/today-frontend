@@ -19,9 +19,7 @@ export const modalSlice = createSlice({
       state,
       actions: PayloadAction<{ modalType: string; isOpen?: boolean }>
     ) => {
-      state.modalType === "InfoModal"
-        ? (state.isOpen = true)
-        : state.modalType === actions.payload.modalType
+      state.modalType === actions.payload.modalType
         ? (state.isOpen = !state.isOpen)
         : (state.isOpen = true);
 

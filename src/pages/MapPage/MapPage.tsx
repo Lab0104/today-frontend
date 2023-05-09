@@ -23,6 +23,7 @@ import { TbCurrentLocation } from "react-icons/tb";
 import { closeModal } from "reducer/ModalSlice";
 import { setModalContent } from "reducer/MainModalSlice";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { ReceiveMeetingData } from "store/MeetingDB";
 
 const filters = [
   "모두",
@@ -39,7 +40,7 @@ const buttonItems = [
   { type: "NotificationModal", className: "bell" },
   { type: "ChatModal", className: "chat-text" },
   { type: "AddModal", className: "plus-circle" },
-  { type: "LayersModal", className: "funnel" },
+  { type: "FilterModal", className: "funnel" },
 ];
 
 const sortItems = ["거리순", "조회순", "인기도순", "모임날짜순"];
@@ -238,8 +239,15 @@ function MapPage() {
                       setToggleLocation(!toggleLocation);
                     }
                   }}
+                  className="logo"
                 >
-                  <Link to="/">LOGO</Link>
+                  <Link to="/">
+                    {vhSize > 768 ? (
+                      <img src="/images/logo/logo_white.png" alt="logo" />
+                    ) : (
+                      <img src="/images/logo/logo.png" alt="logo" />
+                    )}
+                  </Link>
                 </div>
               </div>
               <input
@@ -306,7 +314,7 @@ function MapPage() {
         {toggleIcon || vhSize > 768 ? (
           <div className="dashBoard">
             {displayMeetings.length !== 0 ? (
-              displayMeetings.map((data, idx) => {
+              displayMeetings.map((data: ReceiveMeetingData, idx: number) => {
                 return (
                   <div key={idx}>
                     <div
@@ -321,8 +329,8 @@ function MapPage() {
                         <h4>{data.title}</h4>
                         <p>
                           {data.large_category}
-                          <br />
-                          {data.category}
+                          {/* <br /> */}
+                          {/* {data.category} */}
                         </p>
                       </div>
                       {data.like ? (
@@ -343,7 +351,7 @@ function MapPage() {
                       </div>
                       <div className="listBox-row">
                         {data.tag.map((value: string, i: number) => {
-                          return <button key={i}>{value}</button>;
+                          return <button key={i}>#{value}</button>;
                         })}
                       </div>
                     </div>
@@ -368,6 +376,50 @@ function MapPage() {
         <Map />
       </div>
       {/* 지도 종료*/}
+
+      {!toggleIcon || vhSize > 768 ? (
+        <div
+          className="listBox showMeeting"
+          onClick={openModalOnClick}
+          onMouseOver={() => {
+            handleMouseOver(showMeeting.title);
+          }}
+        >
+          <div className="listBox-row title">
+            <h3>1.</h3>
+            <h4>{showMeeting.title}</h4>
+            <p>
+              {showMeeting.large_category}
+              {/* <br /> */}
+              {/* {data.category} */}
+            </p>
+          </div>
+          {showMeeting.like ? (
+            <BsHeartFill className="like fill" />
+          ) : (
+            <BsHeart className="like" />
+          )}
+          <div className="listBox-row">
+            <span>{showMeeting.status}</span>
+            <p>·</p>
+            <p>{showMeeting.deadLine}</p>
+          </div>
+          <p>{showMeeting.address}</p>
+          <div className="listBox-row">
+            <p>
+              {showMeeting.startDate} ~ {showMeeting.endDate}
+            </p>
+          </div>
+          <div className="listBox-row">
+            {showMeeting.tag.map((value: string, i: number) => {
+              return <button key={i}>#{value}</button>;
+            })}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+
       {/* 버튼 아이콘 */}
       <div className="icons">
         <div className="modals">
@@ -403,7 +455,8 @@ function MapPage() {
             </button>
           </Link>
         </div>
-        {!toggleIcon || vhSize > 768 ? (
+
+        {!toggleIcon ? (
           <div className="zoom">
             <button
               className={toggleLocation ? "selected" : ""}

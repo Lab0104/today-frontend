@@ -1,22 +1,28 @@
 @use "../CommonStyle.scss";
 
+.container-box {
+  @extend %container;
+  width: 465px;
+}
+
 .content-box_add {
   @extend %content;
 
   position: relative;
-  height: 100%;
-  justify-content: space-between;
   color: #979797;
-  font-family: "Noto Sans KR";
-  font-weight: 500;
-  font-size: 16px;
   line-height: 16px;
+  height: 100%;
+
+  .form-box {
+    height: 650px;
+  }
 
   .input-box {
     display: flex;
     flex-direction: column;
     gap: 8px;
     font-size: 16px;
+    height: 90%;
   }
   input {
     width: 100%;
@@ -89,12 +95,12 @@
   }
 
   .input-content {
-    height: 250px;
     box-sizing: border-box;
     background-color: #fff;
     padding: 30px;
     padding-bottom: 16px;
     border-radius: 0px 0px 5px 5px;
+    flex-grow: 1;
   }
 
   .input-content textarea {
@@ -104,7 +110,7 @@
     line-height: 16px;
     resize: none;
     width: 100%;
-    height: 150px;
+    height: calc(100% - 36px);
     border: none;
   }
 
@@ -138,14 +144,9 @@
   }
 }
 
-.container-box {
-  @extend %container;
-  width: 465px;
-}
-
 .drop-box {
   position: absolute;
-  left: 10px;
+  left: 0;
   top: 48px;
   background-color: #fff;
   width: 150px;
@@ -170,6 +171,10 @@
   .wrapper:hover .data-name {
     background-color: #eee;
   }
+  .data-name {
+    pointer-events: none;
+  }
+
   .data-list {
     position: absolute;
     background-color: #fff;
@@ -178,7 +183,7 @@
     top: 0;
     left: 100%;
     display: none;
-    width: 250px;
+    width: 190px;
     padding: 10px 0;
   }
 

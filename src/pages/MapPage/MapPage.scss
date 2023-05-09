@@ -180,6 +180,7 @@ hr {
     color: utils.$color-theme-primary;
   }
   h3 {
+    line-height: 29px;
     margin: 0;
   }
   h4 {
@@ -195,17 +196,7 @@ hr {
     display: flex;
     gap: 10px;
   }
-  .title {
-    h3 {
-      flex: 1;
-    }
-    h4 {
-      flex: 6;
-    }
-    p {
-      flex: 6;
-    }
-  }
+
   .like {
     position: absolute;
     right: 20px;
@@ -298,6 +289,16 @@ hr {
   }
 }
 
+.showMeeting {
+  display: none;
+}
+
+.logo a img {
+  width: 55px;
+  height: 20px;
+  object-fit: cover;
+}
+
 @media (max-width: utils.$reactive-width-navigation) {
   .main {
     flex-direction: column;
@@ -376,10 +377,13 @@ hr {
 
   .listBox {
     .listBox-row:nth-child(1) {
-      width: 300px;
+      max-width: 350px;
+    }
+    h3 {
+      font-size: 16px;
     }
     h4 {
-      font-size: 16px;
+      font-size: 18px;
     }
     p {
       font-size: 14px;
@@ -407,6 +411,7 @@ hr {
 
   .icons {
     height: fit-content;
+    z-index: 30;
   }
   .icons .zoom button {
     width: 40px;
@@ -431,5 +436,15 @@ hr {
   }
   .icons .exit {
     display: none;
+  }
+
+  .showMeeting {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    z-index: 30;
+    box-sizing: border-box;
+    background-color: #fff;
   }
 }
