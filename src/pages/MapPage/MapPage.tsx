@@ -9,8 +9,6 @@ import {
   searchMap,
   zoomMap,
 } from "../../reducer/KakaoMapSlice";
-import { changeData } from "../../reducer/DisplayMeetingSlice";
-import { setMeetingCard } from "../../reducer/MeetingCardSlice";
 import {
   toggleButtons,
   toggleClose,
@@ -108,24 +106,32 @@ function MapPage() {
     );
   };
 
-  const list: any = {
-    meet_id: 1,
-    title: "스터디 모임",
-    sub_title: "서브 타이틀",
-    content: `자바스터디 모집합니다.\n\n같이 백준 문제풀이 진행하면서 기초 문법 및 실습 진행 할 예정입니다.\n\n 스터디룸에 PC가 있기에 따로 개인 노트북 없어도 참가 가능합니다.\n\n따로 궁금하신 내용 있으면 언제든지 채팅주세요.\n\n지각하시는 분들은 사절합니다!`,
-    hits_count: 4,
-    date_created: "2023-02-21T16:43",
-    writer: "문지혜",
-    maximum_participants: 2,
-    registered_participants_count: 0,
-    address: "경기 용인시 기흥구 강남서로 9",
-    deadline: "2023-05-29T12:00",
-    date: "2023-01-18T15:00",
-    category: { "학문/스터디": "프로그래밍 언어 스터디" },
-  };
-
-  const openModalOnClick = () => {
+  const openModalOnClick = (data: ReceiveMeetingData) => {
     dispatch(openModal({ modalType: "meetingModal" }));
+
+    let list: any = {
+      meet_id: 1,
+      title: data.title,
+      sub_title: "서브 타이틀",
+      content:
+        data.address +
+        "에서 같이 모임하실분 모집 합니다! \n\n 다들 초보자이니 너무 걱정하지 마시고 놀러오세요!" +
+        data.title +
+        "에 오셔서 같이 재미있게 놀아요! \n\n" +
+        data.tag[0] +
+        ", " +
+        data.tag[1] +
+        " 좋아하시는 분은 모두 환영합니다 !!",
+      hits_count: 4,
+      date_created: "2023-02-21T16:43",
+      writer: "문지혜",
+      maximum_participants: 2,
+      registered_participants_count: 0,
+      address: data.address,
+      deadline: data.deadLine,
+      date: data.startDate + data.endDate,
+      category: { [data.large_category]: data.category },
+    };
     dispatch(setModalContent({ modalContent: { ...list } }));
   };
 
@@ -319,7 +325,7 @@ function MapPage() {
                   <div key={idx}>
                     <div
                       className="listBox"
-                      onClick={openModalOnClick}
+                      onClick={() => openModalOnClick(data)}
                       onMouseOver={() => {
                         handleMouseOver(data.title);
                       }}
@@ -377,10 +383,10 @@ function MapPage() {
       </div>
       {/* 지도 종료*/}
 
-      {!toggleIcon || vhSize > 768 ? (
+      {(!toggleIcon || vhSize > 768) && !showMeeting.error ? (
         <div
           className="listBox showMeeting"
-          onClick={openModalOnClick}
+          onClick={() => openModalOnClick(showMeeting)}
           onMouseOver={() => {
             handleMouseOver(showMeeting.title);
           }}
@@ -394,30 +400,24 @@ function MapPage() {
               {/* {data.category} */}
             </p>
           </div>
-          {showMeeting.like ? (
+          {/* {showMeeting.like ? (
             <BsHeartFill className="like fill" />
           ) : (
             <BsHeart className="like" />
-          )}
+          )} */}
           <div className="listBox-row">
             <span>{showMeeting.status}</span>
             <p>·</p>
-            <p>{showMeeting.deadLine}</p>
-          </div>
-          <p>{showMeeting.address}</p>
-          <div className="listBox-row">
             <p>
               {showMeeting.startDate} ~ {showMeeting.endDate}
             </p>
           </div>
-          <div className="listBox-row">
-            {showMeeting.tag.map((value: string, i: number) => {
-              return <button key={i}>#{value}</button>;
-            })}
-          </div>
+          <p>{showMeeting.address}</p>
         </div>
       ) : (
-        <></>
+        <div className="listBox showMeeting">
+          <h3>"{searchKeyword}"의 검색 결과가 존재하지 않습니다.</h3>
+        </div>
       )}
 
       {/* 버튼 아이콘 */}

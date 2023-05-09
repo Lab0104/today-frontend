@@ -10,7 +10,7 @@ import "./Modal.scss";
 
 const Overlay = styled.div`
   position: fixed;
-  z-index: 10;
+  z-index: 40;
   top: 0;
   left: 0;
   right: 0;

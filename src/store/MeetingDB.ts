@@ -10,6 +10,8 @@ export type ReceiveMeetingData = {
   deadLine: string;
   tag: string[];
   like: boolean;
+
+  error?: boolean;
 };
 
 const meetingList = [
@@ -391,4 +393,5 @@ export const showMeeting: ReceiveMeetingData = {
   deadLine: "23.05.14 10:00 PM",
   tag: ["풋볼", "운동", "건강"],
   like: true,
+  error: false,
 };

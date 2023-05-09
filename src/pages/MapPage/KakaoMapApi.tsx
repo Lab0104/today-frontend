@@ -225,6 +225,8 @@ function KakaoMapApi() {
               });
 
               kakao.maps.event.addListener(marker, "click", () => {
+                infowindow.setContent(content(data.title));
+                infowindow.open(kakaoMap, marker);
                 dispatch(setShowContent({ id: data.meeting_id }));
               });
             } else {

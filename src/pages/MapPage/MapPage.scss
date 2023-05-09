@@ -140,6 +140,8 @@ hr {
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
 
+  z-index: 9;
+
   .meetingCard {
     padding: 0 20px;
   }
@@ -306,6 +308,7 @@ hr {
   }
   .search-tab {
     width: 100%;
+    height: 170px;
   }
   .search-box {
     width: 100%;
@@ -405,10 +408,6 @@ hr {
     font-size: 14px;
   }
 
-  .mapComponent {
-    width: 100%;
-  }
-
   .icons {
     height: fit-content;
     z-index: 30;
@@ -440,11 +439,16 @@ hr {
 
   .showMeeting {
     display: block;
-    position: relative;
+    position: absolute;
+    bottom: 66px;
     width: 100%;
-    height: fit-content;
-    z-index: 30;
+    z-index: 8;
+    height: 100px;
     box-sizing: border-box;
     background-color: #fff;
+
+    .listBox-row {
+      margin-bottom: 0 !important;
+    }
   }
 }
