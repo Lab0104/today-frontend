@@ -87,6 +87,7 @@ const NavigationBar = React.memo(() => {
     dispatch(openModal({ modalType: "SideNavModal" }));
   };
   const userOnClick = () => {
+    dispatch(closeModal());
     setDropdownToggle((prev) => !prev);
   };
   const searchOnClick = () => {
@@ -94,6 +95,8 @@ const NavigationBar = React.memo(() => {
     navigate("/map", { state: searchContext });
   };
   const dropdownOnClick: Event<"div", "onClick"> = (e) => {
+    e.stopPropagation();
+    setDropdownToggle((prev) => !prev);
     const value = e.currentTarget.children[1].innerHTML;
     switch (value) {
       case "프로필":

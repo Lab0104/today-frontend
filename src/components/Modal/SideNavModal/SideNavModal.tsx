@@ -86,6 +86,7 @@ const SideNav = styled.div<{ isOpen: boolean }>`
   left: -10px;
   width: 60%;
   max-width: 296px;
+  min-width: 200px;
   height: 100%;
   padding: 30px;
   background-color: #fff;

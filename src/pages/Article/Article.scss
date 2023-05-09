@@ -1,0 +1,45 @@
+@import "../../utils/_utils.scss";
+
+.article-container {
+  max-width: $max-width-app;
+  min-width: $min-width-app;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: $height-navigation $padding-main-page $padding-main-page
+    $padding-main-page;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  h3 {
+    margin: 20px 0 0 0;
+    font-size: 24px;
+  }
+
+  button {
+    width: fit-content;
+    padding: 0 15px;
+  }
+
+  .article-contents {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .article-button {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    & button:first-of-type {
+      background-color: $color-gray-brightness04;
+    }
+  }
+}
+
+@media (max-width: $reactive-width-navigation) {
+  .article-container {
+    padding-top: calc($height-navigation + $height-navigation-item);
+  }
+}

@@ -1,6 +1,6 @@
 @import "../../utils/utils";
 
-.article-container {
+.editor-pick-container {
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -11,21 +11,34 @@
     font-weight: 700;
     margin: 0;
   }
+  h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+  }
+  p {
+    font-size: 14px;
+  }
 
-  .article-list {
+  .pick-list {
     display: flex;
     gap: 10px;
 
-    .article-item {
+    .pick-item {
       position: relative;
       flex-grow: 1;
-      height: 300px;
+      padding-top: 35%;
       background-color: gray;
+      overflow: hidden;
+      background-color: pink;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
 
-      &:first-of-type .item-picture {
+      &:first-of-type {
         background-image: url("../../../public/images/article/band.png");
       }
-      &:last-of-type .item-picture {
+      &:last-of-type {
         background-image: url("../../../public/images/article/environment.png");
       }
 
@@ -42,25 +55,26 @@
         box-sizing: border-box;
         position: absolute;
         top: 0;
-        right: 0;
+        right: -50%;
         width: 50%;
         height: 100%;
         padding: 20px;
-        display: none;
+        display: flex;
         flex-direction: column;
         gap: 20px;
         background-color: $color-basic-white;
         z-index: 1;
         box-shadow: 1px 1px 5px 2px rgba(151, 151, 151, 0.5);
         cursor: default;
+        transition: right 0.5s ease-in-out;
 
         .content-title {
-          height: 80px;
+          height: 20%;
           overflow: hidden;
         }
 
         .content-index {
-          height: 140px;
+          height: 60%;
           overflow: scroll;
           -ms-overflow-style: none; /* 인터넷 익스플로러 */
           scrollbar-width: none; /* 파이어폭스 */
@@ -106,13 +120,17 @@
 
       &:hover {
         .item-content {
-          display: flex;
+          right: 0;
         }
       }
     }
 
     @media (max-width: $reactive-width-navigation) {
       flex-direction: column;
+
+      .pick-item {
+        padding-top: 55%;
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ import "./App.scss";
 
 import GlobalModal from "./components/Modal/GlobalModal";
 import Main from "./pages/Main/Main";
+import Article from "pages/Article/Article";
 import Login from "./pages/Login/Login";
 import KakaoLogin from "./pages/Login/KakaoLogin";
 import NaverLogin from "./pages/Login/NaverLogin";
@@ -23,6 +24,7 @@ const App: React.FC = () => {
       <GlobalModal />
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/article" element={<Article />} />
         <Route path="/login" element={<Login />} />
         <Route path="/kakaoLogin" element={<KakaoLogin />} />
         <Route path="/naverLogin" element={<NaverLogin />} />
