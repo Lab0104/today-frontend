@@ -17,6 +17,7 @@ type FormValues = {
 };
 
 export default function Login() {
+  console.log("login");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -62,7 +63,7 @@ export default function Login() {
   };
 
   const kakaoLoginHandler = () => {
-    window.location.href = KAKAO_AUTH_URL;
+    navigate("/redirect", { state: { url: KAKAO_AUTH_URL } });
   };
 
   return (

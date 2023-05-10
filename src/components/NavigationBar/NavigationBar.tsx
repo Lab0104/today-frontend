@@ -15,6 +15,7 @@ import { logout } from "../../reducer/UserSlice";
 
 import _ from "lodash";
 
+import { REST_API_KEY, LOGOUT_REDIRECT_URI } from "pages/Login/dataKakaoLogin";
 import { Event } from "eventType";
 import { TypeUser } from "userTypes";
 import "./NavigationBar.scss";
@@ -69,10 +70,12 @@ const DropdownContents: React.FC<dropdownProps> = ({ list, onClick }) => {
 const NavigationBar = React.memo(() => {
   const navigate = useNavigate();
 
-  const isLogged = useSelector(
-    (state: { user: TypeUser }) => state.user.isLogged
+  const { isLogged, login_method, access_token } = useSelector(
+    (state: { user: TypeUser }) => state.user
   );
   const dispatch = useDispatch();
+
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`;
 
   const [dropdownToggle, setDropdownToggle] = useState(false);
   const [searchContext, setSearchContext] = useState("");
@@ -94,6 +97,22 @@ const NavigationBar = React.memo(() => {
     dispatch(closeModal());
     navigate("/map", { state: searchContext });
   };
+
+  // const kakaoLogout = async () => {
+  //   try {
+  //     const req = await fetch("https://kapi.kakao.com/v1/user/logout", {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${access_token}`,
+  //       },
+  //     });
+  //     const res = await req.json();
+  //     console.log(res);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   const dropdownOnClick: Event<"div", "onClick"> = (e) => {
     e.stopPropagation();
     setDropdownToggle((prev) => !prev);
@@ -116,9 +135,13 @@ const NavigationBar = React.memo(() => {
         dispatch(openModal({ modalType: "FilterModal" }));
         break;
       case "로그아웃":
-        alert("로그아웃");
-        dispatch(logout());
-        navigate("/");
+        if (login_method === "kakao") {
+          navigate("/redirect", { state: { url: KAKAO_AUTH_URL } });
+        } else {
+          alert("로그아웃");
+          dispatch(logout());
+          navigate("/");
+        }
         break;
       default:
     }

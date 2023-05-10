@@ -7,9 +7,11 @@ declare module "userTypes" {
     score?: int;
     profile_image?: any;
     background_image?: any;
-    isSaved: boolean;
+    isSaved?: boolean;
     login_method: string;
     isLogged: boolean;
+    access_token?: string;
+    refresh_token?: string;
   };
 
   export type TypeProfile = {

@@ -6,13 +6,15 @@ const initialState: TypeUser = {
   user_id: 0,
   email: "",
   nickname: "",
-  address: "",
+  address: "주소지를 등록해주세요",
   score: 0,
   profile_image: "",
   background_image: "",
   isSaved: false,
   login_method: "",
   isLogged: false,
+  access_token: "",
+  refresh_token: "",
 };
 
 export const userSlice = createSlice({
@@ -35,17 +37,23 @@ export const userSlice = createSlice({
       state.user_id = 0;
       state.email = "";
       state.nickname = "";
-      state.address = "";
+      state.address = "주소지를 등록해주세요";
       state.score = 0;
       state.profile_image = "";
       state.background_image = "";
       state.isSaved = false;
       state.isLogged = false;
       state.login_method = "";
+      state.access_token = "";
+      state.refresh_token = "";
     },
-    kakaoLogin: (state) => {
+    kakaoLogin: (state, action) => {
       state.isLogged = true;
       state.login_method = "kakao";
+      state.nickname = action.payload.nickname;
+      state.email = action.payload.email;
+      state.access_token = action.payload.access_token;
+      state.refresh_token = action.payload.refresh_token;
     },
     profileUpload: (state, action) => {
       state.profile_image = action.payload.profileImage;

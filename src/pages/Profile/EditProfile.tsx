@@ -104,6 +104,15 @@ export default function EditProfile() {
     });
   };
 
+  const onCancelClick = () => {
+    navigate("/");
+  };
+  const onUserDeleteClick = () => {
+    navigate("/profile/check_password", {
+      state: { type: "delete", user_id: user_id },
+    });
+  };
+
   if (EditLoading) {
     return <ProfilePlaceHolder />;
   }
@@ -189,7 +198,7 @@ export default function EditProfile() {
           </button>
           <button
             type="button"
-            onClick={() => navigate("/")}
+            onClick={onCancelClick}
             css={css`
               background-color: gray;
             `}
@@ -197,6 +206,9 @@ export default function EditProfile() {
             취소
           </button>
         </form>
+        <div className="user-delete">
+          <span onClick={onUserDeleteClick}>회원 탈퇴</span>
+        </div>
       </div>
     </>
   );

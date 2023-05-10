@@ -7,11 +7,9 @@ import { CiEdit } from "react-icons/ci";
 
 import { useSelector, useDispatch } from "react-redux";
 import { profileUpload, backgroundUpload } from "../../reducer/UserSlice";
-import { useGetPostQuery } from "services/postApi";
 import { TypeUser } from "userTypes";
 import { Event } from "eventType";
 import "./Profile.scss";
-import ProfilePlaceHolder from "components/Skeleton/placeholders/ProfilePlaceHolder";
 
 const profiles = [
   { label: "닉네임", value: "nickname" },
@@ -60,19 +58,19 @@ const BackgroundImage = styled.div<{ imgUrl: any }>`
 `;
 
 export default function Profile() {
+  const userData = useRef<any>([]);
   const dispatch = useDispatch();
   const {
     user_id: userId,
+    nickname,
+    email,
+    address,
+    score,
     profile_image,
     background_image,
   } = useSelector((state: { user: TypeUser }) => state.user);
-  const {
-    data: userData,
-    isLoading: profileLoading,
-    error: profileError,
-  } = useGetPostQuery({
-    name: `profile?user_id=${userId}`,
-  });
+
+  userData.current = [nickname, email, address, score];
 
   const navigate = useNavigate();
   const kindOfImage = useRef<String>("");
@@ -116,86 +114,6 @@ export default function Profile() {
     }
   };
 
-  if (profileLoading) {
-    return <ProfilePlaceHolder />;
-  }
-
-  if (profileError) {
-    return (
-      <>
-        <NavigationBar />
-        <div className="profile-container">
-          <h3>프로필 정보</h3>
-          <hr />
-          <div className="headers">
-            <div className="profile-header">
-              <div
-                className="background-icon"
-                id="background"
-                onClick={onImageSettingClick}
-              >
-                <IoMdSettings />
-              </div>
-              <BackgroundImage imgUrl={background_image} />
-              <input
-                type="file"
-                style={{ display: "none" }}
-                accept="image/*"
-                onChange={profileImageChange}
-                ref={fileInput}
-              />
-              <ProfileImage imgUrl={profile_image}>
-                <div
-                  className="profile-icon"
-                  id="profile"
-                  onClick={onImageSettingClick}
-                >
-                  <IoMdSettings />
-                </div>
-              </ProfileImage>
-              <div className="profile-content">
-                <span>{notFoundProfiles[0].value}</span>
-              </div>
-            </div>
-            <div className="profile-info">
-              <div className="info-header">
-                <h4>유저 정보</h4>
-                <CiEdit onClick={onEditProfileClick} />
-              </div>
-              <div className="info-user">
-                <div className="info-category">
-                  {notFoundProfiles &&
-                    notFoundProfiles.map((item, idx) => (
-                      <div key={idx}>
-                        <span key={idx}>{item.label}</span>
-                        <hr />
-                      </div>
-                    ))}
-                </div>
-                <div className="info-content">
-                  {notFoundProfiles &&
-                    notFoundProfiles.map((item, idx) => (
-                      <div key={idx}>
-                        <span key={idx}>{item.value}</span>
-                        <hr />
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="user-activity">
-            <h4>활동 내역</h4>
-          </div>
-          <div className="profile-submit">
-            <button onClick={() => navigate(-1)}>뒤로 가기</button>
-            <button onClick={onEditProfileClick}>회원정보 수정</button>
-          </div>
-        </div>
-      </>
-    );
-  }
-
   return (
     <>
       <NavigationBar />
@@ -229,7 +147,7 @@ export default function Profile() {
               </div>
             </ProfileImage>
             <div className="profile-content">
-              <span>{userData.nickname}</span>
+              <span>{nickname}</span>
             </div>
           </div>
           <div className="profile-info">
@@ -251,7 +169,7 @@ export default function Profile() {
                 {profiles &&
                   profiles.map((item, idx) => (
                     <div key={idx}>
-                      <span key={idx}>{userData[item.value]}</span>
+                      <span>{userData.current[idx]}</span>
                       <hr />
                     </div>
                   ))}
@@ -259,9 +177,9 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div className="user-activity">
+        {/* <div className="user-activity">
           <h4>활동 내역</h4>
-        </div>
+        </div> */}
         <div className="profile-submit">
           <button onClick={() => navigate(-1)}>뒤로 가기</button>
           <button onClick={onEditProfileClick}>회원정보 수정</button>

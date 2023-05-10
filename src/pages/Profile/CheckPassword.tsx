@@ -30,7 +30,11 @@ export default function CheckPassword() {
       const res = await req.json();
 
       if (res) {
-        navigate("/profile/edit");
+        if (location.state.type === "delete") {
+          navigate("/redirect", { state: { type: "delete" } });
+        } else {
+          navigate("/profile/edit");
+        }
       } else {
         alert("잘못 된 비밀번호입니다.");
       }

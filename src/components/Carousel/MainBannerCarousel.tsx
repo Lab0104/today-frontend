@@ -131,7 +131,7 @@ const CarouselListItem = styled.li<{ activeIndex: number; src: string }>`
 `;
 const Item = styled.div`
   position: absolute;
-  left: 15%;
+  left: 20%;
   bottom: 12%;
   display: flex;
   flex-direction: column;
@@ -142,6 +142,7 @@ const Item = styled.div`
     font-size: 8px;
   }
   @media (min-width: 600px) {
+    left: 15%;
     font-size: 11px;
   }
   @media (min-width: 768px) {

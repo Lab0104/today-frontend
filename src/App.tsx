@@ -6,7 +6,9 @@ import GlobalModal from "./components/Modal/GlobalModal";
 import Main from "./pages/Main/Main";
 import Article from "pages/Article/Article";
 import Login from "./pages/Login/Login";
+import Redirect from "pages/Redirect/Redirect";
 import KakaoLogin from "./pages/Login/KakaoLogin";
+import KakaoLogout from "pages/Login/KakaoLogout";
 import NaverLogin from "./pages/Login/NaverLogin";
 import Signup from "./pages/Signup/Signup";
 import SignupCategory from "./pages/Signup/SignupCategory";
@@ -26,7 +28,9 @@ const App: React.FC = () => {
         <Route path="/" element={<Main />} />
         <Route path="/article" element={<Article />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/redirect" element={<Redirect />} />
         <Route path="/kakaoLogin" element={<KakaoLogin />} />
+        <Route path="/kakaoLogout" element={<KakaoLogout />} />
         <Route path="/naverLogin" element={<NaverLogin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signup/category" element={<SignupCategory />} />

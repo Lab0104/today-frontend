@@ -58,6 +58,18 @@
       }
     }
   }
+
+  .user-delete {
+    display: flex;
+    justify-content: flex-end;
+
+    & span {
+      color: $color-basic-red;
+      text-decoration: underline;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  }
 }
 
 @media (max-width: $reactive-width-navigation) {
