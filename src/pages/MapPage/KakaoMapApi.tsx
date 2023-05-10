@@ -154,6 +154,11 @@ function KakaoMapApi() {
           : kakaoMap.setLevel(level + 1);
         break;
 
+      case "save":
+        setMeetingList([...meetingDB]); // Add시 비동기로 늦음.
+
+        break;
+
       default:
         break;
     }
