@@ -77,8 +77,8 @@ const MainBannerCarousel = React.memo(() => {
               onClick={handleContentClick}
             >
               <Item>
-                <h1>오늘 하루</h1>
-                <span>오늘 하루를 특별하게 보내는 방법!</span>
+                <h1>내일 하루</h1>
+                <span>내일 하루를 특별하게 보내는 방법!</span>
                 <span>124개의 모임이 열리고 있어요!</span>
                 <span>모임을 만들고 참여해보세요!</span>
               </Item>
