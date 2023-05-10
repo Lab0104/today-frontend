@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../../reducer/ModalSlice";
 import { toggleButtons } from "../../../reducer/ToggleSlice";
@@ -14,12 +14,10 @@ import {
   BsChevronDown,
   BsChevronUp,
 } from "react-icons/bs";
-import DatePicker from "components/Assest/DataPIcker";
 
 import { categories } from "components/CategoryList/CategoryList";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import DatePickerForm from "components/Assest/DatePickerForm";
-import { Geocoder } from "components/Assest/Geocoder";
 
 type FormValues = {
   user_nicname: string; //작성자 닉네임
@@ -46,17 +44,13 @@ const AddModal = () => {
   const {
     register,
     control,
-    setValue,
-    setError,
-    getValues,
-    clearErrors,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
     handleSubmit,
   } = useForm<FormValues>();
 
   const Dropdown = (): JSX.Element => {
     return (
-      <div className="drop-box">
+      <div className="drop-box" onMouseLeave={() => setView(false)}>
         <ul>
           {categories.map((data, idx1) => {
             return (
@@ -71,6 +65,7 @@ const AddModal = () => {
                         key={idx2}
                         onClick={() => {
                           setCategory(data.name + " > " + list);
+                          setView(false);
                         }}
                       >
                         {list}
@@ -130,9 +125,9 @@ const AddModal = () => {
     dispatch(closeModal());
     dispatch(toggleButtons({ idx: 3 }));
 
-    Geocoder(data.address)
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
+    // Geocoder(data.address)
+    //   .then((result) => console.log(result))
+    //   .catch((error) => console.error(error));
   };
 
   return (
@@ -149,18 +144,13 @@ const AddModal = () => {
           <i className="bi bi-x-lg"></i>
         </button>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="content-box_add">
+      <div className="content-box_add">
+        <form onSubmit={handleSubmit(onSubmit)} className="form-box">
           <div className="input-box">
             <div className="input-title">
               <input placeholder="모임 제목" {...register("title")}></input>
             </div>
-            <div
-              className="category"
-              onClick={() => {
-                setView(!view);
-              }}
-            >
+            <div className="category">
               {view ? (
                 <div className="drop-down">
                   <BsChevronUp />
@@ -173,9 +163,12 @@ const AddModal = () => {
               {view && <Dropdown></Dropdown>}
               <input
                 type="text"
-                // readOnly
+                readOnly
                 value={category}
                 {...register("category")}
+                onClick={() => {
+                  setView(!view);
+                }}
               ></input>
             </div>
 
@@ -250,8 +243,8 @@ const AddModal = () => {
           >
             개설 하기
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };

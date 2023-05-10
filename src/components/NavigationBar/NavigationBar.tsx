@@ -19,6 +19,7 @@ import { REST_API_KEY, LOGOUT_REDIRECT_URI } from "pages/Login/dataKakaoLogin";
 import { Event } from "eventType";
 import { TypeUser } from "userTypes";
 import "./NavigationBar.scss";
+import { toggleButtons } from "reducer/ToggleSlice";
 
 type dropdownList = {
   name: string;
@@ -124,15 +125,23 @@ const NavigationBar = React.memo(() => {
         break;
       case "알림":
         dispatch(openModal({ modalType: "NotificationModal" }));
+        dispatch(toggleButtons({ idx: 1 }));
+
         break;
       case "채팅":
         dispatch(openModal({ modalType: "ChatModal" }));
+        dispatch(toggleButtons({ idx: 2 }));
+
         break;
       case "모임추가":
         dispatch(openModal({ modalType: "AddModal" }));
+        dispatch(toggleButtons({ idx: 3 }));
+
         break;
       case "필터":
         dispatch(openModal({ modalType: "FilterModal" }));
+        dispatch(toggleButtons({ idx: 4 }));
+
         break;
       case "로그아웃":
         if (login_method === "kakao") {
@@ -167,8 +176,10 @@ const NavigationBar = React.memo(() => {
     <nav className="navigation-nav">
       <div className="header">
         <div className="logo">
-          <RxHamburgerMenu onClick={sideNavOnClick} />
-          <Link to="/">Today</Link>
+          <RxHamburgerMenu onClick={sideNavOnClick} className="hambuger" />
+          <Link to="/">
+            <img src="/images/logo/logo.png" alt="logo" />
+          </Link>
         </div>
         <div className="searchContainer">
           <div className="searchKeyword">

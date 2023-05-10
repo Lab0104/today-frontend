@@ -36,7 +36,7 @@ function GlobalModal() {
     },
 
     {
-      type: "LayersModal",
+      type: "FilterModal",
       component: <FilterModal />,
     },
     {
