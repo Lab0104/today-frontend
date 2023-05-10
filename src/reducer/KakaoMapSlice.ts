@@ -21,7 +21,7 @@ const initialState: MapState = {
 };
 
 type MapState = {
-  mapActions: "search" | "move" | "zoom" | "";
+  mapActions: "search" | "move" | "zoom" | "save" | "";
   zoomActions: "zoomIn" | "zoomOut" | "";
   markerTitle: string;
   checkOrder: boolean;
@@ -62,8 +62,13 @@ export const KakaoMapSlice = createSlice({
     currentLocation: (state) => {
       state.trackLocation = !state.trackLocation;
     },
+
+    saveData: (state) => {
+      state.mapActions = "save";
+      state.checkOrder = !state.checkOrder;
+    },
   },
 });
-export const { searchMap, moveMap, zoomMap, currentLocation } =
+export const { searchMap, moveMap, zoomMap, currentLocation, saveData } =
   KakaoMapSlice.actions;
 export default KakaoMapSlice.reducer;
