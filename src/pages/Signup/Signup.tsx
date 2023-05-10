@@ -1,13 +1,20 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FcCheckmark } from "react-icons/fc";
 import { useDaumPostcodePopup } from "react-daum-postcode";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setEmailSendClick,
+  setLimitTime,
+  setIsTimeout,
+} from "../../reducer/EmailVerify";
 
 import { emailCheck } from "../../utils/regexCheck";
-
+import SpinnerPlaceHolder from "components/Skeleton/placeholders/SpinnerPlaceHolder";
+import TimeLimit from "components/TimeLimit/TimeLimit";
 import "./Signup.scss";
 
 type FormValues = {
@@ -21,10 +28,17 @@ type FormValues = {
 };
 
 export default function Signup() {
-  const emailButton = useRef<HTMLButtonElement>(null);
+  const dispatch = useDispatch();
+  const { emailSendClick, isTimeout } = useSelector(
+    (state: { emailVerify: any }) => state.emailVerify
+  );
+
   const verifyNumber = useRef<number>(0);
   const emailVerifyForm = useRef<HTMLDivElement>(null);
   const [isVerify, setIsVerify] = useState(false);
+  const [isClick, setIsClick] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const {
     register,
@@ -36,7 +50,11 @@ export default function Signup() {
     handleSubmit,
   } = useForm<FormValues>();
 
-  // const { onChange, onBlur, name, ref } = register('firstName');
+  useEffect(() => {
+    dispatch(setLimitTime({ limitTime: 0 }));
+    dispatch(setEmailSendClick({ emailSendClick: true }));
+    dispatch(setIsTimeout({ isTimeout: false }));
+  }, []);
 
   const onSubmit = async (data: FormValues) => {
     console.log(data);
@@ -101,27 +119,35 @@ export default function Signup() {
     });
   };
 
-  const onEmailVerifyClick = async () => {
-    if (emailButton.current) {
-      emailButton.current.innerHTML = "재전송";
-    }
+  const onEmailSendClick = async () => {
+    if (isVerify) return;
     const email = getValues("email");
     if (emailCheck(email)) {
-      try {
-        const req = await fetch("/api/signup/email", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        });
-        const isValid = await req.json();
-        console.log(isValid);
-        verifyNumber.current = isValid?.authNumber;
-        if (emailVerifyForm.current) {
-          emailVerifyForm.current.style.display = "flex";
+      if (emailSendClick) {
+        setIsClick(false);
+        try {
+          setLoading(true);
+          const req = await fetch("/api/signup/email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+          });
+          const isValid = await req.json();
+          console.log(isValid);
+          verifyNumber.current = isValid?.authNumber;
+          if (emailVerifyForm.current) {
+            emailVerifyForm.current.style.display = "flex";
+          }
+          clearErrors("email");
+          dispatch(setLimitTime({ limitTime: 180 }));
+          dispatch(setIsTimeout({ isTimeout: false }));
+          setLoading(false);
+          setIsClick(true);
+        } catch (err) {
+          console.log(err);
         }
-        clearErrors("email");
-      } catch (err) {
-        console.log(err);
+      } else {
+        alert("인증번호를 받은 시간의 10초 뒤에 다시 눌러주세요");
       }
     } else {
       setError("email", {
@@ -133,7 +159,12 @@ export default function Signup() {
 
   const onVerifyClick = () => {
     if (isVerify) return;
-    console.log("인증번호 확인 버튼 누름");
+    if (!isTimeout) {
+      alert(
+        "이메일 검증 유효 시간이 만료되었습니다. 인증번호를 다시 받아주세요"
+      );
+      return;
+    }
     const inputValue = Number(getValues("inputVerifyNum"));
     if (inputValue !== verifyNumber.current) {
       setError("inputVerifyNum", {
@@ -151,23 +182,9 @@ export default function Signup() {
     <div className="signup-container">
       <h2 className="title">회원가입</h2>
       <form className="signupForm" onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type="text"
-          placeholder="별명"
-          css={errors?.nickname && inputError}
-          {...register("nickname", {
-            required: "닉네임을 입력해주세요.",
-            minLength: {
-              value: 2,
-              message: "2자 이상 입력해주세요.",
-            },
-          })}
-        />
-        {errors?.nickname && (
-          <p className="errorMessage">{errors?.nickname?.message}</p>
-        )}
         <div className="buttonForm">
           <input
+            disabled={isVerify ? true : false}
             type="text"
             placeholder="ID(이메일)"
             css={errors?.email && inputError}
@@ -179,56 +196,55 @@ export default function Signup() {
               },
             })}
           />
-          <button type="button" onClick={onEmailVerifyClick} ref={emailButton}>
-            인증번호
-            <br />
-            받기
+          <button id="verify-button" type="button" onClick={onEmailSendClick}>
+            {loading ? (
+              <SpinnerPlaceHolder size={30} top={23} />
+            ) : (
+              <span>
+                인증번호
+                <br />
+                받기
+              </span>
+            )}
           </button>
         </div>
         {errors?.email && (
           <p className="errorMessage">{errors?.email?.message}</p>
         )}
-        <div
-          className="email-verify-form"
-          ref={emailVerifyForm}
-          style={{ display: "none" }}
-        >
-          <div className="buttonForm">
-            <input
-              type="text"
-              placeholder="인증번호"
-              css={errors?.inputVerifyNum && inputError}
-              {...register("inputVerifyNum", {
-                required: "인증번호를 입력해주세요",
-              })}
-            />
-            <button
-              type="button"
-              onClick={onVerifyClick}
-              css={
-                isVerify &&
-                css`
-                  background-color: #ccc;
-                  border: 1px solid #000;
-                  cursor: default;
-                `
-              }
-            >
-              {isVerify ? (
-                <FcCheckmark />
-              ) : (
-                <span>
-                  인증번호
-                  <br />
-                  확인
-                </span>
-              )}
-            </button>
+        {isClick && (
+          <div className="email-verify-form" ref={emailVerifyForm}>
+            <div className="buttonForm" id="email-verify-input">
+              <input
+                disabled={isVerify ? true : false}
+                type="text"
+                placeholder="인증번호"
+                css={errors?.inputVerifyNum && inputError}
+                {...register("inputVerifyNum", {
+                  required: "인증번호를 입력해주세요",
+                })}
+              />
+              {!isVerify && <TimeLimit />}
+              <button
+                type="button"
+                onClick={onVerifyClick}
+                css={isVerify && vefifyTrue}
+              >
+                {isVerify ? (
+                  <FcCheckmark />
+                ) : (
+                  <span>
+                    인증번호
+                    <br />
+                    확인
+                  </span>
+                )}
+              </button>
+            </div>
+            {errors?.inputVerifyNum && (
+              <p className="errorMessage">{errors?.inputVerifyNum?.message}</p>
+            )}
           </div>
-          {errors?.inputVerifyNum && (
-            <p className="errorMessage">{errors?.inputVerifyNum?.message}</p>
-          )}
-        </div>
+        )}
         <input
           type="password"
           placeholder="비밀번호"
@@ -298,6 +314,12 @@ export default function Signup() {
     </div>
   );
 }
+
+const vefifyTrue = css`
+  background-color: #ccc;
+  border: 1px solid #000;
+  cursor: default;
+`;
 
 const inputError = css`
   border: 2px solid red;

@@ -7,7 +7,7 @@ import "./FilterModal.scss";
 
 import DatePicker from "components/Assest/DataPIcker";
 import ReactRange from "components/Assest/ReactRange";
-import { categories } from "components/CategoryList/CategoryList";
+import { categories } from "components/CategoryList/category";
 
 const BtnList = ["모두", "2", "3", "4", "5", "6+"];
 const FilterModal = () => {

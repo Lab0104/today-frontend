@@ -8,10 +8,8 @@ import { useSelector } from "react-redux";
 
 import NavigationBar from "components/NavigationBar/NavigationBar";
 
-import { useGetPostQuery } from "services/postApi";
-import { TypeProfile } from "userTypes";
+import { TypeUser } from "userTypes";
 import "./EditProfile.scss";
-import ProfilePlaceHolder from "components/Skeleton/placeholders/ProfilePlaceHolder";
 
 type FormValues = {
   nickname: string;
@@ -22,14 +20,10 @@ type FormValues = {
 };
 
 export default function EditProfile() {
-  const { user_id } = useSelector((state: { user: TypeProfile }) => state.user);
-  const {
-    data: userData,
-    isLoading: EditLoading,
-    error: EditError,
-  } = useGetPostQuery({
-    name: `profile?user_id=${user_id}`,
-  });
+  const { user_id, nickname, address } = useSelector(
+    (state: { user: TypeUser }) => state.user
+  );
+
   const navigate = useNavigate();
   const {
     register,
@@ -41,9 +35,11 @@ export default function EditProfile() {
   } = useForm<FormValues>();
 
   useEffect(() => {
-    setValue("nickname", userData.nickname);
-    setValue("address", userData.address);
-  }, [setValue, userData]);
+    if (nickname && address) {
+      setValue("nickname", nickname);
+      setValue("address", address);
+    }
+  }, []);
 
   const onSubmit = async (data: FormValues) => {
     console.log(data);
@@ -51,7 +47,7 @@ export default function EditProfile() {
       const req = await fetch("/api/profile/edit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ user_id, ...data }),
       });
       const isEdit = await req.json();
       console.log(isEdit);
@@ -113,12 +109,6 @@ export default function EditProfile() {
     });
   };
 
-  if (EditLoading) {
-    return <ProfilePlaceHolder />;
-  }
-  if (EditError) {
-    return <h1>Not Found 404</h1>;
-  }
   return (
     <>
       <NavigationBar />

@@ -10,11 +10,13 @@ import ModalSlice from "../reducer/ModalSlice";
 import MainModalSlice from "../reducer/MainModalSlice";
 import ToggleSlice from "../reducer/ToggleSlice";
 import UserSlice from "../reducer/UserSlice";
+import EmailVerify from "reducer/EmailVerify";
 
 import { postApi } from "../services/postApi";
 
 const reducers = combineReducers({
   user: UserSlice,
+  emailVerify: EmailVerify,
   mainModal: MainModalSlice,
   modal: ModalSlice, // 모달 창
   meetingCard: MeetingCardSlice, // 모임 카드(수정 필요)

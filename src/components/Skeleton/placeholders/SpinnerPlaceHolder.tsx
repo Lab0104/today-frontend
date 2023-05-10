@@ -19,11 +19,15 @@ const Container = styled.div`
   left: 0;
 `;
 
-const Spinner = styled.div<{ size: number | undefined }>`
+const Spinner = styled.div<{
+  size?: number | undefined;
+  top?: number | undefined;
+  left?: number | undefined;
+}>`
   box-sizing: border-box;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: ${({ top }) => (top ? top + "px" : "50%")};
+  left: ${({ left }) => (left ? left + "px" : "50%")};
   width: ${({ size }) => (size ? size : "64")}px;
   height: ${({ size }) => (size ? size : "64")}px;
   margin-top: ${({ size }) => (size ? -(size / 2) : -32)}px;
@@ -35,10 +39,18 @@ const Spinner = styled.div<{ size: number | undefined }>`
   }
 `;
 
-export default function SpinnerPlaceHolder({ size }: { size?: number }) {
+export default function SpinnerPlaceHolder({
+  size,
+  top,
+  left,
+}: {
+  size?: number;
+  top?: number;
+  left?: number;
+}) {
   return (
     <Container>
-      <Spinner size={size} />
+      <Spinner size={size} top={top} left={left} />
     </Container>
   );
 }

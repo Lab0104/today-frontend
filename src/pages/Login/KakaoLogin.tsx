@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { REST_API_KEY, REDIRECT_URI, CLIENT_SECRET } from "./dataKakaoLogin";
 import { useDispatch } from "react-redux";
-import { kakaoLogin, profileUpload } from "../../reducer/UserSlice";
+import { login } from "../../reducer/UserSlice";
 
 import SpinnerPlaceHolder from "../../components/Skeleton/placeholders/SpinnerPlaceHolder";
 import "./Login.scss";
@@ -19,42 +19,6 @@ export default function KakaoLogin() {
   const location = useLocation();
   const code = location.search.split("=")[1];
 
-  const access_token = useRef<string>("");
-
-  const TokenVerifyCheck = (token: any) => {
-    const currentUnixTime = Math.floor(new Date().getTime() / 1000);
-    console.log(token.iss === KAKAO_HOST);
-    console.log(token.aud === REST_API_KEY);
-    console.log(token.exp > currentUnixTime);
-    return (
-      token.iss === KAKAO_HOST &&
-      token.aud === REST_API_KEY &&
-      token.exp > currentUnixTime
-    );
-  };
-
-  const getUserData = async (token: string) => {
-    try {
-      const req = await fetch("https://kapi.kakao.com/v2/user/me", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const res = await req.json();
-      console.log(res);
-
-      dispatch(
-        profileUpload({
-          profileImage: res.properties.profile_image,
-        })
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const getKakaoToken = async () => {
     try {
       const req = await fetch(
@@ -68,33 +32,65 @@ export default function KakaoLogin() {
       );
       const res = await req.json();
       console.log(res);
-      access_token.current = res.access_token;
-      await getUserData(access_token.current);
 
-      const userString = decodeURIComponent(
-        escape(window.atob(res.id_token.split(".")[1]))
-      );
-      const userData = JSON.parse(userString);
-      if (TokenVerifyCheck(userData)) {
-        dispatch(
-          kakaoLogin({
-            email: userData.email,
-            nickname: userData.nickname,
-            access_token: res.access_token,
-            refresh_token: res.refresh_token,
-          })
-        );
-      }
-      console.log(userData);
+      return res;
     } catch (err) {
       console.log(err);
     }
   };
 
+  const tokenVerifyCheck = (token: any) => {
+    const currentUnixTime = Math.floor(new Date().getTime() / 1000);
+    console.log(token.iss === KAKAO_HOST);
+    console.log(token.aud === REST_API_KEY);
+    console.log(token.exp > currentUnixTime);
+    return (
+      token.iss === KAKAO_HOST &&
+      token.aud === REST_API_KEY &&
+      token.exp > currentUnixTime
+    );
+  };
+
+  const decodeToken = async (encodeToken: any) => {
+    const encoded = await encodeToken;
+    const access_token = encoded.access_token;
+    const refresh_token = encoded.refresh_token;
+    const decodeString = decodeURIComponent(
+      escape(window.atob(encoded.id_token.split(".")[1]))
+    );
+    const decodeData = {
+      ...JSON.parse(decodeString),
+      access_token,
+      refresh_token,
+    };
+    console.log(decodeData);
+
+    if (tokenVerifyCheck(decodeData)) {
+      return decodeData;
+    } else {
+      return false;
+    }
+  };
+
+  const insertUserData = async (decodedata: any) => {
+    const userData = await decodedata;
+    dispatch(
+      login({
+        email: userData.email,
+        nickname: userData.nickname,
+        profile_image: userData.picture,
+        access_token: userData.access_token,
+        refresh_token: userData.refresh_token,
+        login_method: "kakao",
+      })
+    );
+    navigate("/");
+  };
+
   useEffect(() => {
     if (!location.search) return;
-    getKakaoToken();
-    navigate("/");
+    const userData = decodeToken(getKakaoToken());
+    insertUserData(userData);
   }, []);
 
   return (

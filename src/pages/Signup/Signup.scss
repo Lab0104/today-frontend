@@ -33,6 +33,23 @@
       flex-direction: column;
       gap: 15px;
     }
+    #email-verify-input {
+      position: relative;
+      & button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #verify-time {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 90px;
+        font-size: 12px;
+        color: $color-basic-red;
+      }
+    }
 
     .buttonForm {
       display: flex;
@@ -43,7 +60,12 @@
         outline: none;
       }
 
+      #verify-button {
+        position: relative;
+      }
+
       button {
+        position: relative;
         width: calc(20% - 5px);
         transition: all 0.2s linear;
         font-size: 12px;

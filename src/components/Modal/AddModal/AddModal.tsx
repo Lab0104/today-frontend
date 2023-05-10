@@ -15,7 +15,7 @@ import {
   BsChevronUp,
 } from "react-icons/bs";
 
-import { categories } from "components/CategoryList/CategoryList";
+import { categories } from "components/CategoryList/category";
 import { useForm } from "react-hook-form";
 import DatePickerForm from "components/Assest/DatePickerForm";
 

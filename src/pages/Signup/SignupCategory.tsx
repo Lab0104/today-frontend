@@ -5,20 +5,22 @@ import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const imageSrc = [
-  { src: "/images/category/cafe.png", msg: "카페 탐방" },
-  { src: "/images/category/canvas.png", msg: "그림" },
-  { src: "/images/category/excercise.png", msg: "운동" },
-  { src: "/images/category/photography.png", msg: "사진 촬영" },
-  { src: "/images/category/restaurant.png", msg: "맛집 탐방" },
-  { src: "/images/category/studying.png", msg: "스터디" },
-  { src: "/images/category/travel-bag.png", msg: "여행" },
-  { src: "/images/category/visitors.png", msg: "전시회" },
-];
+import { categories } from "components/CategoryList/category";
+
+// const imageSrc = [
+//   { src: "/images/category/cafe.png", msg: "카페 탐방" },
+//   { src: "/images/category/canvas.png", msg: "그림" },
+//   { src: "/images/category/excercise.png", msg: "운동" },
+//   { src: "/images/category/photography.png", msg: "사진 촬영" },
+//   { src: "/images/category/restaurant.png", msg: "맛집 탐방" },
+//   { src: "/images/category/studying.png", msg: "스터디" },
+//   { src: "/images/category/travel-bag.png", msg: "여행" },
+//   { src: "/images/category/visitors.png", msg: "전시회" },
+// ];
 export default function Category() {
   const navigate = useNavigate();
   const [isClick, setIsClick] = useState(
-    Array.from({ length: imageSrc.length }).map(() => false)
+    Array.from({ length: categories.length }).map(() => false)
   );
 
   const itemClick = (e: React.MouseEvent) => {
@@ -29,23 +31,30 @@ export default function Category() {
       return arr;
     });
   };
-  const submitClick = async () => {
-    const obj = Object.assign(
-      {},
-      imageSrc.filter((image, idx) => isClick[idx]).map((object) => object.msg)
-    );
+
+  const fetchRequest = async (data: any) => {
     const req = await fetch("/api/signup/category", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(obj),
+      body: JSON.stringify(data),
     });
     const res = await req.json();
 
     if (res) {
       alert("축하합니다! 회원가입이 완료되었습니다!");
-      console.log(obj);
+      console.log(data);
       navigate("/login");
     }
+  };
+
+  const submitClick = async () => {
+    const selectedCategories = {
+      categories: categories
+        .filter((image, idx) => isClick[idx])
+        .map((item, idx) => item.name),
+    };
+
+    await fetchRequest(selectedCategories);
   };
 
   return (
@@ -53,7 +62,7 @@ export default function Category() {
       <h2>관심있는 모임을 알려주세요!</h2>
       <p>알려주신 모임을 추천해드려요</p>
       <CategoryList>
-        {imageSrc.map((item, idx) => {
+        {categories.map((item, idx) => {
           const id = String(idx);
           return (
             <CategoryItem
@@ -62,20 +71,16 @@ export default function Category() {
               css={isClick[idx] && selected}
               id={id}
             >
-              <Image src={item.src} alt="icon" id={id} />
-              <ImageMessage id={id}>{item.msg}</ImageMessage>
+              {item.icon}
+              <ImageMessage id={id}>{item.name}</ImageMessage>
             </CategoryItem>
           );
         })}
       </CategoryList>
       <Button onClick={submitClick}>선택 완료</Button>
-      <Link
-        to="/login"
-        css={nonSelect}
-        onClick={() => alert("회원가입이 완료되었습니다.")}
-      >
+      <span css={nonSelect} onClick={() => fetchRequest({ categories: [] })}>
         다음에 선택할게요
-      </Link>
+      </span>
     </Container>
   );
 }
@@ -84,10 +89,12 @@ const nonSelect = css`
   font-size: 12px;
   text-decoration: underline;
   color: gray;
+  cursor: pointer;
 `;
 
 const selected = css`
-  border: 2px solid black;
+  border: 2px solid #9747ff;
+  background-color: white;
 `;
 
 const Container = styled.div`
@@ -108,20 +115,21 @@ const CategoryList = styled.div`
 `;
 
 const CategoryItem = styled.div`
-  width: 345px;
-  height: 345px;
-  background-color: #efefef;
+  width: 250px;
+  height: 250px;
+  background-color: #eee;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
   cursor: pointer;
-`;
 
-const Image = styled.img`
-  width: 210px;
-  height: 200px;
+  & svg {
+    font-size: 35px;
+    color: #9747ff;
+  }
 `;
 const ImageMessage = styled.p`
   margin: 0;
