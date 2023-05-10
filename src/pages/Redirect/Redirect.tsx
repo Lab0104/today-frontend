@@ -36,29 +36,37 @@ export default function Redirect() {
   };
 
   const localUserDelete = async () => {
-    const req = await fetch("/api/profile/delete", {
+    console.log("localUserDelete");
+    const req = await fetch("/api/deleteUserData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: user_id,
-      }),
+      body: JSON.stringify({ param: [user_id] }),
     });
     const res = await req.json();
     console.log(res);
 
-    dispatch(logout());
-    navigate("/");
+    if (!res.protocol41) {
+      alert("회원탈퇴에 실패했습니다. 다시 시도해주세요.");
+      navigate("/profile");
+    } else {
+      alert("떠나신다니 아쉽습니다...");
+      dispatch(logout());
+      navigate("/");
+    }
   };
 
   useEffect(() => {
     if (url) window.location.href = url;
     else {
       if (type === "delete") {
+        console.log("delete!");
+        console.log(login_method);
         if (login_method === "kakao") {
           kakaoUserDelete();
+        } else if (login_method === "local") {
+          console.log("local");
+          localUserDelete();
         }
-      } else if (type === "local") {
-        localUserDelete();
       }
     }
   }, []);

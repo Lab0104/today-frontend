@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import NavigationBar from "components/NavigationBar/NavigationBar";
 
@@ -20,9 +20,10 @@ type FormValues = {
 };
 
 export default function EditProfile() {
-  const { user_id, nickname, address } = useSelector(
+  const { user_id, nickname, address, login_method } = useSelector(
     (state: { user: TypeUser }) => state.user
   );
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const {

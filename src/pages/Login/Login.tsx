@@ -32,31 +32,57 @@ export default function Login() {
   const onSubmit = async (data: FormValues) => {
     console.log(data);
     try {
-      const req = await fetch("/api/login", {
+      const req = await fetch("/api/selectLoginUserData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ param: [data.email, data.password] }),
       });
       const res = await req.json();
 
-      if (res.isSuccess) {
+      if (res.length) {
         dispatch(
           login({
-            user_id: res.user_id,
-            email: res.email,
-            address: res.address,
-            score: res.score,
-            profile_image: res.profile_image,
-            background_image: res.background_image,
-            isSaved: res.isSaved,
-            login_method: res.login_method,
-            isLogged: res.isSuccess,
+            user_id: res[0].user_id,
+            nickname: res[0].nickname,
+            email: res[0].email,
+            address: res[0].address,
+            score: res[0].score,
+            profile_image: res[0].profile_image,
+            background_image: res[0].background_image,
+            isSaved: res[0].isSaved,
+            login_method: res[0].login_method,
+            isLogged: true,
           })
         );
         navigate("/");
       } else {
-        throw new Error("잘못된 아이디 혹은 비밀번호입니다.");
+        alert("아이디 혹은 비밀번호가 틀렸습니다.");
       }
+      // const req = await fetch("/api/login", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(data),
+      // });
+      // const res = await req.json();
+
+      // if (res.isSuccess) {
+      //   dispatch(
+      //     login({
+      //       user_id: res.user_id,
+      //       email: res.email,
+      //       address: res.address,
+      //       score: res.score,
+      //       profile_image: res.profile_image,
+      //       background_image: res.background_image,
+      //       isSaved: res.isSaved,
+      //       login_method: res.login_method,
+      //       isLogged: res.isSuccess,
+      //     })
+      //   );
+      //   navigate("/");
+      // } else {
+      //   throw new Error("잘못된 아이디 혹은 비밀번호입니다.");
+      // }
     } catch (err) {
       alert(err);
     }

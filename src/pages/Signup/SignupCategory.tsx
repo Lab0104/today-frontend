@@ -40,10 +40,33 @@ export default function Category() {
     });
     const res = await req.json();
 
-    if (res) {
-      alert("축하합니다! 회원가입이 완료되었습니다!");
-      console.log(data);
-      navigate("/login");
+    if (res.status) {
+      const signup = await fetch("/api/insertUserData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          param: [
+            res.user_id,
+            res.address,
+            res.email,
+            res.login_method,
+            res.nickname,
+            res.password,
+            res.score,
+          ],
+        }),
+      });
+      const signupResponse = await signup.json();
+      console.log(signupResponse);
+
+      if (signupResponse.protocol41) {
+        alert("축하합니다! 회원가입이 완료되었습니다!");
+        console.log(res);
+        navigate("/login");
+      } else {
+        alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+        navigate("/signup");
+      }
     }
   };
 

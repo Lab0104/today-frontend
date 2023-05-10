@@ -119,11 +119,30 @@ export default function Signup() {
     });
   };
 
+  const checkSignupEmail = async (email: string) => {
+    const req = await fetch("/api/selectAllUserData", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ param: [email] }),
+    });
+    const res = await req.json();
+
+    return res;
+  };
+
   const onEmailSendClick = async () => {
     if (isVerify) return;
     const email = getValues("email");
     if (emailCheck(email)) {
       if (emailSendClick) {
+        const isPossible = await checkSignupEmail(email);
+        if (isPossible.length) {
+          setError("email", {
+            type: "already assigned email",
+            message: "이미 가입 된 이메일입니다.",
+          });
+          return;
+        }
         setIsClick(false);
         try {
           setLoading(true);

@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
 import NavigationBar from "components/NavigationBar/NavigationBar";
 
 import { Event } from "eventType";
@@ -19,17 +18,17 @@ export default function CheckPassword() {
     console.log(userPassword.current);
     console.log(location.state.user_id);
     try {
-      const req = await fetch("/api/profile/check", {
+      const req = await fetch("/api/selectIdUserData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          user_id: location.state.user_id,
-          password: userPassword.current,
+          param: [location.state.user_id, userPassword.current],
         }),
       });
       const res = await req.json();
+      console.log(res);
 
-      if (res) {
+      if (res.length) {
         if (location.state.type === "delete") {
           navigate("/redirect", { state: { type: "delete" } });
         } else {
