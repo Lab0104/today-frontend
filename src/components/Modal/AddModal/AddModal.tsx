@@ -18,10 +18,16 @@ import {
 import { categories } from "components/CategoryList/CategoryList";
 import { useForm } from "react-hook-form";
 import DatePickerForm from "components/Assest/DatePickerForm";
+import { ReceiveMeetingData } from "store/MeetingDB";
+import { addData } from "reducer/DisplayMeetingSlice";
+
+import moment from "moment";
+import { saveData } from "reducer/KakaoMapSlice";
 
 type FormValues = {
   user_nicname: string; //작성자 닉네임
   date: string; //모임 날짜
+  endDate: string;
   deadline: string; //모임 마감 날짜
   maximum_participants: number; //모집 정원
   address: string; //주소
@@ -32,12 +38,15 @@ type FormValues = {
   title: string; //제목
   sub_title: string; //소제목
   contnets: string; //모임 소개
+  tag1: string;
+  tag2: string;
+  tag3: string;
 };
 
 const AddModal = () => {
   const dispatch = useDispatch();
 
-  const [address, setAddress] = useState("주소");
+  const [address, setAddress] = useState<string>("");
   const [category, setCategory] = useState("모임 카테고리");
   const [view, setView] = useState(false);
 
@@ -120,14 +129,29 @@ const AddModal = () => {
   };
 
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
+    const categoryArray = category.split(">");
 
     dispatch(closeModal());
     dispatch(toggleButtons({ idx: 3 }));
 
-    // Geocoder(data.address)
-    //   .then((result) => console.log(result))
-    //   .catch((error) => console.error(error));
+    const dataArray: ReceiveMeetingData = {
+      meeting_id: -1,
+      large_category: categoryArray[0],
+      category: categoryArray[1],
+      title: data.title,
+      address: data.address,
+      status: "모집 중",
+      startDate: moment(data.date).format("YY.MM.DD HH:mm"),
+      endDate: moment(data.endDate).format("HH:mm"),
+      deadLine: moment(data.deadline).format("YY.MM.DD HH:mm"),
+      tag: [data.tag1, data.tag2, data.tag3],
+      like: false,
+
+      error: false,
+    };
+
+    dispatch(addData({ data: dataArray }));
+    dispatch(saveData());
   };
 
   return (
@@ -205,8 +229,9 @@ const AddModal = () => {
                   type="text"
                   onClick={onAddressClick}
                   value={address}
+                  placeholder="주소"
                   readOnly
-                  {...register("address")}
+                  {...register("address", { required: true })}
                 />
                 {/* <input type="text" placeholder="상세주소" /> */}
               </div>
@@ -226,10 +251,9 @@ const AddModal = () => {
                 {...register("contnets")}
               ></textarea>
               <div className="tag">
-                <input placeholder="#태그" />
-                <input placeholder="#태그" />
-                <input placeholder="#태그" />
-                <input placeholder="#태그" />
+                <input placeholder="#태그" {...register("tag1")} />
+                <input placeholder="#태그" {...register("tag2")} />
+                <input placeholder="#태그" {...register("tag3")} />
               </div>
             </div>
           </div>
