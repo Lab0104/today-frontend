@@ -22,24 +22,36 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.user_id = action.payload.user_id ? action.payload.user_id : 0;
-      state.email = action.payload.email
-        ? action.payload.email
-        : "이메일을 등록해주세요";
+      state.user_id = action.payload.user_id
+        ? action.payload.user_id
+        : state.user_id;
+      state.email = action.payload.email ? action.payload.email : state.email;
       state.nickname = action.payload.nickname
         ? action.payload.nickname
-        : "닉네임을 등록해주세요";
+        : state.nickname;
       state.address = action.payload.address
         ? action.payload.address
-        : "주소지를 등록해주세요";
-      state.score = action.payload.score ? action.payload.score : 0;
-      state.profile_image = action.payload.profile_image;
-      state.background_image = action.payload.background_image;
-      state.isSaved = action.payload.isSaved;
+        : state.address;
+      state.score = action.payload.score ? action.payload.score : state.score;
+      state.profile_image = action.payload.profile_image
+        ? action.payload.profile_image
+        : state.profile_image;
+      state.background_image = action.payload.background_image
+        ? action.payload.background_image
+        : state.background_image;
+      state.isSaved = action.payload.isSaved
+        ? action.payload.isSaved
+        : state.isSaved;
       state.isLogged = true;
-      state.login_method = action.payload.login_method;
-      state.access_token = action.payload.access_token;
-      state.refresh_token = action.payload.refresh_token;
+      state.login_method = action.payload.login_method
+        ? action.payload.login_method
+        : state.login_method;
+      state.access_token = action.payload.access_token
+        ? action.payload.access_token
+        : state.access_token;
+      state.refresh_token = action.payload.refresh_token
+        ? action.payload.refresh_token
+        : state.refresh_token;
     },
     logout: (state) => {
       state.user_id = 0;
@@ -68,7 +80,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login, logout, profileUpload, backgroundUpload } =
+export const { login, logout, profileUpload, backgroundUpload, updateProfile } =
   userSlice.actions;
 
 export default userSlice.reducer;

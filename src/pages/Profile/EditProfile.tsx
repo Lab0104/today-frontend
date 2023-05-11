@@ -7,7 +7,7 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 import { useSelector, useDispatch } from "react-redux";
 
 import NavigationBar from "components/NavigationBar/NavigationBar";
-
+import { updateProfile } from "reducer/UserSlice";
 import { TypeUser } from "userTypes";
 import "./EditProfile.scss";
 
@@ -20,7 +20,7 @@ type FormValues = {
 };
 
 export default function EditProfile() {
-  const { user_id, nickname, address, login_method } = useSelector(
+  const { user_id, nickname, address } = useSelector(
     (state: { user: TypeUser }) => state.user
   );
   const dispatch = useDispatch();
@@ -45,14 +45,28 @@ export default function EditProfile() {
   const onSubmit = async (data: FormValues) => {
     console.log(data);
     try {
-      const req = await fetch("/api/profile/edit", {
+      const req = await fetch("/api/updateUserData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id, ...data }),
+        body: JSON.stringify({
+          param: [
+            data.nickname,
+            data.password,
+            data.address + " " + data.detail_address,
+            user_id,
+          ],
+        }),
       });
       const isEdit = await req.json();
       console.log(isEdit);
-      if (isEdit.edit_status) {
+
+      if (isEdit.protocol41) {
+        dispatch(
+          updateProfile({
+            nickname: data.nickname,
+            address: data.address + " " + data.detail_address,
+          })
+        );
         alert("개인정보 수정이 완료되었습니다.");
         navigate("/profile");
       }
