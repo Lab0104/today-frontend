@@ -456,7 +456,7 @@ function MapPage() {
           </Link>
         </div>
 
-        {!toggleIcon ? (
+        {!toggleIcon || vhSize > 768 ? (
           <div className="zoom">
             <button
               className={toggleLocation ? "selected" : ""}
