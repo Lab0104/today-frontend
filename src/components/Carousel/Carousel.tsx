@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
-import { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import "./Carousel.scss";
 
-const banners = [
+const items = [
   "images/kakao_login_buttons/kakao_login_large_wide.png",
   "images/kakao_login_buttons/kakao_login_large_wide.png",
   "images/kakao_login_buttons/kakao_login_large_wide.png",
@@ -18,56 +18,56 @@ export default function Carousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleNext = useCallback(() => {
-    setActiveIndex((prev) => (activeIndex + 1) % banners.length);
+  const onNextClick = useCallback(() => {
+    setActiveIndex((prev) => (activeIndex + 1) % items.length);
   }, [activeIndex]);
-  const handlePrev = () => {
-    setActiveIndex((prev) =>
-      prev === 0 ? prev - 1 + banners.length : prev - 1
-    );
+  const onPrevClick = () => {
+    setActiveIndex((prev) => (prev === 0 ? prev - 1 + items.length : prev - 1));
   };
-
-  const handleMouseEnter = () => setIsFocused(true);
-  const handleMouseLeave = () => setIsFocused(false);
-
-  const goTo = (index: number) => {
+  const onNavIndexClick = (index: number) => {
     setActiveIndex(index);
   };
+
+  const onMouseFocus = (isFocused: boolean) => setIsFocused(isFocused);
 
   useEffect(() => {
     let interval: number | undefined;
     if (!isFocused) {
-      interval = window.setInterval(handleNext, 3000);
+      interval = window.setInterval(onNextClick, 3000);
     }
     return () => {
       window.clearInterval(interval);
     };
-  }, [isFocused, handleNext]);
+  }, [isFocused, onNextClick]);
 
   return (
     <div
       className="carousel-container"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => onMouseFocus(true)}
+      onMouseLeave={() => onMouseFocus(false)}
     >
       <div className="content">
-        <button className="leftArrowButton" onClick={handlePrev}>
+        <button className="leftArrowButton" onClick={onPrevClick}>
           <RiArrowDropLeftLine style={{ color: "black" }} />
         </button>
         <ul className="itemList">
-          {banners.map((banner, index) => (
+          {items.map((item, index) => (
             <CarouselListItem activeIndex={activeIndex} key={index}>
-              <img src={banner} alt="이미지" />
+              <img src={item} alt="이미지" />
             </CarouselListItem>
           ))}
         </ul>
-        <button className="rightArrowButton" onClick={handleNext}>
+        <button className="rightArrowButton" onClick={onNextClick}>
           <RiArrowDropRightLine />
         </button>
       </div>
       <ul className="nav">
-        {Array.from({ length: banners.length }).map((_, index) => (
-          <li className="navItem" key={index} onClick={() => goTo(index)}>
+        {Array.from({ length: items.length }).map((_, index) => (
+          <li
+            className="navItem"
+            key={index}
+            onClick={() => onNavIndexClick(index)}
+          >
             <NavButton isActive={activeIndex === index} />
           </li>
         ))}

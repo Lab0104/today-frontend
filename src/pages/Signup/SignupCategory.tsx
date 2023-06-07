@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { categories } from "components/CategoryList/category";
@@ -19,6 +19,8 @@ import { categories } from "components/CategoryList/category";
 // ];
 export default function Category() {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  console.log(state);
   const [isClick, setIsClick] = useState(
     Array.from({ length: categories.length }).map(() => false)
   );
@@ -33,10 +35,10 @@ export default function Category() {
   };
 
   const fetchRequest = async (data: any) => {
-    const req = await fetch("/api/signup/category", {
+    const req = await fetch("/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, ...state }),
     });
     const res = await req.json();
 
@@ -56,6 +58,13 @@ export default function Category() {
 
     await fetchRequest(selectedCategories);
   };
+
+  useEffect(() => {
+    if (!state) {
+      alert("잘못 된 접근입니다.");
+      navigate("/");
+    }
+  }, []);
 
   return (
     <Container>

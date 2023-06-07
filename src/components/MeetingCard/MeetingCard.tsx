@@ -22,6 +22,7 @@ const MeetingCard = React.memo(({ list, currentTime }: meetingProps) => {
   const { isLogged } = useSelector((state: { user: TypeUser }) => state.user);
   console.log("meetingCard");
   const {
+    meet_id,
     title,
     maximum_participants,
     registered_participants_count,
@@ -49,7 +50,7 @@ const MeetingCard = React.memo(({ list, currentTime }: meetingProps) => {
             <span>{Object.keys(category)}</span>
           </div>
 
-          {isLogged && <LikeButton likeProp={list?.like} />}
+          {isLogged && <LikeButton meet_id={meet_id} likeProp={list?.like} />}
         </div>
         <span className="meeting-title" onClick={openModalOnClick}>
           {title}

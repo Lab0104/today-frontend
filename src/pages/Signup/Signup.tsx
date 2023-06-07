@@ -65,19 +65,7 @@ export default function Signup() {
       });
       return;
     }
-    try {
-      const req = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const isSignup = await req.json();
-      if (isSignup) {
-        navigate("/signup/category");
-      }
-    } catch (err) {
-      alert(err);
-    }
+    navigate("/signup/category", { state: data });
   };
 
   const open = useDaumPostcodePopup();
@@ -134,6 +122,11 @@ export default function Signup() {
           });
           const isValid = await req.json();
           console.log(isValid);
+          if (isValid.status === "Fail") {
+            alert("이미 가입 된 이메일입니다.");
+            setLoading(false);
+            return;
+          }
           verifyNumber.current = isValid?.authNumber;
           if (emailVerifyForm.current) {
             emailVerifyForm.current.style.display = "flex";

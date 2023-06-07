@@ -1,6 +1,6 @@
 declare module "userTypes" {
   export type TypeUser = {
-    user_id: number;
+    user_id: string;
     email?: string;
     nickname?: string;
     address?: string;
@@ -15,7 +15,7 @@ declare module "userTypes" {
   };
 
   export type TypeProfile = {
-    user_id: number;
+    user_id: string;
     email: string;
     nickname: string;
     user_address: string;

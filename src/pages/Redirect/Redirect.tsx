@@ -36,12 +36,8 @@ export default function Redirect() {
   };
 
   const localUserDelete = async () => {
-    const req = await fetch("/api/profile/delete", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: user_id,
-      }),
+    const req = await fetch(`/api/users/${user_id}`, {
+      method: "DELETE",
     });
     const res = await req.json();
     console.log(res);
@@ -56,9 +52,10 @@ export default function Redirect() {
       if (type === "delete") {
         if (login_method === "kakao") {
           kakaoUserDelete();
+        } else if (login_method === "local") {
+          console.log("local delete");
+          localUserDelete();
         }
-      } else if (type === "local") {
-        localUserDelete();
       }
     }
   }, []);

@@ -1,109 +1,116 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
-
 import "./Carousel.scss";
 
-const colors = ["#e4e4e4", "red", "green", "yellow", "black", "white"];
+// 배너 이미지 리스트 및 배너 배경 색 리스트
+interface Props {
+  bannerList: string[];
+  backgroundColorList: string[];
+}
 
-const banners = [
-  "images/banner/banner1.png",
-  "images/banner/banner2.png",
-  "images/banner/banner3.png",
-  "images/banner/banner4.png",
-];
+const MainBannerCarousel = React.memo(
+  ({ bannerList, backgroundColorList }: Props) => {
+    const navigate = useNavigate();
+    const bannerInterval = useRef<number | undefined>();
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [isFocused, setIsFocused] = useState(false);
 
-const MainBannerCarousel = React.memo(() => {
-  const navigate = useNavigate();
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleNext: React.MouseEventHandler<HTMLButtonElement> = useCallback(
-    (e) => {
-      if (e) e.stopPropagation();
-      setActiveIndex((prev) => (activeIndex + 1) % banners.length);
-    },
-    [activeIndex]
-  );
-  const handlePrev: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
-    setActiveIndex((prev) =>
-      prev === 0 ? prev - 1 + banners.length : prev - 1
+    const onNextClick: React.MouseEventHandler<HTMLButtonElement> = useCallback(
+      (e) => {
+        if (e) e.stopPropagation();
+        setActiveIndex((activeIndex + 1) % bannerList.length);
+      },
+      [activeIndex, bannerList]
     );
-  };
+    const onPrevClick: React.MouseEventHandler<HTMLButtonElement> = useCallback(
+      (e) => {
+        e.stopPropagation();
+        setActiveIndex((prev) =>
+          prev === 0 ? prev - 1 + bannerList.length : prev - 1
+        );
+      },
+      [bannerList]
+    );
+    const onBannerClick: React.MouseEventHandler<HTMLLIElement> = useCallback(
+      (e) => {
+        const value = e.currentTarget.value;
+        navigate("/notice", { state: { value } });
+      },
+      [navigate]
+    );
+    const onNavIndexClick: React.MouseEventHandler<HTMLLIElement> = useCallback(
+      (e) => {
+        setActiveIndex(e.currentTarget.value);
+        e.stopPropagation();
+      },
+      []
+    );
 
-  const handleMouseEnter = () => setIsFocused(true);
-  const handleMouseLeave = () => setIsFocused(false);
+    const onMouseFocus = useCallback((isFocused: boolean) => {
+      setIsFocused(isFocused);
+    }, []);
 
-  const handleContentClick: React.MouseEventHandler<HTMLLIElement> = (e) => {
-    const value = e.currentTarget.value;
-    navigate("/notice", { state: { value } });
-  };
-  const handleNavClick: React.MouseEventHandler<HTMLLIElement> = (e) => {
-    setActiveIndex(e.currentTarget.value);
-    e.stopPropagation();
-  };
+    useEffect(() => {
+      if (!isFocused) {
+        bannerInterval.current = window.setInterval(onNextClick, 3000);
+      }
+      return () => {
+        window.clearInterval(bannerInterval.current);
+      };
+    }, [isFocused, onNextClick]);
 
-  useEffect(() => {
-    let interval: number | undefined;
-    if (!isFocused) {
-      interval = window.setInterval(handleNext, 3000);
-    }
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, [isFocused, handleNext]);
-
-  return (
-    <div
-      className="carousel-container"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="content" style={{ cursor: "pointer" }}>
-        <button className="bannerLeftArrowButton" onClick={handlePrev}>
-          <RiArrowDropLeftLine />
-        </button>
-        <ul className="itemList">
-          {banners.map((banner, index) => (
-            <CarouselListItem
+    return (
+      <div
+        className="carousel-container"
+        onMouseEnter={() => onMouseFocus(true)}
+        onMouseLeave={() => onMouseFocus(false)}
+      >
+        <div className="content" style={{ cursor: "pointer" }}>
+          <button className="bannerLeftArrowButton" onClick={onPrevClick}>
+            <RiArrowDropLeftLine />
+          </button>
+          <ul className="itemList">
+            {bannerList.map((banner, index) => (
+              <CarouselListItem
+                key={index}
+                src={banner}
+                activeIndex={activeIndex}
+                backgroundColorList={backgroundColorList}
+                onClick={onBannerClick}
+              >
+                <Item>
+                  <h1>내일 하루</h1>
+                  <span>내일 하루를 특별하게 보내는 방법!</span>
+                  <span>124개의 모임이 열리고 있어요!</span>
+                  <span>모임을 만들고 참여해보세요!</span>
+                </Item>
+              </CarouselListItem>
+            ))}
+          </ul>
+          <button className="bannerRightArrowButton" onClick={onNextClick}>
+            <RiArrowDropRightLine />
+          </button>
+        </div>
+        <ul className="nav" css={navStyle}>
+          {Array.from({ length: bannerList.length }).map((_, index) => (
+            <li
+              className="navItem"
               key={index}
               value={index}
-              src={banner}
-              activeIndex={activeIndex}
-              onClick={handleContentClick}
+              onClick={onNavIndexClick}
             >
-              <Item>
-                <h1>내일 하루</h1>
-                <span>내일 하루를 특별하게 보내는 방법!</span>
-                <span>124개의 모임이 열리고 있어요!</span>
-                <span>모임을 만들고 참여해보세요!</span>
-              </Item>
-            </CarouselListItem>
+              <NavButton isActive={activeIndex === index} />
+            </li>
           ))}
         </ul>
-        <button className="bannerRightArrowButton" onClick={handleNext}>
-          <RiArrowDropRightLine />
-        </button>
       </div>
-      <ul className="nav" css={navStyle}>
-        {Array.from({ length: banners.length }).map((_, index) => (
-          <li
-            className="navItem"
-            key={index}
-            value={index}
-            onClick={handleNavClick}
-          >
-            <NavButton isActive={activeIndex === index} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-});
+    );
+  }
+);
 
 const navStyle = css`
   position: absolute;
@@ -112,10 +119,15 @@ const navStyle = css`
   background-color: white;
   opacity: 0.5;
 `;
-const CarouselListItem = styled.li<{ activeIndex: number; src: string }>`
+const CarouselListItem = styled.li<{
+  activeIndex: number;
+  src: string;
+  backgroundColorList: string[];
+}>`
   position: relative;
   padding-top: 35%;
-  background-color: ${({ activeIndex }) => colors[activeIndex]};
+  background-color: ${({ activeIndex, backgroundColorList }) =>
+    backgroundColorList[activeIndex]};
   background-repeat: no-repeat;
   flex: 1 0 100%;
   transform: translateX(-${({ activeIndex }) => activeIndex * 100}%);

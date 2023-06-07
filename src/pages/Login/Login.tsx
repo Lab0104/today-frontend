@@ -7,7 +7,6 @@ import { login } from "../../reducer/UserSlice";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import { REDIRECT_URI, REST_API_KEY } from "./dataKakaoLogin";
 import "./Login.scss";
 
 type FormValues = {
@@ -21,7 +20,7 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_LOGIN_API_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_LOGIN_API_REDIRECT_URI}&response_type=code`;
 
   const {
     register,
@@ -38,11 +37,13 @@ export default function Login() {
         body: JSON.stringify(data),
       });
       const res = await req.json();
+      console.log(res);
 
       if (res.isSuccess) {
         dispatch(
           login({
             user_id: res.user_id,
+            nickname: res.nickname,
             email: res.email,
             address: res.address,
             score: res.score,

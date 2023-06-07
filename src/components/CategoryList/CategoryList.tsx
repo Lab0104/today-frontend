@@ -13,28 +13,27 @@ const clickOnStyle = css`
 
 const CategoryList = React.memo(() => {
   const navigate = useNavigate();
-  const [categoriesStatus, setCategoriesStatus] = useState(
+  const [statusCategories, setStatusCategories] = useState(
     categories.map(() => false)
   );
-  const [index, setIndex] = useState<number | undefined>(undefined);
-  const subCategoryToggle = useMemo<boolean | undefined>(() => {
-    return index === 0 || index ? true : false;
+  const [index, setIndex] = useState<number>(-1);
+  const toggleCategoty = useMemo<boolean>(() => {
+    return index >= 0 ? true : false;
   }, [index]);
 
   const handleItemClick = (idx: number) => {
-    setIndex((prev) => (prev === idx ? undefined : idx));
-    setCategoriesStatus((prev) => {
-      let arr = [...prev];
-      const trueIndex = arr.findIndex((item) => item);
+    setIndex((prev) => (prev === idx ? -1 : idx));
+    setStatusCategories((prev) => {
+      const trueIndex = prev.findIndex((item) => item);
       if (trueIndex !== -1) {
-        arr[trueIndex] = false;
+        prev[trueIndex] = false;
         if (trueIndex !== idx) {
-          arr[idx] = !arr[idx];
+          prev[idx] = !prev[idx];
         }
       } else {
-        arr[idx] = !arr[idx];
+        prev[idx] = !prev[idx];
       }
-      return arr;
+      return prev;
     });
   };
   const handleSubItemClick = (item: string) => {
@@ -55,7 +54,7 @@ const CategoryList = React.memo(() => {
             >
               <div
                 className="item-icon"
-                css={categoriesStatus[idx] && clickOnStyle}
+                css={statusCategories[idx] && clickOnStyle}
               >
                 {category.icon}
               </div>
@@ -63,13 +62,9 @@ const CategoryList = React.memo(() => {
             </div>
           ))}
       </div>
-      <div
-        className={
-          subCategoryToggle ? "sub-category" : "sub-category sub-category-close"
-        }
-      >
-        {(index || index === 0) &&
-          categories[index].list.map((item, idx) => (
+      {toggleCategoty && (
+        <div className="sub-category">
+          {categories[index].list.map((item, idx) => (
             <div
               key={idx}
               className="sub-item"
@@ -78,7 +73,8 @@ const CategoryList = React.memo(() => {
               {item}
             </div>
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 });

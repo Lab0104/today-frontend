@@ -15,7 +15,6 @@ import { logout } from "../../reducer/UserSlice";
 
 import _ from "lodash";
 
-import { REST_API_KEY, LOGOUT_REDIRECT_URI } from "pages/Login/dataKakaoLogin";
 import { Event } from "eventType";
 import { TypeUser } from "userTypes";
 import "./NavigationBar.scss";
@@ -76,7 +75,7 @@ const NavigationBar = React.memo(() => {
   );
   const dispatch = useDispatch();
 
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`;
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_KAKAO_LOGIN_API_REST_API_KEY}&logout_redirect_uri=${process.env.REACT_APP_KAKAO_LOGIN_API_LOGOUT_REDIRECT_URI}`;
 
   const [dropdownToggle, setDropdownToggle] = useState(false);
   const [searchContext, setSearchContext] = useState("");

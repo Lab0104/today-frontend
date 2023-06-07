@@ -76,41 +76,75 @@ export default function Profile() {
   const kindOfImage = useRef<String>("");
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const onEditProfileClick = () =>
+  const imageFetch = async (url: string, type: string) => {
+    try {
+      const req = await fetch("/api/users/image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          url: url,
+          type: type,
+        }),
+      });
+      const res = await req.json();
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onEditProfileClick = () => {
     navigate("/profile/check_password", { state: { user_id: userId } });
+  };
   const onImageSettingClick: Event<"div", "onClick"> = (e) => {
     kindOfImage.current = e.currentTarget.id;
     console.log(e.currentTarget.id);
     return fileInput.current && fileInput.current.click();
   };
   const profileImageChange: Event<"input", "onChange"> = async (e) => {
-    const formData = new FormData();
-    if (e.target.files) {
-      formData.append("file", e?.target.files[0]);
-    }
-    for (const data of formData) console.log(data);
+    if (fileInput.current?.files) {
+      const url = URL.createObjectURL(fileInput.current.files[0]);
+      console.log(url);
 
-    const reader = new FileReader();
-    if (fileInput.current) {
-      fileInput.current.files &&
-        reader.readAsDataURL(fileInput.current.files[0]);
-      reader.onloadend = () => {
-        if (reader.result) {
-          if (kindOfImage.current === "profile") {
-            dispatch(
-              profileUpload({
-                profileImage: reader.result,
-              })
-            );
-          } else if (kindOfImage.current === "background") {
-            dispatch(
-              backgroundUpload({
-                backgroundImage: reader.result,
-              })
-            );
-          }
-        }
-      };
+      if (kindOfImage.current === "profile") {
+        await imageFetch(url, "profile");
+        dispatch(
+          profileUpload({
+            profile_image: url,
+          })
+        );
+      } else {
+        await imageFetch(url, "background");
+        dispatch(
+          backgroundUpload({
+            background_image: url,
+          })
+        );
+      }
+      // Base64 인코딩까지 처리하는 FileReader 방식
+      // const reader = new FileReader();
+      // reader.readAsDataURL(fileInput.current.files[0]);
+      // reader.onloadend = () => {
+      //   console.log(reader.result);
+      //   if (reader.result) {
+      //     if (kindOfImage.current === "profile") {
+      //       console.log("profile upload!");
+      //       dispatch(
+      //         profileUpload({
+      //           profile_image: reader.result,
+      //         })
+      //       );
+      //     } else if (kindOfImage.current === "background") {
+      //       console.log("background upload!");
+      //       dispatch(
+      //         backgroundUpload({
+      //           background_image: reader.result,
+      //         })
+      //       );
+      //     }
+      //   }
+      // };
     }
   };
 

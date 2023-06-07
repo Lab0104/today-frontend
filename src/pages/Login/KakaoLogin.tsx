@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { REST_API_KEY, REDIRECT_URI, CLIENT_SECRET } from "./dataKakaoLogin";
 import { useDispatch } from "react-redux";
 import { login } from "../../reducer/UserSlice";
 
@@ -9,6 +8,9 @@ import "./Login.scss";
 // import { TypeUser } from "userTypes";
 
 const KAKAO_HOST = "https://kauth.kakao.com";
+const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_LOGIN_API_REST_API_KEY;
+const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_LOGIN_API_REDIRECT_URI;
+const KAKAO_CLIENT_SECRET = process.env.REACT_APP_KAKAO_LOGIN_API_CLIENT_SECRET;
 
 export default function KakaoLogin() {
   const dispatch = useDispatch();
@@ -22,7 +24,7 @@ export default function KakaoLogin() {
   const getKakaoToken = async () => {
     try {
       const req = await fetch(
-        `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}&client_secret=${CLIENT_SECRET}`,
+        `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&code=${code}&client_secret=${KAKAO_CLIENT_SECRET}`,
         {
           method: "POST",
           headers: {
@@ -42,11 +44,11 @@ export default function KakaoLogin() {
   const tokenVerifyCheck = (token: any) => {
     const currentUnixTime = Math.floor(new Date().getTime() / 1000);
     console.log(token.iss === KAKAO_HOST);
-    console.log(token.aud === REST_API_KEY);
+    console.log(token.aud === KAKAO_REST_API_KEY);
     console.log(token.exp > currentUnixTime);
     return (
       token.iss === KAKAO_HOST &&
-      token.aud === REST_API_KEY &&
+      token.aud === KAKAO_REST_API_KEY &&
       token.exp > currentUnixTime
     );
   };
@@ -88,6 +90,7 @@ export default function KakaoLogin() {
   };
 
   useEffect(() => {
+    console.log(KAKAO_REST_API_KEY);
     if (!location.search) return;
     const userData = decodeToken(getKakaoToken());
     insertUserData(userData);

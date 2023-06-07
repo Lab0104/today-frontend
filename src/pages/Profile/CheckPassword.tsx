@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import NavigationBar from "components/NavigationBar/NavigationBar";
@@ -7,7 +7,7 @@ import { Event } from "eventType";
 import "./Profile.scss";
 
 export default function CheckPassword() {
-  const location = useLocation();
+  const { state } = useLocation();
   const navigate = useNavigate();
   const userPassword = useRef("");
 
@@ -17,20 +17,21 @@ export default function CheckPassword() {
 
   const onSubmitClick = async () => {
     console.log(userPassword.current);
-    console.log(location.state.user_id);
+    console.log(state.user_id);
     try {
-      const req = await fetch("/api/profile/check", {
+      const req = await fetch("/api/auth/password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          user_id: location.state.user_id,
+          user_id: state.user_id,
           password: userPassword.current,
         }),
       });
       const res = await req.json();
+      console.log(res);
 
-      if (res) {
-        if (location.state.type === "delete") {
+      if (res.status === "Success") {
+        if (state.type === "delete") {
           navigate("/redirect", { state: { type: "delete" } });
         } else {
           navigate("/profile/edit");
@@ -44,7 +45,14 @@ export default function CheckPassword() {
     }
   };
 
-  return location.state ? (
+  useEffect(() => {
+    if (!state) {
+      alert("잘못 된 접근입니다.");
+      navigate("/");
+    }
+  }, []);
+
+  return (
     <>
       <NavigationBar />
       <div className="profile-container">
@@ -58,7 +66,5 @@ export default function CheckPassword() {
         </div>
       </div>
     </>
-  ) : (
-    <div>잘못 된 접근입니다. Not Found 404</div>
   );
 }

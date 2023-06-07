@@ -9,13 +9,28 @@ import MeetingCarousel from "../../components/Carousel/MeetingCarousel";
 import Footer from "components/Footer/Footer";
 
 import { getCurrentTimeToNumber } from "utils/time";
-import { useGetPostQuery } from "services/postApi";
 
 import { TypeMeetingData } from "mainPageTypes";
 import { TypeUser } from "userTypes";
 import "./Main.scss";
 import { meetingApi } from "store/MeetingDB";
 import EditorPick from "components/EditorPick/EditorPick";
+import { useMeetingQuery } from "hooks/Queries/useMeetingQuery";
+
+const banners = [
+  "images/banner/banner1.png",
+  "images/banner/banner2.png",
+  "images/banner/banner3.png",
+  "images/banner/banner4.png",
+];
+const bannerBackgroundColorList = [
+  "#e4e4e4",
+  "red",
+  "green",
+  "yellow",
+  "black",
+  "white",
+];
 
 export default function Main() {
   console.log("main");
@@ -24,55 +39,36 @@ export default function Main() {
   const { user_id: userId, isLogged } = useSelector(
     (state: { user: TypeUser }) => state.user
   );
+
   const {
     data: meetingData,
     isLoading: meetingLoading,
-    error: meetingError,
-  } = useGetPostQuery({
-    name: isLogged ? `meetings/login?user_id=${userId}` : "meetings",
-  });
+    isError: meetingError,
+  } = useMeetingQuery(userId);
+
+  const selectApi = () => (meetingError ? meetingApi : meetingData);
 
   if (meetingLoading) {
     console.log("loading!");
     return <MainPlaceHolder />;
   }
-  if (meetingError) {
-    console.log("error!");
-    return (
-      <>
-        <NavigationBar />
-        <div className="main-container">
-          <MainBannerCarousel />
-          <CategoryList />
-          <EditorPick />
-          <Advertisement />
-          {meetingApi.map((meeting: TypeMeetingData, idx: number) => (
-            <div className="meetingList" key={idx}>
-              <p className="list-title">{meeting.title}</p>
-              <MeetingCarousel list={meeting.list} currentTime={currentTime} />
-            </div>
-          ))}
-        </div>
-        <Footer />
-      </>
-    );
-  }
-
   return (
     <>
       <NavigationBar />
       <div className="main-container">
-        <MainBannerCarousel />
+        <MainBannerCarousel
+          bannerList={banners}
+          backgroundColorList={bannerBackgroundColorList}
+        />
         <CategoryList />
         <EditorPick />
-        <Advertisement />
-        {meetingData &&
-          meetingData.map((meeting: TypeMeetingData, idx: number) => (
-            <div className="meetingList" key={idx}>
-              <p className="list-title">{meeting.title}</p>
-              <MeetingCarousel list={meeting.list} currentTime={currentTime} />
-            </div>
-          ))}
+        <Advertisement url="/images/advertisement/advertisement1.png" />
+        {selectApi().map((meeting: TypeMeetingData, idx: number) => (
+          <div className="meetingList" key={idx}>
+            <p className="list-title">{meeting.title}</p>
+            <MeetingCarousel list={meeting.list} currentTime={currentTime} />
+          </div>
+        ))}
       </div>
       <Footer loginStatus={isLogged} />
     </>

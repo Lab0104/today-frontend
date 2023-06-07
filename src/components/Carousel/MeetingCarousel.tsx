@@ -10,12 +10,12 @@ import MeetingCard from "components/MeetingCard/MeetingCard";
 import { TypeMeetingList } from "mainPageTypes";
 import "./Carousel.scss";
 
-interface carouselProps {
+interface Props {
   list: TypeMeetingList[];
   currentTime: number;
 }
 
-const MeetingCarousel = React.memo(({ list, currentTime }: carouselProps) => {
+const MeetingCarousel = React.memo(({ list, currentTime }: Props) => {
   console.log("meetingCarousel");
   const itemCount = useItemCountCarousel();
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -24,7 +24,7 @@ const MeetingCarousel = React.memo(({ list, currentTime }: carouselProps) => {
       list.length % itemCount === 0
         ? list.length / itemCount
         : Math.floor(list.length / itemCount) + 1,
-    [list.length, itemCount]
+    [list, itemCount]
   );
 
   const resetActiveIndex = useCallback(
@@ -36,17 +36,17 @@ const MeetingCarousel = React.memo(({ list, currentTime }: carouselProps) => {
     [navItemCount]
   );
 
-  const handleNext = useCallback(() => {
-    setActiveIndex((prev) => (activeIndex + 1) % navItemCount);
+  const onNextClick = useCallback(() => {
+    setActiveIndex((activeIndex + 1) % navItemCount);
   }, [activeIndex, navItemCount]);
 
-  const handlePrev = useCallback(() => {
+  const onPrevClick = useCallback(() => {
     setActiveIndex((prev) => (prev === 0 ? prev - 1 + navItemCount : prev - 1));
   }, [navItemCount]);
 
-  const goTo = (index: number) => {
+  const onNavIndexClick = useCallback((index: number) => {
     setActiveIndex(index);
-  };
+  }, []);
 
   useEffect(() => {
     resetActiveIndex(activeIndex);
@@ -55,7 +55,7 @@ const MeetingCarousel = React.memo(({ list, currentTime }: carouselProps) => {
   return (
     <div className="carousel-container">
       <div className="content">
-        <button className="meetingLeftArrowButton" onClick={handlePrev}>
+        <button className="meetingLeftArrowButton" onClick={onPrevClick}>
           <RiArrowDropLeftLine />
         </button>
         <ul className="itemList" css={itemListStyle}>
@@ -70,13 +70,17 @@ const MeetingCarousel = React.memo(({ list, currentTime }: carouselProps) => {
               ))}
           </CarouselContainer>
         </ul>
-        <button className="meetingRightArrowButton" onClick={handleNext}>
+        <button className="meetingRightArrowButton" onClick={onNextClick}>
           <RiArrowDropRightLine />
         </button>
       </div>
       <ul className="nav">
         {Array.from({ length: navItemCount }).map((_, index) => (
-          <li className="navItem" key={index} onClick={() => goTo(index)}>
+          <li
+            className="navItem"
+            key={index}
+            onClick={() => onNavIndexClick(index)}
+          >
             <NavButton isActive={activeIndex === index} />
           </li>
         ))}

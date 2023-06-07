@@ -21,12 +21,12 @@ const backButtonStyle = css`
 
 export default function ModalMeeting() {
   const dispatch = useDispatch();
+  const currentTime = getCurrentTimeToNumber();
+
   const { isLogged } = useSelector((state: { user: TypeUser }) => state.user);
   const { modalContent } = useSelector(
     (state: { mainModal: TypeModalState }) => state.mainModal
   );
-
-  const currentTime = getCurrentTimeToNumber();
 
   const meetingStatus = () => {
     if (modalContent) {
@@ -107,7 +107,10 @@ export default function ModalMeeting() {
 
             {isLogged && (
               <button>
-                <LikeButton likeProp={modalContent?.like} />
+                <LikeButton
+                  meet_id={modalContent.meet_id}
+                  likeProp={modalContent?.like}
+                />
               </button>
             )}
 

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { TypeUser } from "userTypes";
 
 const initialState: TypeUser = {
-  user_id: 0,
+  user_id: "",
   email: "이메일을 등록해주세요",
   nickname: "닉네임을 등록해주세요",
   address: "주소지를 등록해주세요",
@@ -42,7 +42,7 @@ export const userSlice = createSlice({
       state.refresh_token = action.payload.refresh_token;
     },
     logout: (state) => {
-      state.user_id = 0;
+      state.user_id = "";
       state.email = "이메일을 등록해주세요";
       state.nickname = "닉네임을 등록해주세요";
       state.address = "주소지를 등록해주세요";

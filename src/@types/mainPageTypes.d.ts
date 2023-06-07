@@ -17,13 +17,17 @@ declare module "mainPageTypes" {
   };
 
   export type TypeMeetingData = {
+    list_id?: number;
     title: string;
     list: TypeMeetingList[];
   };
 
+  export type TypeMeetingFetch = {
+    data: TypeMeetingData[];
+  };
+
   export type TypeModalState = {
     isOpen: boolean;
-    modalType: string;
     modalContent?: TypeMeetingList | null;
   };
 }
