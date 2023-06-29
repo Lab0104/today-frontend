@@ -35,8 +35,7 @@ const Spinner = styled.div<{
   border-radius: 50%;
   border: 4px solid lightgrey;
   border-top-color: blue;
-  animation: ${spin} .8s linear infinite;
-  }
+  animation: ${spin} 0.8s linear infinite;
 `;
 
 export default function SpinnerPlaceHolder({

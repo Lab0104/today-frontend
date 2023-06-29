@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "reducer/UserSlice";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import SpinnerPlaceHolder from "components/Skeleton/placeholders/SpinnerPlaceHolder";
 
@@ -13,16 +13,14 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-export default function Redirect() {
+export default function DeleteProfile() {
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
   const { user_id, login_method, access_token } = useSelector(
     (state: { user: TypeUser }) => state.user
   );
-  const { url } = location.state as { url: string };
-  const { type } = location.state as { type: string };
 
+  // 로그아웃, 엑세스 토큰과 리프레시 토큰 만료 처리
   const kakaoUserDelete = async () => {
     const req = await fetch("https://kapi.kakao.com/v1/user/unlink", {
       method: "POST",
@@ -30,9 +28,6 @@ export default function Redirect() {
     });
     const res = await req.json();
     console.log(res);
-
-    dispatch(logout());
-    navigate("/");
   };
 
   const localUserDelete = async () => {
@@ -41,28 +36,23 @@ export default function Redirect() {
     });
     const res = await req.json();
     console.log(res);
-
-    dispatch(logout());
-    navigate("/");
   };
 
   useEffect(() => {
-    if (url) window.location.href = url;
-    else {
-      if (type === "delete") {
-        if (login_method === "kakao") {
-          kakaoUserDelete();
-        } else if (login_method === "local") {
-          console.log("local delete");
-          localUserDelete();
-        }
-      }
+    if (login_method === "kakao") {
+      kakaoUserDelete();
+    } else if (login_method === "local") {
+      console.log("local delete");
+      localUserDelete();
     }
+    dispatch(logout());
+    alert("떠나신다니 아쉽습니다..");
+    navigate("/");
   }, []);
 
   return (
     <Container>
-      <SpinnerPlaceHolder size={300} />
+      <SpinnerPlaceHolder />
     </Container>
   );
 }

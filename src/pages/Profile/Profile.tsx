@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "components/NavigationBar/NavigationBar";
-import { IoMdSettings } from "react-icons/io";
-import { CiEdit } from "react-icons/ci";
+import { IoMdSettings } from "@react-icons/all-files/io/IoMdSettings";
+import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit";
 
 import { useSelector, useDispatch } from "react-redux";
 import { profileUpload, backgroundUpload } from "../../reducer/UserSlice";
@@ -187,7 +187,7 @@ export default function Profile() {
           <div className="profile-info">
             <div className="info-header">
               <h4>유저 정보</h4>
-              <CiEdit onClick={onEditProfileClick} />
+              <AiOutlineEdit onClick={onEditProfileClick} />
             </div>
             <div className="info-user">
               <div className="info-category">
@@ -215,8 +215,15 @@ export default function Profile() {
           <h4>활동 내역</h4>
         </div> */}
         <div className="profile-submit">
-          <button onClick={() => navigate(-1)}>뒤로 가기</button>
-          <button onClick={onEditProfileClick}>회원정보 수정</button>
+          <button
+            aria-label="move to previous page"
+            onClick={() => navigate(-1)}
+          >
+            뒤로 가기
+          </button>
+          <button aria-label="profile edit" onClick={onEditProfileClick}>
+            회원정보 수정
+          </button>
         </div>
       </div>
     </>

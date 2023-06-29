@@ -1,12 +1,11 @@
-import { BsBook, BsPeople } from "react-icons/bs";
-import { TbMovie } from "react-icons/tb";
-import { TfiGame } from "react-icons/tfi";
-import {
-  IoBusiness,
-  IoFastFoodOutline,
-  IoAirplaneOutline,
-} from "react-icons/io5";
-import { GiStoneCrafting } from "react-icons/gi";
+import { BsBook } from "@react-icons/all-files/bs/BsBook";
+import { BsPeople } from "@react-icons/all-files/bs/BsPeople";
+import { BiMovie } from "@react-icons/all-files/bi/BiMovie";
+import { IoGameControllerOutline } from "@react-icons/all-files/io5/IoGameControllerOutline";
+import { IoBusiness } from "@react-icons/all-files/io5/IoBusiness";
+import { IoFastFoodOutline } from "@react-icons/all-files/io5/IoFastFoodOutline";
+import { IoAirplaneOutline } from "@react-icons/all-files/io5/IoAirplaneOutline";
+import { GiStoneCrafting } from "@react-icons/all-files/gi/GiStoneCrafting";
 
 export const categories = [
   {
@@ -33,7 +32,7 @@ export const categories = [
   },
   {
     name: "예술/문화",
-    icon: <TbMovie />,
+    icon: <BiMovie />,
     list: [
       "문학 작품 독서 모임",
       "미술 전시 관람 모임",
@@ -44,7 +43,7 @@ export const categories = [
   },
   {
     name: "스포츠/게임",
-    icon: <TfiGame />,
+    icon: <IoGameControllerOutline />,
     list: [
       "축구 클럽",
       "테니스 동호회",

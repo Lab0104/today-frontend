@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineRight } from "react-icons/ai";
+import { AiOutlineRight } from "@react-icons/all-files/ai/AiOutlineRight";
 
 import { article_list } from "./article_contents";
 import "./EditorPick.scss";
@@ -32,7 +32,10 @@ export default function EditorPick() {
                       <p key={idx}>{content}</p>
                     ))}
                 </div>
-                <button onClick={() => onButtonClick(item.id)}>
+                <button
+                  aria-label="route article page"
+                  onClick={() => onButtonClick(item.id)}
+                >
                   자세히 보기 +
                 </button>
               </div>

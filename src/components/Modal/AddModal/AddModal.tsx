@@ -6,14 +6,12 @@ import { toggleButtons } from "../../../reducer/ToggleSlice";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import "./AddModal.scss";
 
-import {
-  BsAlarm,
-  BsMap,
-  BsCalendar2,
-  BsPeopleFill,
-  BsChevronDown,
-  BsChevronUp,
-} from "react-icons/bs";
+import { BsAlarm } from "@react-icons/all-files/bs/BsAlarm";
+import { BsMap } from "@react-icons/all-files/bs/BsMap";
+import { BsCalendar } from "@react-icons/all-files/bs/BsCalendar";
+import { BsPeopleFill } from "@react-icons/all-files/bs/BsPeopleFill";
+import { BsChevronDown } from "@react-icons/all-files/bs/BsChevronDown";
+import { BsChevronUp } from "@react-icons/all-files/bs/BsChevronUp";
 
 import { categories } from "components/CategoryList/category";
 import { useForm } from "react-hook-form";
@@ -208,7 +206,7 @@ const AddModal = () => {
               </div>
               <div className="date info-box">
                 <div>
-                  <BsCalendar2 />
+                  <BsCalendar />
                 </div>
                 <DatePickerForm
                   control={control}

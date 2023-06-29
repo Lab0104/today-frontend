@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
+import { RiArrowDropLeftLine } from "@react-icons/all-files/ri/RiArrowDropLeftLine";
+import { RiArrowDropRightLine } from "@react-icons/all-files/ri/RiArrowDropRightLine";
 import React, { useEffect, useState, useCallback } from "react";
 
 import "./Carousel.scss";
@@ -47,7 +48,11 @@ export default function Carousel() {
       onMouseLeave={() => onMouseFocus(false)}
     >
       <div className="content">
-        <button className="leftArrowButton" onClick={onPrevClick}>
+        <button
+          aria-label="carousel move left"
+          className="leftArrowButton"
+          onClick={onPrevClick}
+        >
           <RiArrowDropLeftLine style={{ color: "black" }} />
         </button>
         <ul className="itemList">
@@ -57,7 +62,11 @@ export default function Carousel() {
             </CarouselListItem>
           ))}
         </ul>
-        <button className="rightArrowButton" onClick={onNextClick}>
+        <button
+          aria-label="carousel move right"
+          className="rightArrowButton"
+          onClick={onNextClick}
+        >
           <RiArrowDropRightLine />
         </button>
       </div>
@@ -68,7 +77,10 @@ export default function Carousel() {
             key={index}
             onClick={() => onNavIndexClick(index)}
           >
-            <NavButton isActive={activeIndex === index} />
+            <NavButton
+              aria-label="carousel move index"
+              isActive={activeIndex === index}
+            />
           </li>
         ))}
       </ul>

@@ -2,18 +2,23 @@ import React, { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 
-import { RiArrowDropUpLine, RiArrowDropDownLine } from "react-icons/ri";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { AiOutlineSearch, AiOutlineUser } from "react-icons/ai";
-import { HiUser, HiFilter } from "react-icons/hi";
-import { BsBellFill, BsFillChatTextFill } from "react-icons/bs";
-import { IoAddCircle, IoLogOutOutline } from "react-icons/io5";
+import { RiArrowDropUpLine } from "@react-icons/all-files/ri/RiArrowDropUpLine";
+import { RiArrowDropDownLine } from "@react-icons/all-files/ri/RiArrowDropDownLine";
+import { GiHamburgerMenu } from "@react-icons/all-files/gi/GiHamburgerMenu";
+import { AiOutlineSearch } from "@react-icons/all-files/ai/AiOutlineSearch";
+import { AiOutlineUser } from "@react-icons/all-files/ai/AiOutlineUser";
+import { HiUser } from "@react-icons/all-files/hi/HiUser";
+import { HiFilter } from "@react-icons/all-files/hi/HiFilter";
+import { BsBellFill } from "@react-icons/all-files/bs/BsBellFill";
+import { BsFillChatFill } from "@react-icons/all-files/bs/BsFillChatFill";
+import { IoAddCircle } from "@react-icons/all-files/io5/IoAddCircle";
+import { IoLogOutOutline } from "@react-icons/all-files/io5/IoLogOutOutline";
 
 import { useSelector, useDispatch } from "react-redux";
 import { closeModal, openModal } from "../../reducer/ModalSlice";
 import { logout } from "../../reducer/UserSlice";
 
-import _ from "lodash";
+import { debounce } from "lodash";
 
 import { Event } from "eventType";
 import { TypeUser } from "userTypes";
@@ -35,7 +40,7 @@ const keywords = ["단기", "스터디", "문화생활", "밥"];
 const userMenus = [
   { name: "프로필", component: <HiUser /> },
   { name: "알림", component: <BsBellFill /> },
-  { name: "채팅", component: <BsFillChatTextFill /> },
+  { name: "채팅", component: <BsFillChatFill /> },
   { name: "모임추가", component: <IoAddCircle /> },
   { name: "필터", component: <HiFilter /> },
   { name: "로그아웃", component: <IoLogOutOutline /> },
@@ -75,13 +80,13 @@ const NavigationBar = React.memo(() => {
   );
   const dispatch = useDispatch();
 
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_KAKAO_LOGIN_API_REST_API_KEY}&logout_redirect_uri=${process.env.REACT_APP_KAKAO_LOGIN_API_LOGOUT_REDIRECT_URI}`;
+  const KAKAO_LOGOUT_URL = `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_KAKAO_LOGIN_API_REST_API_KEY}&logout_redirect_uri=${process.env.REACT_APP_KAKAO_LOGIN_API_LOGOUT_REDIRECT_URI}`;
 
   const [dropdownToggle, setDropdownToggle] = useState(false);
   const [searchContext, setSearchContext] = useState("");
   const debouncedInput = useMemo(
     () =>
-      _.debounce((searchContext) => {
+      debounce((searchContext) => {
         setSearchContext(searchContext);
       }, 300),
     []
@@ -97,21 +102,6 @@ const NavigationBar = React.memo(() => {
     dispatch(closeModal());
     navigate("/map", { state: searchContext });
   };
-
-  // const kakaoLogout = async () => {
-  //   try {
-  //     const req = await fetch("https://kapi.kakao.com/v1/user/logout", {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${access_token}`,
-  //       },
-  //     });
-  //     const res = await req.json();
-  //     console.log(res);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   const dropdownOnClick: Event<"div", "onClick"> = (e) => {
     e.stopPropagation();
@@ -143,11 +133,11 @@ const NavigationBar = React.memo(() => {
 
         break;
       case "로그아웃":
+        dispatch(logout());
         if (login_method === "kakao") {
-          navigate("/redirect", { state: { url: KAKAO_AUTH_URL } });
+          window.location.href = KAKAO_LOGOUT_URL;
         } else {
           alert("로그아웃");
-          dispatch(logout());
           navigate("/");
         }
         break;
@@ -175,7 +165,7 @@ const NavigationBar = React.memo(() => {
     <nav className="navigation-nav">
       <div className="header">
         <div className="logo">
-          <RxHamburgerMenu onClick={sideNavOnClick} className="hambuger" />
+          <GiHamburgerMenu onClick={sideNavOnClick} className="hambuger" />
           <Link to="/">
             <img src="/images/logo/logo.png" alt="logo" />
           </Link>
@@ -227,8 +217,18 @@ const NavigationBar = React.memo(() => {
             </div>
           ) : (
             <div className="loginAndSignup">
-              <button onClick={() => navigate("/login")}>로그인</button>
-              <button onClick={() => navigate("/signup")}>회원가입</button>
+              <button
+                aria-label="login button"
+                onClick={() => navigate("/login")}
+              >
+                로그인
+              </button>
+              <button
+                aria-label="signup button"
+                onClick={() => navigate("/signup")}
+              >
+                회원가입
+              </button>
             </div>
           )}
         </div>

@@ -1,10 +1,10 @@
 import { useRef, useEffect } from "react";
-import _ from "lodash";
+import { throttle } from "lodash";
 
 const useWidthThrottle = () => {
   const width = useRef<number>(window.innerWidth);
 
-  const handleResize = _.throttle(() => {
+  const handleResize = throttle(() => {
     width.current = window.innerWidth;
   }, 1000);
 

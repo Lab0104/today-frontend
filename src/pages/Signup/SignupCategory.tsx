@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 import { categories } from "components/CategoryList/category";
 
@@ -86,7 +85,9 @@ export default function Category() {
           );
         })}
       </CategoryList>
-      <Button onClick={submitClick}>선택 완료</Button>
+      <Button aria-label="selected category submit" onClick={submitClick}>
+        선택 완료
+      </Button>
       <span css={nonSelect} onClick={() => fetchRequest({ categories: [] })}>
         다음에 선택할게요
       </span>

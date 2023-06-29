@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { FcCheckmark } from "react-icons/fc";
+import { FcCheckmark } from "@react-icons/all-files/fc/FcCheckmark";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -189,7 +189,12 @@ export default function Signup() {
               },
             })}
           />
-          <button id="verify-button" type="button" onClick={onEmailSendClick}>
+          <button
+            aria-label="get verify key"
+            id="verify-button"
+            type="button"
+            onClick={onEmailSendClick}
+          >
             {loading ? (
               <SpinnerPlaceHolder size={30} top={23} />
             ) : (
@@ -218,6 +223,7 @@ export default function Signup() {
               />
               {!isVerify && <TimeLimit />}
               <button
+                aria-label="check verify key"
                 type="button"
                 onClick={onVerifyClick}
                 css={isVerify && vefifyTrue}
@@ -277,7 +283,11 @@ export default function Signup() {
               required: "주소지를 입력해주세요.",
             })}
           />
-          <button type="button" onClick={onAddressClick}>
+          <button
+            aria-label="searching address"
+            type="button"
+            onClick={onAddressClick}
+          >
             주소
             <br />
             찾기
@@ -291,10 +301,15 @@ export default function Signup() {
           placeholder="상세주소"
           {...register("detail_address")}
         />
-        <button type="submit" disabled={isSubmitting}>
+        <button
+          aria-label="signup button"
+          type="submit"
+          disabled={isSubmitting}
+        >
           회원가입
         </button>
         <button
+          aria-label="move to login page"
           type="button"
           onClick={() => navigate("/login")}
           css={css`

@@ -21,6 +21,22 @@ export default function KakaoLogin() {
   const location = useLocation();
   const code = location.search.split("=")[1];
 
+  const requestLogin = async (email: string) => {
+    try {
+      const req = await fetch("/api/login/kakao", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
+      const res = await req.json();
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const getKakaoToken = async () => {
     try {
       const req = await fetch(
@@ -75,9 +91,14 @@ export default function KakaoLogin() {
   };
 
   const insertUserData = async (decodedata: any) => {
-    const userData = await decodedata;
+    let userData = await decodedata;
+    const authUser: any = await requestLogin(userData.email);
+    if (authUser.user.length) {
+      userData = { ...userData, user_id: authUser.user[0].user_id };
+    }
     dispatch(
       login({
+        user_id: userData.user_id ? userData.user_id : "",
         email: userData.email,
         nickname: userData.nickname,
         profile_image: userData.picture,
@@ -99,7 +120,7 @@ export default function KakaoLogin() {
   return (
     <>
       <div className="login-container">
-        <SpinnerPlaceHolder size={100} />
+        <SpinnerPlaceHolder />
       </div>
     </>
   );

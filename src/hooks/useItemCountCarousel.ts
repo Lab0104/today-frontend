@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import _ from "lodash";
+import { throttle } from "lodash";
 
 const getCount = (width: number) => {
   if (width < 660) return 1;
@@ -12,7 +12,7 @@ const useItemCountCarousel = () => {
   const [itemCount, setItemCount] = useState(getCount(window.innerWidth));
   // const itemCount = useRef<number>(1);
 
-  const handleResize = _.throttle(() => {
+  const handleResize = throttle(() => {
     const width = window.innerWidth;
     if (width < 660) {
       setItemCount(1);
@@ -23,7 +23,7 @@ const useItemCountCarousel = () => {
     } else {
       setItemCount(4);
     }
-  }, 1000);
+  }, 300);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);

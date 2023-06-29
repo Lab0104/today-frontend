@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { HiHeart, HiOutlineHeart } from "react-icons/hi";
+import { HiHeart } from "@react-icons/all-files/hi/HiHeart";
+import { HiOutlineHeart } from "@react-icons/all-files/hi/HiOutlineHeart";
 import { useSelector } from "react-redux";
 
 import { TypeUser } from "userTypes";

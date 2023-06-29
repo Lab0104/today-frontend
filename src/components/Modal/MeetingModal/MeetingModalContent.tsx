@@ -3,10 +3,12 @@ import React from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useSelector, useDispatch } from "react-redux";
-import { IoChevronBack } from "react-icons/io5";
-import { BsFillPeopleFill, BsMap, BsChatDots } from "react-icons/bs";
-import { MdDateRange } from "react-icons/md";
-import { CiTimer } from "react-icons/ci";
+import { IoChevronBack } from "@react-icons/all-files/io5/IoChevronBack";
+import { BsFillPeopleFill } from "@react-icons/all-files/bs/BsFillPeopleFill";
+import { BsMap } from "@react-icons/all-files/bs/BsMap";
+import { BsChatDots } from "@react-icons/all-files/bs/BsChatDots";
+import { MdDateRange } from "@react-icons/all-files/md/MdDateRange";
+import { IoTimerOutline } from "@react-icons/all-files/io5/IoTimerOutline";
 
 import { closeModal } from "../../../reducer/ModalSlice";
 import LikeButton from "components/MeetingCard/LikeButton";
@@ -91,7 +93,7 @@ export default function ModalMeeting() {
               <BsMap /> {modalContent.address}
             </span>
             <MeetingDate value={meetingStatus()}>
-              <CiTimer />
+              <IoTimerOutline />
               <span>{meetingStatus()}</span>
               <span> · </span>
               <span>{modalContent.deadline.split("T").join(" ")} 까지</span>
@@ -103,10 +105,10 @@ export default function ModalMeeting() {
             ))}
           </Content>
           <Footer isLogged={isLogged}>
-            <button>참가하기</button>
+            <button aria-label="join new meeting">참가하기</button>
 
             {isLogged && (
-              <button>
+              <button aria-label="meeting like button">
                 <LikeButton
                   meet_id={modalContent.meet_id}
                   likeProp={modalContent?.like}
@@ -114,7 +116,7 @@ export default function ModalMeeting() {
               </button>
             )}
 
-            <button>
+            <button aria-label="chat to meeting manager">
               <BsChatDots />
             </button>
           </Footer>

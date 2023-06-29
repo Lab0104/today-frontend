@@ -64,7 +64,7 @@ export default function Login() {
   };
 
   const kakaoLoginHandler = () => {
-    navigate("/redirect", { state: { url: KAKAO_AUTH_URL } });
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
@@ -110,7 +110,7 @@ export default function Login() {
           <label id="loginSaved">아이디 저장하기</label>
         </div>
 
-        <button type="submit" disabled={isSubmitting}>
+        <button aria-label="login button" type="submit" disabled={isSubmitting}>
           로그인
         </button>
       </form>
@@ -134,7 +134,7 @@ export default function Login() {
         <img
           className="naverLoginImage"
           src={"images/naver_login_buttons/btnG_아이콘원형.png"}
-          alt="icon"
+          alt="네이버 로그인"
         />
         <span>네이버 로그인</span>
       </div>

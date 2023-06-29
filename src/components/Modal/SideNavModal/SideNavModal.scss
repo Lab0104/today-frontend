@@ -1,14 +1,14 @@
 .side-nav-enter {
-  opacity: 0;
+  transform: translateX(-100%);
 }
 .side-nav-enter-active {
-  opacity: 1;
-  transition: all 500ms ease-in-out;
+  transform: translateX(0);
+  transition: transform 500ms ease-in-out;
 }
 .side-nav-exit {
-  opacity: 1;
+  transform: translateX(0);
 }
 .side-nav-exit-active {
-  opacity: 0;
-  transition: all 500ms ease-in-out;
+  transform: translateX(-100%);
+  transition: transform 500ms ease-in-out;
 }

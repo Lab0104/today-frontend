@@ -3,7 +3,8 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
+import { RiArrowDropLeftLine } from "@react-icons/all-files/ri/RiArrowDropLeftLine";
+import { RiArrowDropRightLine } from "@react-icons/all-files/ri/RiArrowDropRightLine";
 import "./Carousel.scss";
 
 // 배너 이미지 리스트 및 배너 배경 색 리스트
@@ -70,7 +71,11 @@ const MainBannerCarousel = React.memo(
         onMouseLeave={() => onMouseFocus(false)}
       >
         <div className="content" style={{ cursor: "pointer" }}>
-          <button className="bannerLeftArrowButton" onClick={onPrevClick}>
+          <button
+            aria-label="banner move left"
+            className="bannerLeftArrowButton"
+            onClick={onPrevClick}
+          >
             <RiArrowDropLeftLine />
           </button>
           <ul className="itemList">
@@ -83,7 +88,7 @@ const MainBannerCarousel = React.memo(
                 onClick={onBannerClick}
               >
                 <Item>
-                  <h1>내일 하루</h1>
+                  <h4>내일 하루</h4>
                   <span>내일 하루를 특별하게 보내는 방법!</span>
                   <span>124개의 모임이 열리고 있어요!</span>
                   <span>모임을 만들고 참여해보세요!</span>
@@ -91,7 +96,11 @@ const MainBannerCarousel = React.memo(
               </CarouselListItem>
             ))}
           </ul>
-          <button className="bannerRightArrowButton" onClick={onNextClick}>
+          <button
+            aria-label="banner move right"
+            className="bannerRightArrowButton"
+            onClick={onNextClick}
+          >
             <RiArrowDropRightLine />
           </button>
         </div>
@@ -103,7 +112,10 @@ const MainBannerCarousel = React.memo(
               value={index}
               onClick={onNavIndexClick}
             >
-              <NavButton isActive={activeIndex === index} />
+              <NavButton
+                aria-label="banner index button"
+                isActive={activeIndex === index}
+              />
             </li>
           ))}
         </ul>
@@ -149,6 +161,11 @@ const Item = styled.div`
   flex-direction: column;
   gap: 5px;
   font-size: 6px;
+
+  & h4 {
+    font-size: 20px;
+    margin: 15px 0;
+  }
 
   @media (min-width: 400px) {
     font-size: 8px;

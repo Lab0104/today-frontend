@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import axios from "axios";
 
-import _ from "lodash";
+import { throttle } from "lodash";
 
 const List = styled.ul`
   overflow: hidden scroll;
@@ -48,7 +48,7 @@ export default function InfiniteScroll({ size = 25 }) {
     }
   };
 
-  const handleScroll = _.throttle(() => {
+  const handleScroll = throttle(() => {
     if (listRef.current) {
       const { scrollHeight, offsetHeight, scrollTop } = listRef.current;
 

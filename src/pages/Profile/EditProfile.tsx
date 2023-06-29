@@ -169,7 +169,11 @@ export default function EditProfile() {
                 required: "주소지를 입력해주세요.",
               })}
             />
-            <button type="button" onClick={onAddressClick}>
+            <button
+              aria-label="searching address"
+              type="button"
+              onClick={onAddressClick}
+            >
               주소
               <br />
               찾기
@@ -183,10 +187,15 @@ export default function EditProfile() {
             placeholder="상세주소"
             {...register("detail_address")}
           />
-          <button type="submit" disabled={isSubmitting}>
+          <button
+            aria-label="profile save"
+            type="submit"
+            disabled={isSubmitting}
+          >
             저장
           </button>
           <button
+            aria-label="cancel button"
             type="button"
             onClick={onCancelClick}
             css={css`

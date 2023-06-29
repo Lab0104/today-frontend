@@ -37,9 +37,9 @@ const Base = styled.div<Props>`
   ${({ width, height }) => (width || height) && "display: block;"}
   ${({ animation }) => animation && pulseAnimation}
   width: ${({ width, widthUnit }) =>
-    width && widthUnit && `${width}${widthUnit};`}
+    width && widthUnit && `${width}${widthUnit};`};
   height: ${({ height, heightUnit }) =>
-    height && heightUnit && `${height}${heightUnit};`}
+    height && heightUnit && `${height}${heightUnit};`};
 `;
 const Content = styled.span`
   opacity: 0;

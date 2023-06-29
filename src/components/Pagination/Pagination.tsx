@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { GrFormPrevious, GrFormNext } from "react-icons/gr";
-import { AiOutlineEllipsis } from "react-icons/ai";
+import { GrFormPrevious } from "@react-icons/all-files/gr/GrFormPrevious";
+import { GrFormNext } from "@react-icons/all-files/gr/GrFormNext";
+import { AiOutlineEllipsis } from "@react-icons/all-files/ai/AiOutlineEllipsis";
 import usePagination from "../../hooks/usePagination";
 
 const Navigation = styled.nav``;
@@ -74,7 +75,12 @@ export default function Pagination({
       <ItemList>
         {items.map(({ key, disabled, selected, onClick, item }) => (
           <Item key={key}>
-            <Button disabled={disabled} selected={selected} onClick={onClick}>
+            <Button
+              aria-label="showing list button to click index"
+              disabled={disabled}
+              selected={selected}
+              onClick={onClick}
+            >
               {getLabel(item)}
             </Button>
           </Item>

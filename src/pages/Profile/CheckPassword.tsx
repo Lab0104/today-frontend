@@ -32,7 +32,7 @@ export default function CheckPassword() {
 
       if (res.status === "Success") {
         if (state.type === "delete") {
-          navigate("/redirect", { state: { type: "delete" } });
+          navigate("/profile/delete");
         } else {
           navigate("/profile/edit");
         }
@@ -61,8 +61,15 @@ export default function CheckPassword() {
         <label id="pw">비밀번호</label>
         <input type="password" id="pw" onChange={onPasswordChange} />
         <div className="profile-submit">
-          <button onClick={() => navigate(-1)}>뒤로가기</button>
-          <button onClick={onSubmitClick}>확인</button>
+          <button
+            aria-label="move to previous page"
+            onClick={() => navigate(-1)}
+          >
+            뒤로가기
+          </button>
+          <button aria-label="password submit" onClick={onSubmitClick}>
+            확인
+          </button>
         </div>
       </div>
     </>

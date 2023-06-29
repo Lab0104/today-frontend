@@ -45,8 +45,11 @@ export default function Article() {
           </div>
           <span>{article_list[article_id].date}</span>
           <div className="article-button">
-            <button onClick={() => navigate(-1)}>뒤로가기</button>
+            <button aria-label="go back button" onClick={() => navigate(-1)}>
+              뒤로가기
+            </button>
             <button
+              aria-label="move to map page"
               onClick={() => onButtonClick(article_list[article_id].keyword)}
             >
               관련 모임으로 바로가기

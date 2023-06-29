@@ -17,11 +17,12 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks";
 
 import "./MapPage.scss";
-import { TbCurrentLocation } from "react-icons/tb";
 import { closeModal } from "reducer/ModalSlice";
 import { setModalContent } from "reducer/MainModalSlice";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { ReceiveMeetingData } from "store/MeetingDB";
+import { BiCurrentLocation } from "@react-icons/all-files/bi/BiCurrentLocation";
+import { BsHeart } from "@react-icons/all-files/bs/BsHeart";
+import { BsHeartFill } from "@react-icons/all-files/bs/BsHeartFill";
 
 const filters = [
   "모두",
@@ -465,7 +466,7 @@ function MapPage() {
                 setToggleLocation(!toggleLocation);
               }}
             >
-              <TbCurrentLocation></TbCurrentLocation>
+              <BiCurrentLocation />
             </button>
             <button
               onClick={() => {

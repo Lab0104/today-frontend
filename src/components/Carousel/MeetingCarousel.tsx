@@ -2,7 +2,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
+import { RiArrowDropLeftLine } from "@react-icons/all-files/ri/RiArrowDropLeftLine";
+import { RiArrowDropRightLine } from "@react-icons/all-files/ri/RiArrowDropRightLine";
 import useItemCountCarousel from "hooks/useItemCountCarousel";
 
 import MeetingCard from "components/MeetingCard/MeetingCard";
@@ -55,7 +56,11 @@ const MeetingCarousel = React.memo(({ list, currentTime }: Props) => {
   return (
     <div className="carousel-container">
       <div className="content">
-        <button className="meetingLeftArrowButton" onClick={onPrevClick}>
+        <button
+          aria-label="meeting move left"
+          className="meetingLeftArrowButton"
+          onClick={onPrevClick}
+        >
           <RiArrowDropLeftLine />
         </button>
         <ul className="itemList" css={itemListStyle}>
@@ -70,7 +75,11 @@ const MeetingCarousel = React.memo(({ list, currentTime }: Props) => {
               ))}
           </CarouselContainer>
         </ul>
-        <button className="meetingRightArrowButton" onClick={onNextClick}>
+        <button
+          aria-label="meeting move right"
+          className="meetingRightArrowButton"
+          onClick={onNextClick}
+        >
           <RiArrowDropRightLine />
         </button>
       </div>
@@ -81,7 +90,10 @@ const MeetingCarousel = React.memo(({ list, currentTime }: Props) => {
             key={index}
             onClick={() => onNavIndexClick(index)}
           >
-            <NavButton isActive={activeIndex === index} />
+            <NavButton
+              aria-label="meeting move index"
+              isActive={activeIndex === index}
+            />
           </li>
         ))}
       </ul>

@@ -41,10 +41,18 @@ export default function IdSearch() {
         {errors.nickname && (
           <FormErrorMessage>{errors?.nickname?.message}</FormErrorMessage>
         )}
-        <SearchButton type="submit" disabled={isSubmitting}>
+        <SearchButton
+          aria-label="id searching button"
+          type="submit"
+          disabled={isSubmitting}
+        >
           아이디 찾기
         </SearchButton>
-        <BackButton type="button" onClick={() => navigate("/login")}>
+        <BackButton
+          aria-label="move to login page"
+          type="button"
+          onClick={() => navigate("/login")}
+        >
           돌아가기
         </BackButton>
       </Form>

@@ -1,14 +1,13 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import "./index.css";
-import App from "./App";
-import { Provider } from "react-redux";
 import { store } from "./store";
-
+import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
+
+import App from "./App";
+import "./index.css";
 
 export const persistor = persistStore(store);
 

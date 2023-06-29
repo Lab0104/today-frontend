@@ -1,13 +1,14 @@
 import React, { useMemo } from "react";
 import styled from "@emotion/styled";
-import { CSSTransition } from "react-transition-group";
+// import { CSSTransition } from "react-transition-group";
+import { keyframes } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { closeModal } from "../../../reducer/ModalSlice";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { loginNavigationMenus, navigationMenus } from "utils/navigationMenus";
 import { TypeUser } from "userTypes";
-import "./SideNavModal.scss";
+import "../Modal.scss";
 
 interface modalProps {
   isOpen: boolean;
@@ -31,38 +32,31 @@ export default function SideNavModal({ isOpen }: modalProps) {
 
   return (
     <>
-      <CSSTransition
-        in={isOpen}
-        timeout={300}
-        classNames="side-nav"
-        unmountOnExit
-      >
-        <Overlay>
-          <SideNav isOpen={isOpen}>
-            <Header>
-              <Title>오늘 하루</Title>
-              <CloseButton>
-                <AiOutlineClose
-                  style={{ cursor: "pointer" }}
-                  onClick={() => dispatch(closeModal())}
-                />
-              </CloseButton>
-            </Header>
-            {navMenus &&
-              navMenus.map((menus, idx) => (
-                <MenuList key={idx}>
-                  {menus &&
-                    menus.map((menu, idx) => (
-                      <span key={idx} onClick={() => onNavItemClick(menu.href)}>
-                        {menu.name}
-                      </span>
-                    ))}
-                </MenuList>
-              ))}
-          </SideNav>
-          <Dim isOpen={isOpen} onClick={() => dispatch(closeModal())} />
-        </Overlay>
-      </CSSTransition>
+      <Overlay>
+        <SideNav isOpen={isOpen}>
+          <Header>
+            <Title>오늘 하루</Title>
+            <CloseButton>
+              <AiOutlineClose
+                style={{ cursor: "pointer" }}
+                onClick={() => dispatch(closeModal())}
+              />
+            </CloseButton>
+          </Header>
+          {navMenus &&
+            navMenus.map((menus, idx) => (
+              <MenuList key={idx}>
+                {menus &&
+                  menus.map((menu, idx) => (
+                    <span key={idx} onClick={() => onNavItemClick(menu.href)}>
+                      {menu.name}
+                    </span>
+                  ))}
+              </MenuList>
+            ))}
+        </SideNav>
+        <Dim onClick={() => dispatch(closeModal())} />
+      </Overlay>
     </>
   );
 }
@@ -78,17 +72,33 @@ const Overlay = styled.div`
   display: flex;
 `;
 
+const navOpenKeyFrame = keyframes`
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+`;
+const navCloseKeyFrame = keyframes`
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%)
+  }
+`;
+
 const SideNav = styled.div<{ isOpen: boolean }>`
   box-sizing: border-box;
   position: absolute;
   z-index: 1;
   top: 0;
-  left: -10px;
   width: 60%;
   max-width: 296px;
   min-width: 200px;
   height: 100%;
-  padding: 30px;
+  padding: 30px 30px 30px 20px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -97,6 +107,8 @@ const SideNav = styled.div<{ isOpen: boolean }>`
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  animation: ${({ isOpen }) => (isOpen ? navOpenKeyFrame : navCloseKeyFrame)}
+    400ms ease-in-out;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -144,15 +156,14 @@ const MenuList = styled.div`
   }
 `;
 
-const Dim = styled.div<{ isOpen: boolean }>`
+const Dim = styled.div`
   height: 1440px;
   position: absolute;
   top: 0;
   right: 0;
-  botton: 0;
+  bottom: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
 `;
 
 const CloseButton = styled.div`
